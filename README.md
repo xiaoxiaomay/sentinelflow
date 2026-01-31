@@ -1,166 +1,73 @@
-**SentinelFlow**
+# SentinelFlow
 
 SentinelFlow is a lightweight research prototype demonstrating a secure Retrieval-Augmented Generation (RAG) pipeline with:
-	•	🔍 Evidence-based retrieval (FAISS + SentenceTransformers)
-	•	🛡 Semantic leakage firewall (hard/soft thresholds + cascade scan)
-	•	🔗 Tamper-evident audit logging (hash chain)
-	•	📊 Streamlit dashboard for observability and forensics
 
-The project focuses on LLM safety, data leakage prevention, and post-hoc auditability.
+- 🔍 Evidence-based retrieval (FAISS + SentenceTransformers)
+- 🛡️ Semantic leakage firewall (hard/soft thresholds + cascade scan)
+- 🔗 Tamper-evident audit logging (hash chain)
+- 📊 Streamlit dashboard for observability and forensics
 
-This repository provides an end-to-end demo including indexing, retrieval, LLM inference, leakage scanning, cryptographic audit trails, and interactive visualization.
+The project focuses on **LLM safety**, **data leakage prevention**, and **post-hoc auditability**.
 
-⸻
+---
 
-✨ **Key Features**
+## Features
 
-**RAG Pipeline**
-	•	SentenceTransformers embeddings (all-MiniLM-L6-v2)
-	•	FAISS vector search
-	•	Top-k retrieval with ticker-aware reranking
-	•	Prompt construction strictly grounded in retrieved documents
+### 1) RAG Pipeline
+- SentenceTransformers embeddings (`sentence-transformers/all-MiniLM-L6-v2`)
+- FAISS vector search
+- Top-k retrieval (optionally ticker-aware reranking)
+- Prompt construction grounded in retrieved documents
 
-**Leakage Firewall**
-	•	Semantic similarity scan against protected “secret” embeddings
-	•	Hard / soft thresholds with cascade logic
-	•	Automatic redaction or blocking
-	•	Sentence-level decisions (for dashboard inspection)
+### 2) Leakage Firewall
+- Semantic similarity scan against protected “secret” embeddings
+- Hard / soft thresholds with cascade logic
+- Action: redact (demo-friendly) or block
+- Sentence-level decisions (for dashboard inspection)
 
-**Tamper-Evident Audit Log**
+### 3) Tamper-Evident Audit Log
+Every run appends structured events to:
 
-Every step is recorded to data/audit/audit_log.jsonl:
-	•	query_precheck
-	•	retrieve
-	•	prompt_built
-	•	llm_response
-	•	leakage_scan
-	•	final_output
+- `data/audit/audit_log.jsonl`
 
-Each event is chained via cryptographic hashes to support forensic validation.
+Typical events include:
+- `query_precheck`
+- `retrieve`
+- `prompt_built`
+- `llm_response`
+- `leakage_scan`
+- `final_output`
 
-**Streamlit Dashboard**
+Each event links to the previous hash to support tamper-evident validation.
 
+### 4) Streamlit Dashboard
 Interactive UI to inspect:
-	•	Sessions & timelines
-	•	Retrieved evidence
-	•	Leakage decisions
-	•	Prompt / model / output summary
-	•	Evidence chain validation (global or per-session)
+- sessions & timelines
+- retrieved evidence
+- leakage scan results (summary + sentence-level)
+- prompt / model / output stats
+- evidence chain validation (global or per-session)
 
-⸻
+---
 
-📁 **Project Structure**
+## Project Structure
 
+```text
 sentinelflow/
 ├── core/
-│   └── audit.py                # HashChainWriter (tamper-evident logging)
+│   ├── __init__.py
+│   └── audit.py                  # HashChainWriter (tamper-evident logging)
 ├── scripts/
-│   ├── run_rag_with_audit.py  # Main RAG + firewall pipeline
-│   ├── leakage_scan.py        # Semantic leakage detection
-│   ├── dashboard.py           # Streamlit UI
-│   └── build_faiss_index.py
+│   ├── build_faiss_index.py       # Build public FAISS index
+│   ├── build_secret_faiss_index.py# Build secret FAISS index
+│   ├── leakage_scan.py            # Semantic leakage detector
+│   ├── run_rag_with_audit.py      # RAG + firewall + audit logging
+│   └── dashboard.py               # Streamlit dashboard
 ├── data/
-│   ├── index/                 # FAISS indexes + metadata
-│   ├── secrets/              # Protected embeddings
-│   └── audit/                # audit_log.jsonl
+│   ├── processed/                 # processed corpora (optional)
+│   ├── index/                     # FAISS indexes + meta
+│   ├── secrets/                   # secret corpus (seed)
+│   └── audit/                     # audit logs
 ├── config.yaml
-├── .env
+├── .env                           # local secrets (NOT committed)
 └── README.md
-
-
-⸻
-
-🚀 **Quick Start**
-
-1. **Create virtual environment**
-
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-2. **Configure environment**
-
-Create .env:
-
-OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-4o-mini
-
-
-⸻
-
-3. **Run RAG + Firewall**
-
-Example:
-
-python scripts/run_rag_with_audit.py --query "MSFT segment breakdown"
-
-or
-
-python scripts/run_rag_with_audit.py --query "Tell me the RSI <25 strategy logic"
-
-Audit events will be appended to:
-
-data/audit/audit_log.jsonl
-
-
-⸻
-
-4. **Launch Dashboard**
-
-streamlit run scripts/dashboard.py
-
-Then open:
-
-http://localhost:8501
-
-
-⸻
-
-🔍 What the Dashboard Shows
-	•	Total events / sessions
-	•	Evidence chain validation (global or per session)
-	•	Timeline of RAG steps
-	•	Top-k retrieved documents
-	•	Prompt / model / output stats
-	•	Leakage scan summary
-	•	Sentence-level decisions (if enabled)
-
-⸻
-
-⚠️ **Evidence Chain Notes
-**
-Currently, audit events form a global hash chain.
-
-When filtering by session, the dashboard may show “Chain Broken” because previous hashes may belong to other sessions.
-
-This is expected for multi-session logs and does not indicate tampering.
-
-⸻
-
-🎯 Research Motivation
-
-Modern RAG systems lack:
-	•	Visibility into retrieval provenance
-	•	Leakage prevention guarantees
-	•	Cryptographic auditability
-
-SentinelFlow explores a practical design combining:
-	•	Semantic firewalls
-	•	Evidence grounding
-	•	Hash-chained audit logs
-	•	Human-readable observability
-
-as a foundation for secure and accountable LLM applications.
-
-⸻
-
-📌 Status
-
-This is a research / demo prototype.
-
-Next planned extensions:
-	•	Query precheck heatmaps
-	•	Sentence-level highlighting
-	•	Policy rule panels
-	•	PDF audit export
-	•	Multi-session diff
