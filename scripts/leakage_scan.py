@@ -1,11 +1,14 @@
 # scripts/leakage_scan.py
-import re, pickle, argparse
+import re, json, pickle, argparse
 from typing import List, Dict, Any, Tuple
 
 import numpy as np
 import faiss
 import yaml
 from sentence_transformers import SentenceTransformer
+
+
+VERSION = "leakage_scan_v1"
 
 
 def load_config(path: str = "config.yaml") -> dict:
@@ -33,11 +36,15 @@ def topk_secret_match(
     k: int = 1,
 ) -> Tuple[float, dict]:
     emb = model.encode([sentence], normalize_embeddings=True).astype(np.float32)
-    D, I = secret_index.search(emb, k)  # IP on normalized vectors ~= cosine
+    D, I = secret_index.search(emb, k)  # inner product on normalized vectors ~= cosine
     best_i = int(I[0][0])
     best_score = float(D[0][0])
     best_meta = secret_meta[best_i]
     return best_score, best_meta
+
+
+def redact_sentence(_: str) -> str:
+    return "[REDACTED]"
 
 
 def scan_text(
@@ -48,95 +55,119 @@ def scan_text(
     hard_threshold: float,
     soft_threshold: float,
     cascade_k: int,
-    action: str,         # "redact" or "block"
+    action: str,
     top_k_secrets: int = 1,
 ) -> Dict[str, Any]:
-    sents = split_sentences(text)
 
+    sents = split_sentences(text)
     sentences_out = []
+
     hard_hits = 0
     soft_hits = 0
 
-    # per-sentence scoring
+    # keep best overall match for summary
+    best_overall = {"secret_id": None, "title": None, "category": None, "score": -1.0}
+
     for i, s in enumerate(sents):
         score, meta = topk_secret_match(
             model, secret_index, secret_meta, s, k=top_k_secrets
         )
 
-        reason = "none"
+        m = {
+            "secret_id": meta.get("_id"),
+            "title": meta.get("title"),
+            "category": meta.get("category"),
+            "score": round(score, 4),
+        }
+
+        if score > best_overall["score"]:
+            best_overall = dict(m)
+
         decision = "allow"
-        triggered_by = "none"
+        reason = "none"
 
         if score >= hard_threshold:
+            decision = action  # redact or block
             reason = "hard_hit"
-            decision = action
-            triggered_by = "hard"
             hard_hits += 1
         elif score >= soft_threshold:
+            decision = "allow"  # decide later by cascade
             reason = "soft_hit"
-            decision = "allow"   # cascade later
-            triggered_by = "soft"
             soft_hits += 1
 
-        sentences_out.append({
-            "sent_index": i,
-            "text": s,
-            "score": round(score, 4),
-            "decision": decision,
-            "reason": reason,
-            "triggered_by": triggered_by,
-            "match": {
-                "secret_id": meta.get("_id"),
-                "title": meta.get("title"),
-                "category": meta.get("category"),
+        sentences_out.append(
+            {
+                "sent_index": i,
+                "text": s,
                 "score": round(score, 4),
+                "decision": decision,
+                "reason": reason,
+                "match": m,
             }
-        })
+        )
 
-    cascade_triggered = (hard_hits == 0 and soft_hits >= cascade_k)
+    cascade_triggered = (hard_hits == 0) and (soft_hits >= cascade_k)
 
-    # apply cascade redaction (demo-visible)
+    # finalize decisions (cascade turns soft_hit into redact/block)
     redacted_sentence_indices = []
-    if cascade_triggered and action == "redact":
+
+    if action == "block" and (hard_hits > 0 or cascade_triggered):
+        redacted_text = "[BLOCKED] Response blocked by SentinelFlow leakage policy."
+        trigger_reason = "hard_hit" if hard_hits > 0 else "cascade"
+        leakage_flag = True
+
+        # for dashboard: mark which sentences would have been blocked
         for row in sentences_out:
-            if row["reason"] == "soft_hit":
-                row["decision"] = "redact"
-                row["reason"] = "cascade"
-                row["triggered_by"] = "cascade"
+            if row["reason"] in ("hard_hit", "soft_hit"):
                 redacted_sentence_indices.append(row["sent_index"])
+                row["decision"] = "block"
+                if row["reason"] == "soft_hit" and cascade_triggered:
+                    row["reason"] = "cascade"
 
-    # decide leakage_flag + trigger_reason
-    if hard_hits > 0:
-        leakage_flag = True
-        trigger_reason = "hard_hit"
-    elif cascade_triggered:
-        leakage_flag = True
-        trigger_reason = "cascade"
-    else:
-        leakage_flag = False
-        trigger_reason = "none"
+        return {
+            "version": VERSION,
+            "config": {
+                "hard_threshold": hard_threshold,
+                "soft_threshold": soft_threshold,
+                "cascade_k": cascade_k,
+                "action": action,
+                "top_k_secrets": top_k_secrets,
+            },
+            "summary": {
+                "leakage_flag": leakage_flag,
+                "trigger_reason": trigger_reason,
+                "hard_hits": hard_hits,
+                "soft_hits": soft_hits,
+                "cascade_triggered": cascade_triggered,
+                "redacted_sentence_indices": redacted_sentence_indices,
+                "top_match": best_overall,
+            },
+            "sentences": sentences_out,
+            "redacted_text": redacted_text,
+        }
 
-    # compute top_match for summary (highest score)
-    top_match_row = max(sentences_out, key=lambda r: r["score"]) if sentences_out else None
-    top_match = top_match_row["match"] if top_match_row else None
+    # redact mode (demo-friendly)
+    out_sents = []
+    for row in sentences_out:
+        if row["reason"] == "hard_hit":
+            row["decision"] = "redact"
+            out_sents.append(redact_sentence(row["text"]))
+            redacted_sentence_indices.append(row["sent_index"])
+        elif cascade_triggered and row["reason"] == "soft_hit":
+            row["decision"] = "redact"
+            row["reason"] = "cascade"
+            out_sents.append(redact_sentence(row["text"]))
+            redacted_sentence_indices.append(row["sent_index"])
+        else:
+            out_sents.append(row["text"])
 
-    # produce redacted_text
-    if action == "block" and leakage_flag:
-        redacted_text = "[BLOCKED] This response was blocked by SentinelFlow leakage policy."
-        redacted_sentence_indices = list(range(len(sentences_out)))
-    else:
-        out = []
-        for row in sentences_out:
-            if row["decision"] == "redact":
-                out.append("[REDACTED]")
-                if row["sent_index"] not in redacted_sentence_indices:
-                    redacted_sentence_indices.append(row["sent_index"])
-            else:
-                out.append(row["text"])
-        redacted_text = " ".join(out)
+    redacted_text = " ".join(out_sents)
+
+    leakage_flag = (hard_hits > 0) or cascade_triggered
+    trigger_reason = "hard_hit" if hard_hits > 0 else ("cascade" if cascade_triggered else "none")
 
     return {
-        "version": "leakage_scan_v1",
+        "version": VERSION,
         "config": {
             "hard_threshold": hard_threshold,
             "soft_threshold": soft_threshold,
@@ -150,8 +181,8 @@ def scan_text(
             "hard_hits": hard_hits,
             "soft_hits": soft_hits,
             "cascade_triggered": cascade_triggered,
-            "redacted_sentence_indices": sorted(redacted_sentence_indices),
-            "top_match": top_match,
+            "redacted_sentence_indices": redacted_sentence_indices,
+            "top_match": best_overall,
         },
         "sentences": sentences_out,
         "redacted_text": redacted_text,
@@ -169,7 +200,8 @@ def main():
     leak_cfg = cfg["leakage"]
     paths = cfg["paths"]
 
-    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    model = SentenceTransformer(cfg["embedding"]["model_name"])
+
     secret_index, secret_meta = load_faiss_index(paths["secret_index"], paths["secret_meta"])
 
     result = scan_text(
@@ -184,7 +216,6 @@ def main():
         top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),
     )
 
-    import json
     if args.pretty:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:

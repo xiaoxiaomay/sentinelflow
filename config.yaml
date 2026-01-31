@@ -1,3 +1,6 @@
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
 paths:
   public_index: "data/index/finder.faiss"
   public_meta:  "data/index/finder_meta.pkl"
@@ -6,6 +9,8 @@ paths:
 
 rag:
   top_k: 5
+  candidate_k: 50
+  max_context_chars_per_doc: 1200
 
 leakage:
   hard_threshold: 0.70
@@ -13,3 +18,16 @@ leakage:
   cascade_k: 2
   action: "redact"
   top_k_secrets: 1
+
+audit:
+  out_dir: "data/audit"
+  file_name: "audit_log.jsonl"
+
+openai_model: "gpt-4o-mini"
+
+query_precheck:
+  enabled: true
+  threshold: 0.60     # 建议先 0.60，想更敏感就 0.55
+  action: "block"     # query 命中就直接 block
+  top_k_secrets: 3
+  block_message: "[BLOCKED] This query is too similar to internal confidential topics."
