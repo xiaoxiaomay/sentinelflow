@@ -1,0 +1,15 @@
+# secrets
+.env
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+# data (按需)
+data/raw/
+data/processed/
+data/index/
+*.pkl
+*.faiss
+# mac
+.DS_Store

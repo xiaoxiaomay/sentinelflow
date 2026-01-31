@@ -1,0 +1,15 @@
+paths:
+  public_index: "data/index/finder.faiss"
+  public_meta:  "data/index/finder_meta.pkl"
+  secret_index: "data/index/secrets.faiss"
+  secret_meta:  "data/index/secrets_meta.pkl"
+
+rag:
+  top_k: 5
+
+leakage:
+  hard_threshold: 0.70
+  soft_threshold: 0.60
+  cascade_k: 2
+  action: "redact"
+  top_k_secrets: 1
