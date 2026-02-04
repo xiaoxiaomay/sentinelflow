@@ -1,15 +1,82 @@
-# secrets
-.env
-# python
+################################
+# Python
+################################
 __pycache__/
-*.pyc
-.venv/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+################################
+# Virtual environments
+################################
 venv/
-# data (按需)
+.venv/
+env/
+ENV/
+
+################################
+# Jupyter / IPython
+################################
+.ipynb_checkpoints
+.ipython/
+
+################################
+# macOS
+################################
+.DS_Store
+
+################################
+# Environment secrets
+################################
+.env
+
+################################
+# SentinelFlow specific
+################################
+
+# audit logs (runtime generated)
+data/audit/*.jsonl
+
+# evaluation outputs
+reports/
+
+# FAISS temp / caches (keep index files but ignore misc)
+data/index/*.tmp
+data/index/*.lock
+
+################################
+# Model / cache directories
+################################
+.cache/
+huggingface/
+
+################################
+# Editors
+################################
+.vscode/
+.idea/
+*.swp
+
+################################
+# Misc
+################################
+*.log
 data/raw/
 data/processed/
-data/index/
-*.pkl
-*.faiss
-# mac
-.DS_Store
+data/index/secrets.faiss
+data/index/secrets_meta.pkl

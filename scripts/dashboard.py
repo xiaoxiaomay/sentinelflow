@@ -1,24 +1,41 @@
 # scripts/dashboard.py
+import os
 import json
-from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+import hashlib
+from typing import List, Optional, Tuple
 
 import pandas as pd
 import streamlit as st
+import yaml
 
 st.set_page_config(page_title="SentinelFlow Dashboard", layout="wide")
-APP_TITLE = "SentinelFlow — RAG + Leakage Firewall + Evidence Chain"
+
+ZERO64 = "0" * 64
 
 
-# ----------------------------
-# Basic helpers
-# ----------------------------
-def read_jsonl(path: str) -> List[Dict[str, Any]]:
-    p = Path(path)
-    if not p.exists():
-        return []
+def canonical_json(obj) -> str:
+    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+
+
+def sha256_str(s: str) -> str:
+    return hashlib.sha256(s.encode("utf-8")).hexdigest()
+
+
+def safe_load_json(path: str) -> Optional[dict]:
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def safe_load_jsonl(path: str) -> List[dict]:
     rows = []
-    with p.open("r", encoding="utf-8") as f:
+    if not os.path.exists(path):
+        return rows
+    with open(path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -30,239 +47,400 @@ def read_jsonl(path: str) -> List[Dict[str, Any]]:
     return rows
 
 
-def get_body(ev: Dict[str, Any]) -> Dict[str, Any]:
-    b = ev.get("body", {})
-    return b if isinstance(b, dict) else {}
+def read_config(path="config.yaml") -> dict:
+    if not os.path.exists(path):
+        return {}
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or {}
 
 
-def extract_session_id(ev: Dict[str, Any]) -> Optional[str]:
-    b = get_body(ev)
-    return b.get("session_id") or b.get("sid")
+def get_session_id(rec: dict) -> Optional[str]:
+    return (rec.get("body") or {}).get("session_id")
 
 
-def short(s: Optional[str], n=10) -> str:
-    if not s:
-        return ""
-    return str(s)[:n]
+def get_event_type(rec: dict) -> str:
+    return str(rec.get("type") or "")
 
 
-def canonical_json(obj: Any) -> str:
-    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+def get_event_ts(rec: dict) -> str:
+    return str(rec.get("ts") or "")
 
 
-def sha256_str(s: str) -> str:
-    import hashlib
-
-    return hashlib.sha256(s.encode("utf-8")).hexdigest()
-
-
-# ----------------------------
-# Hash validation
-# ----------------------------
-def verify_event_hash(ev: Dict[str, Any]) -> bool:
-    """
-    Verify event_hash matches sha256(canonical_json({ts,type,body,prev_hash}))
-    Must match your audit.py implementation.
-    """
-    ts = ev.get("ts")
-    typ = ev.get("type")
-    body = get_body(ev)
-    prev_hash = ev.get("prev_hash", "0" * 64)
-    expected = sha256_str(canonical_json({"ts": ts, "type": typ, "body": body, "prev_hash": prev_hash}))
-    got = ev.get("event_hash", "")
-    return expected == got
-
-
-def verify_chain(events: List[Dict[str, Any]]) -> Tuple[bool, pd.DataFrame]:
-    """
-    Generic chain validator: checks link_ok (prev_hash matches previous event_hash)
-    and hash_ok (event_hash integrity) for the given ordered list.
-    """
-    if not events:
-        return True, pd.DataFrame()
-
-    rows = []
-    ok_all = True
-    prev = None
-    for i, ev in enumerate(events):
-        link_ok = True
-        if prev is not None:
-            link_ok = (ev.get("prev_hash") == prev.get("event_hash"))
-        hash_ok = verify_event_hash(ev)
-        if not (link_ok and hash_ok):
-            ok_all = False
-
-        rows.append(
-            {
-                "i": i,
-                "ts": ev.get("ts"),
-                "type": ev.get("type"),
-                "link_ok": link_ok,
-                "hash_ok": hash_ok,
-                "prev_hash_prefix": short(ev.get("prev_hash"), 10),
-                "event_hash_prefix": short(ev.get("event_hash"), 10),
-            }
-        )
-        prev = ev
-
-    return ok_all, pd.DataFrame(rows)
-
-
-# ----------------------------
-# Event summarization for tables
-# ----------------------------
-def summarize_event_row(ev: Dict[str, Any]) -> Dict[str, Any]:
-    body = get_body(ev)
-    typ = ev.get("type")
-
-    # common fields
-    row = {
-        "ts": ev.get("ts"),
-        "type": typ,
-        "session_id": extract_session_id(ev),
-        "query": body.get("query"),
-        "model": body.get("model"),
-        "latency_s": body.get("latency_s"),
-        "raw_answer_chars": body.get("raw_answer_chars"),
-        "final_answer_chars": body.get("final_answer_chars"),
-        "leakage_flag": (body.get("summary", {}) or {}).get("leakage_flag"),
-        "trigger_reason": (body.get("summary", {}) or {}).get("trigger_reason"),
-        "hard_hits": (body.get("summary", {}) or {}).get("hard_hits"),
-        "soft_hits": (body.get("summary", {}) or {}).get("soft_hits"),
-        "cascade_triggered": (body.get("summary", {}) or {}).get("cascade_triggered"),
+def _expected_event_hash(r: dict) -> str:
+    payload = {
+        "ts": r.get("ts"),
+        "type": r.get("type"),
+        "body": r.get("body"),
+        "prev_hash": r.get("prev_hash"),
+        "session_prev_hash": r.get("session_prev_hash", ZERO64),
     }
-
-    # final_output variants
-    if typ == "final_output":
-        row["final_answer_chars"] = body.get("final_answer_chars") or body.get("final_chars") or row["final_answer_chars"]
-        if row["leakage_flag"] is None and "leakage_flag" in body:
-            row["leakage_flag"] = body.get("leakage_flag")
-        if row["trigger_reason"] is None and "trigger_reason" in body:
-            row["trigger_reason"] = body.get("trigger_reason")
-
-    # query_precheck variants
-    if typ == "query_precheck":
-        row["trigger_reason"] = body.get("trigger_reason") or row["trigger_reason"]
-        if row["leakage_flag"] is None and "blocked" in body:
-            row["leakage_flag"] = body.get("blocked")
-
-    return row
+    return sha256_str(canonical_json(payload))
 
 
-def extract_retrieved_docs(events: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
-    for ev in events:
-        if ev.get("type") == "retrieve":
-            docs = get_body(ev).get("docs", [])
-            if isinstance(docs, list):
-                return docs
-    return []
+def _expected_session_event_hash(r: dict) -> str:
+    payload = {
+        "ts": r.get("ts"),
+        "type": r.get("type"),
+        "body": r.get("body"),
+        "session_prev_hash": r.get("session_prev_hash", ZERO64),
+    }
+    return sha256_str(canonical_json(payload))
 
 
-def extract_prompt_summary(events: List[Dict[str, Any]]) -> Dict[str, Any]:
-    out = {}
-    for ev in events:
-        if ev.get("type") == "prompt_built":
-            out["prompt_built"] = get_body(ev)
-        elif ev.get("type") == "llm_response":
-            out["llm_response"] = get_body(ev)
-        elif ev.get("type") == "final_output":
-            out["final_output"] = get_body(ev)
-        elif ev.get("type") == "query_precheck":
-            out["query_precheck"] = get_body(ev)
-    return out
+def validate_global_chain(records: List[dict]) -> Tuple[bool, pd.DataFrame]:
+    rows = []
+    ok = True
+    prev_event_hash = None
+
+    for i, r in enumerate(records):
+        prev_hash = r.get("prev_hash")
+        event_hash = r.get("event_hash")
+
+        expected = _expected_event_hash(r)
+        hash_ok = None
+        if event_hash:
+            hash_ok = (expected == event_hash)
+
+        link_ok = None
+        if i == 0:
+            link_ok = True
+        else:
+            if prev_hash is not None and prev_event_hash is not None:
+                link_ok = (prev_hash == prev_event_hash)
+
+        if (hash_ok is False) or (link_ok is False):
+            ok = False
+
+        rows.append({
+            "i": i,
+            "ts": get_event_ts(r),
+            "type": get_event_type(r),
+            "session_id": get_session_id(r),
+            "hash_ok": hash_ok,
+            "link_ok": link_ok,
+            "prev_hash_prefix": (prev_hash or "")[:10],
+            "event_hash_prefix": (event_hash or "")[:10],
+        })
+        prev_event_hash = event_hash or prev_event_hash
+
+    return ok, pd.DataFrame(rows)
 
 
-def extract_leakage_details(events: List[Dict[str, Any]]) -> Tuple[Dict[str, Any], List[Dict[str, Any]]]:
-    for ev in events:
-        if ev.get("type") == "leakage_scan":
-            body = get_body(ev)
-            summary = body.get("summary") or body
-            # try multiple possible placements
-            sentences = body.get("sentences") or (body.get("details", {}) or {}).get("sentences") or []
-            if not isinstance(sentences, list):
-                sentences = []
-            if not isinstance(summary, dict):
-                summary = {}
-            return summary, sentences
-    return {}, []
+def validate_session_chain(records: List[dict], session_id: str) -> Tuple[bool, pd.DataFrame]:
+    sess = [r for r in records if get_session_id(r) == session_id]
+    rows = []
+    ok = True
+    prev_sess_hash = ZERO64
+
+    for i, r in enumerate(sess):
+        session_prev_hash = r.get("session_prev_hash", ZERO64)
+        session_event_hash = r.get("session_event_hash")
+
+        expected = _expected_session_event_hash(r)
+        hash_ok = None
+        if session_event_hash:
+            hash_ok = (expected == session_event_hash)
+
+        link_ok = (session_prev_hash == prev_sess_hash)
+
+        if (hash_ok is False) or (link_ok is False):
+            ok = False
+
+        rows.append({
+            "i": i,
+            "ts": get_event_ts(r),
+            "type": get_event_type(r),
+            "hash_ok": hash_ok,
+            "link_ok": link_ok,
+            "session_prev_hash_prefix": (session_prev_hash or "")[:10],
+            "session_event_hash_prefix": (session_event_hash or "")[:10],
+        })
+        prev_sess_hash = session_event_hash or prev_sess_hash
+
+    return ok, pd.DataFrame(rows)
 
 
-# ----------------------------
-# UI
-# ----------------------------
-st.title(APP_TITLE)
+def load_eval_summary() -> Optional[dict]:
+    return safe_load_json("reports/eval_summary.json")
 
-with st.sidebar:
-    st.header("Audit log")
-    audit_path = st.text_input("audit_log.jsonl path", value="data/audit/audit_log.jsonl")
 
-events = read_jsonl(audit_path)
+def load_eval_cases() -> pd.DataFrame:
+    if os.path.exists("reports/eval_cases.csv"):
+        try:
+            return pd.read_csv("reports/eval_cases.csv")
+        except Exception:
+            pass
 
-total_events = len(events)
-session_ids = [extract_session_id(e) for e in events]
-unique_sessions = sorted({s for s in session_ids if s})
+    # fallback: jsonl
+    for p in ["reports/eval_cases.jsonl", "reports/eval_results.jsonl", "reports/eval_details.jsonl"]:
+        if os.path.exists(p):
+            rows = safe_load_jsonl(p)
+            if rows:
+                return pd.DataFrame(rows)
+    return pd.DataFrame()
 
-leakage_events = sum(1 for e in events if e.get("type") in ("leakage_scan", "query_precheck"))
+def backfill_session_id_from_audit(df_cases: pd.DataFrame, records: List[dict]) -> pd.DataFrame:
+    if df_cases is None or df_cases.empty:
+        return df_cases
 
-m1, m2, m3 = st.columns(3)
-m1.metric("Total events", total_events)
-m2.metric("Unique sessions", len(unique_sessions))
-m3.metric("Leakage events", leakage_events)
+    # map query -> unique session_id if unique
+    q_to_sessions = {}
+    for r in records:
+        body = r.get("body") or {}
+        q = (body.get("query") or "").strip()
+        sid = (body.get("session_id") or "").strip()
+        if not q or not sid:
+            continue
+        q_to_sessions.setdefault(q, set()).add(sid)
 
-st.subheader("Sessions")
-selected_session = st.selectbox("Select session_id", options=unique_sessions, index=0 if unique_sessions else None)
+    if "session_id" not in df_cases.columns:
+        df_cases["session_id"] = ""
 
-session_events = [e for e in events if extract_session_id(e) == selected_session] if selected_session else []
-session_events_sorted = sorted(session_events, key=lambda x: x.get("ts") or "")
+    def _fill(row):
+        sid = str(row.get("session_id") or "").strip()
+        if sid:
+            return sid
+        q = str(row.get("query") or "").strip()
+        sids = sorted(list(q_to_sessions.get(q, set())))
+        return sids[0] if len(sids) == 1 else ""
 
-st.subheader("Evidence Chain validation")
-mode = st.radio("validation mode", options=["session", "global"], horizontal=True, index=0)
+    df_cases["session_id"] = df_cases.apply(_fill, axis=1)
+    return df_cases
 
-if mode == "session":
-    ok, df_chain = verify_chain(session_events_sorted)
-    if ok:
-        st.success("Chain OK ✅ (session chain)")
+
+def render_policy_panel(cfg: dict):
+    st.subheader("Policy (config.yaml)")
+    if not cfg:
+        st.warning("config.yaml not found (or empty).")
+        return
+
+    policy = cfg.get("policy", {}) or {}
+    intent_rules = policy.get("intent_rules", []) or []
+
+    st.markdown("### Intent Rules")
+    if intent_rules:
+        df = pd.DataFrame([{
+            "id": r.get("id"),
+            "name": r.get("name"),
+            "severity": r.get("severity"),
+            "action": r.get("action"),
+            "patterns_count": len(r.get("patterns") or []),
+        } for r in intent_rules])
+        st.dataframe(df, use_container_width=True)
     else:
-        st.error("Chain BROKEN ❌ (session chain)")
-else:
-    ok, df_chain = verify_chain(events)  # file order global
-    if ok:
-        st.success("Chain OK ✅ (global chain)")
-    else:
-        st.error("Chain BROKEN ❌ (global chain)")
+        st.info("No policy.intent_rules found.")
 
-st.dataframe(df_chain, use_container_width=True, hide_index=True)
+    st.markdown("### Full config")
+    st.code(yaml.safe_dump(cfg, sort_keys=False), language="yaml")
 
-st.subheader("Timeline (events)")
-df_tl = pd.DataFrame([summarize_event_row(e) for e in session_events_sorted])
-st.dataframe(df_tl, use_container_width=True, hide_index=True)
 
-st.subheader("Key artifacts")
-c1, c2 = st.columns([3, 2])
+def render_sentence_actions(sent_rows: List[dict], title: str):
+    st.markdown(f"### {title}")
+    if not sent_rows:
+        st.info("No sentence-level rows.")
+        return
 
-with c1:
-    st.markdown("**Top-k Retrieved Docs**")
-    docs = extract_retrieved_docs(session_events_sorted)
-    if docs:
-        st.dataframe(pd.DataFrame(docs), use_container_width=True, hide_index=True)
-    else:
-        st.info("No retrieve docs found in this session.")
+    table = []
+    for r in sent_rows:
+        table.append({
+            "sent_index": r.get("sent_index"),
+            "decision": r.get("decision"),
+            "reason": r.get("reason"),
+            "leak_score": r.get("score"),
+            "ground_score": r.get("ground_score"),
+            "secret_id": r.get("secret_id"),
+            "secret_title": r.get("secret_title"),
+            "secret_category": r.get("secret_category"),
+            "ground_doc_id": (r.get("ground_doc") or {}).get("doc_id") if r.get("ground_doc") else None,
+            "ground_doc_title": (r.get("ground_doc") or {}).get("title") if r.get("ground_doc") else None,
+            "text": r.get("text"),
+        })
+    df = pd.DataFrame(table)
+    st.dataframe(df, use_container_width=True)
 
-with c2:
-    st.markdown("**Prompt / Model / Output summary**")
-    summary = extract_prompt_summary(session_events_sorted)
-    st.code(json.dumps(summary, ensure_ascii=False, indent=2))
+    parts = []
+    for r in table:
+        txt = r.get("text") or ""
+        decision = (r.get("decision") or "allow").lower()
+        meta = f"decision={decision} reason={r.get('reason')} leak={r.get('leak_score')} ground={r.get('ground_score')}"
+        if decision in {"redact", "block"}:
+            parts.append(
+                f"<div style='margin:6px 0;'>"
+                f"<mark>{txt}</mark><br/>"
+                f"<span style='font-size:12px;color:#666;'>{meta}</span>"
+                f"</div>"
+            )
+        else:
+            parts.append(
+                f"<div style='margin:6px 0;'>"
+                f"{txt}<br/>"
+                f"<span style='font-size:12px;color:#666;'>{meta}</span>"
+                f"</div>"
+            )
+    st.markdown("\n".join(parts), unsafe_allow_html=True)
 
-st.subheader("Leakage scan details (for demo visibility)")
-leak_summary, leak_sentences = extract_leakage_details(session_events_sorted)
-st.markdown("**Summary**")
-st.code(json.dumps(leak_summary, ensure_ascii=False, indent=2))
 
-st.markdown("**Sentence-level decisions**")
-if leak_sentences:
-    st.dataframe(pd.DataFrame(leak_sentences), use_container_width=True, hide_index=True)
-else:
-    st.info("No sentence-level details found (not written to audit yet).")
+def main():
+    st.title("SentinelFlow — Firewall + RAG + Evidence Chain + Evaluation")
 
-with st.expander("Raw events (selected session)"):
-    st.write(session_events_sorted)
+    with st.sidebar:
+        st.header("Paths")
+        audit_path = st.text_input("audit_log.jsonl", value="data/audit/audit_log.jsonl")
+        st.caption("Run: python scripts/demo_cases.py  (writes reports/eval_cases.csv + reports/eval_summary.json)")
+        cfg = read_config("config.yaml")
+        st.divider()
+        render_policy_panel(cfg)
+
+    records = safe_load_jsonl(audit_path)
+    if not records:
+        st.warning("No audit events found. Run run_rag_with_audit.py or demo_cases.py first.")
+        st.stop()
+
+    session_ids = [sid for sid in [get_session_id(r) for r in records] if sid]
+    uniq_sessions = sorted(list(set(session_ids)))
+
+    llm_calls = sum(1 for r in records if get_event_type(r) == "llm_response")
+    intent_blocks = sum(1 for r in records if get_event_type(r) == "intent_precheck" and (r.get("body") or {}).get("blocked") is True)
+    precheck_blocks = sum(1 for r in records if get_event_type(r) == "query_precheck" and (r.get("body") or {}).get("blocked") is True)
+
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Total events", len(records))
+    c2.metric("Unique sessions", len(uniq_sessions))
+    c3.metric("LLM calls", llm_calls)
+    c4.metric("Intent blocks", intent_blocks)
+    c5.metric("Precheck blocks", precheck_blocks)
+
+    tabs = st.tabs(["Sessions", "Evaluation (demo_cases)", "Chain Debug"])
+
+    # Sessions tab
+    with tabs[0]:
+        st.subheader("Session Viewer")
+        selected = st.selectbox("Select session_id", uniq_sessions, index=max(0, len(uniq_sessions) - 1))
+        sess = [r for r in records if get_session_id(r) == selected]
+
+        st.markdown("### Timeline")
+        timeline = []
+        for r in sess:
+            body = r.get("body") or {}
+            summ = body.get("summary") or {}
+            timeline.append({
+                "ts": get_event_ts(r),
+                "type": get_event_type(r),
+                "query": body.get("query"),
+                "blocked": body.get("blocked"),
+                "decision": body.get("decision"),
+                "blocked_by": body.get("blocked_by"),
+                "leakage_flag": summ.get("leakage_flag") if summ else body.get("leakage_flag"),
+                "trigger_reason": summ.get("trigger_reason") if summ else body.get("trigger_reason"),
+            })
+        st.dataframe(pd.DataFrame(timeline), use_container_width=True)
+
+        def _find(tname: str) -> Optional[dict]:
+            return next((r for r in sess if get_event_type(r) == tname), None)
+
+        intent_ev = _find("intent_precheck")
+        pre_ev = _find("query_precheck")
+        retr_ev = _find("retrieve")
+        ground_ev = _find("grounding_check")
+        leak_ev = _find("leakage_scan")
+        final_ev = _find("final_output")
+
+        st.markdown("### Key Artifacts")
+        col1, col2 = st.columns(2)
+        with col1:
+            if intent_ev:
+                st.markdown("**intent_precheck**")
+                st.json(intent_ev.get("body") or {})
+            if pre_ev:
+                st.markdown("**query_precheck**")
+                st.json(pre_ev.get("body") or {})
+            if retr_ev:
+                st.markdown("**retrieve (top-k docs)**")
+                docs = (retr_ev.get("body") or {}).get("docs") or []
+                if docs:
+                    st.dataframe(pd.DataFrame(docs), use_container_width=True)
+                else:
+                    st.info("No docs.")
+        with col2:
+            if ground_ev:
+                st.markdown("**grounding_check**")
+                st.json(ground_ev.get("body") or {})
+            if leak_ev:
+                st.markdown("**leakage_scan summary**")
+                st.json((leak_ev.get("body") or {}).get("summary") or {})
+            if final_ev:
+                st.markdown("**final_output**")
+                b = final_ev.get("body") or {}
+                st.json(b)
+                if b.get("final_answer"):
+                    st.code(b["final_answer"])
+
+        if leak_ev:
+            srows = (leak_ev.get("body") or {}).get("sentences") or []
+            render_sentence_actions(srows, "Sentence Actions (Leakage + Grounding)")
+
+    # Evaluation tab
+    with tabs[1]:
+        st.subheader("Evaluation (from demo_cases.py)")
+        summary = load_eval_summary()
+        df_cases = load_eval_cases()
+        df_cases = backfill_session_id_from_audit(df_cases, records)
+
+        if summary:
+            st.markdown("### Summary")
+            m1, m2, m3, m4 = st.columns(4)
+            m1.metric("cases", summary.get("cases"))
+            m2.metric("pass_rate", summary.get("pass_rate"))
+            m3.metric("block_rate_hard", summary.get("block_rate_hard"))
+            m4.metric("leak_escape_rate", summary.get("leak_escape_rate"))
+            st.json(summary)
+        else:
+            st.info("No reports/eval_summary.json found yet. Run: python scripts/demo_cases.py")
+
+        if df_cases is None or df_cases.empty:
+            st.info("No reports/eval_cases.csv found yet. Run: python scripts/demo_cases.py")
+        else:
+            for col in ["case_id", "group", "expected", "outcome", "llm_called", "blocked_stage", "ok", "reason", "session_id"]:
+                if col not in df_cases.columns:
+                    df_cases[col] = None
+
+            st.markdown("### Cases")
+            only_fail = st.checkbox("Show only failures", value=True)
+            groups = ["(all)"] + sorted([x for x in df_cases["group"].dropna().unique().tolist()])
+            g = st.selectbox("Filter by group", groups)
+
+            view = df_cases.copy()
+            if only_fail:
+                view = view[view["ok"] == False].copy()
+            if g != "(all)":
+                view = view[view["group"] == g].copy()
+
+            st.dataframe(view, use_container_width=True)
+
+            st.markdown("### Jump to session")
+            candidates = view.dropna(subset=["session_id"])
+            if not candidates.empty:
+                sid = st.selectbox("Pick a failing session_id", candidates["session_id"].unique().tolist())
+                st.caption("Copy this session_id, then go to the Sessions tab and select it.")
+                st.code(str(sid))
+            else:
+                st.info("No session_id found in evaluation results. (demo_cases.py should write session_id per case)")
+
+    # Chain Debug tab
+    with tabs[2]:
+        st.subheader("Chain Debug")
+        mode = st.radio("Validation mode", options=["session", "global"], horizontal=True)
+
+        if mode == "global":
+            ok, df_val = validate_global_chain(records)
+            st.success("Global chain OK ✅" if ok else "Global chain BROKEN ❌")
+            st.dataframe(df_val, use_container_width=True)
+        else:
+            sid = st.selectbox("Pick session", uniq_sessions, index=max(0, len(uniq_sessions) - 1))
+            ok, df_val = validate_session_chain(records, sid)
+            st.success("Session chain OK ✅" if ok else "Session chain BROKEN ❌")
+            st.dataframe(df_val, use_container_width=True)
+
+
+if __name__ == "__main__":
+    main()

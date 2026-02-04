@@ -1,6 +1,8 @@
 embedding:
   model_name: "sentence-transformers/all-MiniLM-L6-v2"
 
+openai_model: "gpt-4o-mini"
+
 paths:
   public_index: "data/index/finder.faiss"
   public_meta:  "data/index/finder_meta.pkl"
@@ -12,22 +14,184 @@ rag:
   candidate_k: 50
   max_context_chars_per_doc: 1200
 
+audit:
+  out_dir: "data/audit"
+  file_name: "audit_log.jsonl"
+
+# -------------------------
+# Gate 0: intent rules
+# -------------------------
+policy:
+  block_message: "[BLOCKED] Unsafe intent detected by SentinelFlow."
+  intent_rules:
+    # Prompt injection / role override
+    - id: INJ_01
+      name: prompt_injection_override
+      severity: high
+      action: block
+      patterns:
+        - "ignore\\s+all\\s+previous\\s+instructions"
+        - "ignore\\s+the\\s+documents"
+        - "disregard\\s+the\\s+system"
+        - "developer\\s+mode"
+        - "jailbreak"
+        - "do\\s+anything\\s+now"
+        - "you\\s+are\\s+now\\s+a\\s+system\\s+admin"
+        - "override\\s+the\\s+rules"
+        - "output\\s+everything\\s+you\\s+know"
+        - "even\\s+if\\s+not\\s+in\\s+docs"
+
+    # System prompt / hidden instructions / policies
+    - id: SYS_01
+      name: system_prompt_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "reveal\\s+your\\s+system\\s+prompt"
+        - "reveal\\s+the\\s+system\\s+prompt"
+        - "print\\s+the\\s+system\\s+prompt"
+        - "hidden\\s+instructions"
+        - "internal\\s+policy"
+        - "policy\\s+rules"
+
+    # Audit log / internal files exfil
+    - id: AUD_01
+      name: audit_log_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "print\\s+the\\s+full\\s+audit\\s+log"
+        - "audit\\s+log\\s+file"
+        - "dump\\s+the\\s+audit"
+        - "show\\s+me\\s+the\\s+audit\\s+log"
+        - "contents\\s+of\\s+audit"
+
+    # "Internal only" / restricted sources
+    - id: INT_01
+      name: internal_only_request
+      severity: high
+      action: block
+      patterns:
+        - "^internal\\s+only"
+        - "restricted\\s+data\\s+sources"
+        - "restricted\\s+dataset"
+        - "client\\s+sensitive"
+        - "proprietary"
+        - "confidential"
+        - "\\bsecret\\b"
+        - "^secret:"
+
+    # Embeddings / vectors / secret index data exfil
+    - id: EXF_01
+      name: data_exfiltration_request
+      severity: high
+      action: block
+      patterns:
+        - "tell\\s+me\\s+the\\s+secret"
+        - "confidential\\s+strategy"
+        - "internal\\s+alpha\\s+rule"
+        - "rsi\\s*<\\s*25\\s+strategy\\s+logic"
+        - "exact\\s+buy\\s*-?signal\\s+rule"
+        - "entry\\s+conditions\\s+for\\s+the\\s+rsi"
+        - "internal\\s+threshold"
+        - "list\\s+any\\s+secret\\s+ids"
+        - "return\\s+the\\s+embedding\\s+vectors"
+        - "secret\\s+index"
+        - "provide\\s+the\\s+restricted\\s+dataset\\s+names"
+
+  # -------------------------
+  # Gate 0b: hard-block class (generic exfiltration)
+  # Minimal, rule-based "classifier":
+  # block if (exfil_verb AND sensitive_object) OR direct_pattern hit
+  # -------------------------
+  hard_block:
+    enabled: true
+    action: block
+    severity: high
+    name: hard_block_exfiltration_class
+
+    # If any of these regex patterns match, block immediately
+    direct_patterns:
+      - "system\\s*prompt"
+      - "hidden\\s+instructions"
+      - "internal\\s+policy"
+      - "audit\\s*log"
+      - "secret\\s+index"
+      - "embedding\\s+vectors?"
+      - "api\\s*key|openai\\s*key"
+      - "passwords?|credentials?"
+      - "private\\s+keys?"
+
+    # exfiltration verbs (substring match, case-insensitive)
+    exfil_verbs:
+      - "reveal"
+      - "show"
+      - "print"
+      - "dump"
+      - "export"
+      - "leak"
+      - "exfiltrate"
+      - "return"
+      - "give me"
+      - "provide"
+      - "output"
+      - "display"
+      - "list"
+      - "full"
+      - "entire"
+
+    # sensitive objects (substring match, case-insensitive)
+    sensitive_objects:
+      - "system prompt"
+      - "prompt"
+      - "hidden instruction"
+      - "policy"
+      - "audit log"
+      - "audit"
+      - "secret"
+      - "secret index"
+      - "secrets.faiss"
+      - "finder_meta.pkl"
+      - "secrets_meta.pkl"
+      - "embedding"
+      - "vector"
+      - "weights"
+      - "api key"
+      - "openai key"
+      - "password"
+      - "credential"
+      - "private key"
+      - "token"      
+
+
+
+
+# -------------------------
+# Gate 1: embedding precheck (secret similarity)
+# -------------------------
+query_precheck:
+  enabled: true
+  threshold: 0.60
+  top_k_secrets: 3
+  block_message: "[BLOCKED] This query is too similar to internal confidential topics."
+
+# -------------------------
+# Grounding check
+# -------------------------
+grounding:
+  enabled: true
+  threshold: 0.55
+  action: "redact"
+  max_doc_chars: 1500
+  block_on_ungrounded: false
+  ungrounded_block_ratio: 0.50
+
+# -------------------------
+# Postcheck: leakage scan
+# -------------------------
 leakage:
   hard_threshold: 0.70
   soft_threshold: 0.60
   cascade_k: 2
   action: "redact"
   top_k_secrets: 1
-
-audit:
-  out_dir: "data/audit"
-  file_name: "audit_log.jsonl"
-
-openai_model: "gpt-4o-mini"
-
-query_precheck:
-  enabled: true
-  threshold: 0.60     # 建议先 0.60，想更敏感就 0.55
-  action: "block"     # query 命中就直接 block
-  top_k_secrets: 3
-  block_message: "[BLOCKED] This query is too similar to internal confidential topics."

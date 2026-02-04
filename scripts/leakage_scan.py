@@ -1,24 +1,22 @@
 # scripts/leakage_scan.py
-import re, json, pickle, argparse
-from typing import List, Dict, Any, Tuple
+import pickle
+import re
+from typing import Any, Dict, List, Optional
 
-import numpy as np
 import faiss
-import yaml
-from sentence_transformers import SentenceTransformer
+import numpy as np
 
-
-VERSION = "leakage_scan_v1"
-
-
-def load_config(path: str = "config.yaml") -> dict:
-    with open(path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f)
+_SENT_SPLIT_RE = re.compile(r"(?<=[.!?。！？])\s+")
 
 
 def split_sentences(text: str) -> List[str]:
-    parts = re.split(r'(?<=[.!?。！？])\s+', text.strip())
-    return [p.strip() for p in parts if p.strip()]
+    text = (text or "").strip()
+    if not text:
+        return []
+    if len(text) < 3:
+        return [text]
+    sents = _SENT_SPLIT_RE.split(text)
+    return [s.strip() for s in sents if s.strip()]
 
 
 def load_faiss_index(index_path: str, meta_path: str):
@@ -28,199 +26,198 @@ def load_faiss_index(index_path: str, meta_path: str):
     return index, meta
 
 
-def topk_secret_match(
-    model: SentenceTransformer,
-    secret_index,
-    secret_meta: List[dict],
-    sentence: str,
-    k: int = 1,
-) -> Tuple[float, dict]:
-    emb = model.encode([sentence], normalize_embeddings=True).astype(np.float32)
-    D, I = secret_index.search(emb, k)  # inner product on normalized vectors ~= cosine
-    best_i = int(I[0][0])
-    best_score = float(D[0][0])
-    best_meta = secret_meta[best_i]
-    return best_score, best_meta
+def _embed(model, texts: List[str]) -> np.ndarray:
+    emb = model.encode(texts, normalize_embeddings=True)
+    return np.asarray(emb, dtype="float32")
 
 
-def redact_sentence(_: str) -> str:
-    return "[REDACTED]"
+def _safe_meta_get(meta_obj, idx: int) -> dict:
+    if isinstance(meta_obj, list):
+        return meta_obj[idx] if 0 <= idx < len(meta_obj) else {}
+    if isinstance(meta_obj, dict):
+        ids = meta_obj.get("ids") or []
+        titles = meta_obj.get("titles") or []
+        texts = meta_obj.get("texts") or []
+        row = {}
+        if 0 <= idx < len(ids):
+            row["_id"] = ids[idx]
+        if 0 <= idx < len(titles):
+            row["title"] = titles[idx]
+        if 0 <= idx < len(texts):
+            row["text"] = texts[idx]
+        return row
+    return {}
 
 
 def scan_text(
     text: str,
-    model: SentenceTransformer,
+    model,
     secret_index,
-    secret_meta: List[dict],
-    hard_threshold: float,
-    soft_threshold: float,
-    cascade_k: int,
-    action: str,
+    secret_meta,
+    hard_threshold: float = 0.70,
+    soft_threshold: float = 0.60,
+    cascade_k: int = 2,
+    action: str = "redact",            # "redact" or "block"
     top_k_secrets: int = 1,
+    return_sentence_table: bool = True,
+    # ---- grounding sentence-action (optional) ----
+    grounding_enabled: bool = False,
+    grounding_threshold: float = 0.55,
+    grounding_action: str = "redact",  # currently support "redact" only
+    grounding_scores: Optional[List[float]] = None,
+    grounding_top_docs: Optional[List[dict]] = None,
 ) -> Dict[str, Any]:
+    """
+    Sentence-level firewall:
+      - Secret similarity (hard/soft/cascade) -> redact/block
+      - Optional grounding sentence-action: if sentence has low grounding_score -> [REDACTED]
+    Returns:
+      {
+        "summary": {...},
+        "sentences": [...],
+        "redacted_text": "..."
+      }
+    """
+    action = (action or "redact").lower()
+    assert action in {"redact", "block"}
+    grounding_action = (grounding_action or "redact").lower()
 
     sents = split_sentences(text)
-    sentences_out = []
-
-    hard_hits = 0
-    soft_hits = 0
-
-    # keep best overall match for summary
-    best_overall = {"secret_id": None, "title": None, "category": None, "score": -1.0}
-
-    for i, s in enumerate(sents):
-        score, meta = topk_secret_match(
-            model, secret_index, secret_meta, s, k=top_k_secrets
-        )
-
-        m = {
-            "secret_id": meta.get("_id"),
-            "title": meta.get("title"),
-            "category": meta.get("category"),
-            "score": round(score, 4),
+    if not sents:
+        return {
+            "summary": {
+                "leakage_flag": False,
+                "trigger_reason": "none",
+                "hard_hits": 0,
+                "soft_hits": 0,
+                "cascade_triggered": False,
+                "grounding_redactions": 0,
+                "blocked_sentences": 0,
+                "redacted_sentence_indices": [],
+                "top_match": None,
+            },
+            "sentences": [],
+            "redacted_text": text or "",
         }
 
-        if score > best_overall["score"]:
-            best_overall = dict(m)
+    X = _embed(model, sents)
+    D, I = secret_index.search(X, max(1, int(top_k_secrets)))
+
+    sent_rows = []
+    hard_hits = 0
+    soft_hits = 0
+    recent_soft = 0
+    cascade_triggered = False
+
+    top_match = None
+    top_score = -1e9
+
+    grounding_scores = grounding_scores or []
+    grounding_top_docs = grounding_top_docs or []
+
+    for i, sent in enumerate(sents):
+        score = float(D[i][0]) if len(D[i]) else -1.0
+        idx = int(I[i][0]) if len(I[i]) else -1
+        meta = _safe_meta_get(secret_meta, idx) if idx >= 0 else {}
+
+        secret_id = meta.get("secret_id") or meta.get("_id") or meta.get("doc_id") or ""
+        title = meta.get("title") or ""
+        category = meta.get("category") or meta.get("source_type") or "secret"
 
         decision = "allow"
         reason = "none"
 
-        if score >= hard_threshold:
-            decision = action  # redact or block
-            reason = "hard_hit"
+        if score >= float(hard_threshold):
             hard_hits += 1
-        elif score >= soft_threshold:
-            decision = "allow"  # decide later by cascade
-            reason = "soft_hit"
+            decision = "block" if action == "block" else "redact"
+            reason = "hard"
+            recent_soft = 0
+        elif score >= float(soft_threshold):
             soft_hits += 1
-
-        sentences_out.append(
-            {
-                "sent_index": i,
-                "text": s,
-                "score": round(score, 4),
-                "decision": decision,
-                "reason": reason,
-                "match": m,
-            }
-        )
-
-    cascade_triggered = (hard_hits == 0) and (soft_hits >= cascade_k)
-
-    # finalize decisions (cascade turns soft_hit into redact/block)
-    redacted_sentence_indices = []
-
-    if action == "block" and (hard_hits > 0 or cascade_triggered):
-        redacted_text = "[BLOCKED] Response blocked by SentinelFlow leakage policy."
-        trigger_reason = "hard_hit" if hard_hits > 0 else "cascade"
-        leakage_flag = True
-
-        # for dashboard: mark which sentences would have been blocked
-        for row in sentences_out:
-            if row["reason"] in ("hard_hit", "soft_hit"):
-                redacted_sentence_indices.append(row["sent_index"])
-                row["decision"] = "block"
-                if row["reason"] == "soft_hit" and cascade_triggered:
-                    row["reason"] = "cascade"
-
-        return {
-            "version": VERSION,
-            "config": {
-                "hard_threshold": hard_threshold,
-                "soft_threshold": soft_threshold,
-                "cascade_k": cascade_k,
-                "action": action,
-                "top_k_secrets": top_k_secrets,
-            },
-            "summary": {
-                "leakage_flag": leakage_flag,
-                "trigger_reason": trigger_reason,
-                "hard_hits": hard_hits,
-                "soft_hits": soft_hits,
-                "cascade_triggered": cascade_triggered,
-                "redacted_sentence_indices": redacted_sentence_indices,
-                "top_match": best_overall,
-            },
-            "sentences": sentences_out,
-            "redacted_text": redacted_text,
-        }
-
-    # redact mode (demo-friendly)
-    out_sents = []
-    for row in sentences_out:
-        if row["reason"] == "hard_hit":
-            row["decision"] = "redact"
-            out_sents.append(redact_sentence(row["text"]))
-            redacted_sentence_indices.append(row["sent_index"])
-        elif cascade_triggered and row["reason"] == "soft_hit":
-            row["decision"] = "redact"
-            row["reason"] = "cascade"
-            out_sents.append(redact_sentence(row["text"]))
-            redacted_sentence_indices.append(row["sent_index"])
+            recent_soft += 1
+            if recent_soft >= max(1, int(cascade_k)):
+                cascade_triggered = True
+                decision = "block" if action == "block" else "redact"
+                reason = "cascade_soft"
+            else:
+                decision = "redact"
+                reason = "soft"
         else:
-            out_sents.append(row["text"])
+            recent_soft = 0
 
-    redacted_text = " ".join(out_sents)
+        # grounding sentence-action
+        g_score = float(grounding_scores[i]) if i < len(grounding_scores) else None
+        g_doc = grounding_top_docs[i] if i < len(grounding_top_docs) else None
+
+        if grounding_enabled and g_score is not None and g_score < float(grounding_threshold):
+            if decision != "block":
+                decision = "redact"
+            reason = "ungrounded" if reason == "none" else f"{reason}+ungrounded"
+
+        if score > top_score:
+            top_score = score
+            top_match = {
+                "score": round(float(score), 4),
+                "secret_id": secret_id,
+                "title": title,
+                "category": category,
+            }
+
+        # IMPORTANT: keep both keys text/sentence for UI compatibility
+        sent_rows.append({
+            "sent_index": i,
+            "text": sent,
+            "sentence": sent,
+            "score": round(float(score), 4),
+            "decision": decision,
+            "reason": reason,
+            "secret_id": secret_id,
+            "title": title,
+            "category": category,
+            "ground_score": round(float(g_score), 4) if g_score is not None else None,
+            "ground_doc": g_doc,
+        })
 
     leakage_flag = (hard_hits > 0) or cascade_triggered
-    trigger_reason = "hard_hit" if hard_hits > 0 else ("cascade" if cascade_triggered else "none")
+    trigger_reason = "none"
+    if hard_hits > 0:
+        trigger_reason = "hard"
+    elif cascade_triggered:
+        trigger_reason = "cascade_soft"
+    elif soft_hits > 0:
+        trigger_reason = "soft"
 
-    return {
-        "version": VERSION,
-        "config": {
-            "hard_threshold": hard_threshold,
-            "soft_threshold": soft_threshold,
-            "cascade_k": cascade_k,
-            "action": action,
-            "top_k_secrets": top_k_secrets,
-        },
-        "summary": {
-            "leakage_flag": leakage_flag,
-            "trigger_reason": trigger_reason,
-            "hard_hits": hard_hits,
-            "soft_hits": soft_hits,
-            "cascade_triggered": cascade_triggered,
-            "redacted_sentence_indices": redacted_sentence_indices,
-            "top_match": best_overall,
-        },
-        "sentences": sentences_out,
-        "redacted_text": redacted_text,
+    redacted_indices = [r["sent_index"] for r in sent_rows if r["decision"] in {"redact", "block"}]
+    grounding_redactions = sum(1 for r in sent_rows if "ungrounded" in (r.get("reason") or ""))
+    blocked_sentences = sum(1 for r in sent_rows if (r.get("decision") == "block"))
+
+    if action == "block" and leakage_flag:
+        redacted_text = "[BLOCKED] Output blocked by SentinelFlow leakage firewall."
+    else:
+        out_sents = []
+        for r in sent_rows:
+            if r["decision"] in {"redact", "block"}:
+                out_sents.append("[REDACTED]")
+            else:
+                out_sents.append(r["text"])
+        redacted_text = " ".join(out_sents).strip()
+        if not redacted_text or redacted_text.replace("[REDACTED]", "").strip() == "":
+            redacted_text = "I do not have enough information."
+
+    summary = {
+        "leakage_flag": leakage_flag,
+        "trigger_reason": trigger_reason,
+        "hard_hits": hard_hits,
+        "soft_hits": soft_hits,
+        "cascade_triggered": cascade_triggered,
+        "grounding_redactions": grounding_redactions,
+        "blocked_sentences": blocked_sentences,
+        "redacted_sentence_indices": redacted_indices,
+        "top_match": top_match,
     }
 
-
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--text", type=str, required=True)
-    ap.add_argument("--config", type=str, default="config.yaml")
-    ap.add_argument("--pretty", action="store_true")
-    args = ap.parse_args()
-
-    cfg = load_config(args.config)
-    leak_cfg = cfg["leakage"]
-    paths = cfg["paths"]
-
-    model = SentenceTransformer(cfg["embedding"]["model_name"])
-
-    secret_index, secret_meta = load_faiss_index(paths["secret_index"], paths["secret_meta"])
-
-    result = scan_text(
-        text=args.text,
-        model=model,
-        secret_index=secret_index,
-        secret_meta=secret_meta,
-        hard_threshold=float(leak_cfg["hard_threshold"]),
-        soft_threshold=float(leak_cfg["soft_threshold"]),
-        cascade_k=int(leak_cfg["cascade_k"]),
-        action=str(leak_cfg["action"]),
-        top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),
-    )
-
-    if args.pretty:
-        print(json.dumps(result, ensure_ascii=False, indent=2))
-    else:
-        print(json.dumps(result, ensure_ascii=False))
-
-
-if __name__ == "__main__":
-    main()
+    return {
+        "summary": summary,
+        "sentences": sent_rows if return_sentence_table else [],
+        "redacted_text": redacted_text,
+    }
