@@ -13,6 +13,7 @@ import re
 import time
 import uuid
 import argparse
+from concurrent.futures import ThreadPoolExecutor, Future
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -202,7 +203,33 @@ def hardblock_precheck(query: str, policy_cfg: dict) -> Dict[str, Any]:
 
 
 # -----------------------------
-# Gate1: embedding secret precheck
+# v2.0: Merged rule_gate (0a + 0b)
+# -----------------------------
+def rule_gate(query: str, policy_cfg: dict) -> Dict[str, Any]:
+    """
+    Merged Gate 0: combines intent_precheck + hardblock_precheck into a single
+    deterministic rule check (<1ms). Returns unified result.
+    """
+    intent_rules = (policy_cfg or {}).get("intent_rules", [])
+    intent_res = intent_precheck(query, intent_rules)
+    hb_res = hardblock_precheck(query, policy_cfg)
+
+    merged_hits = (intent_res.get("matched") or []) + (hb_res.get("matched") or [])
+    blocked = bool(intent_res.get("blocked")) or bool(hb_res.get("blocked"))
+
+    return {
+        "blocked": blocked,
+        "matched": merged_hits,
+        "decision": "block" if blocked else "allow",
+        "components": {
+            "regex_blocked": bool(intent_res.get("blocked")),
+            "hardblock_blocked": bool(hb_res.get("blocked")),
+        },
+    }
+
+
+# -----------------------------
+# Gate1: embedding secret precheck (v2: accepts pre-computed query vector)
 # -----------------------------
 def embedding_secret_precheck(
     embed_model,
@@ -211,8 +238,11 @@ def embedding_secret_precheck(
     secret_meta,
     threshold: float,
     top_k: int = 3,
+    query_vec: Optional[np.ndarray] = None,
 ) -> Dict[str, Any]:
-    qv = embed_model.encode([query], normalize_embeddings=True).astype("float32")
+    if query_vec is None:
+        query_vec = embed_model.encode([query], normalize_embeddings=True).astype("float32")
+    qv = query_vec if query_vec.ndim == 2 else query_vec.reshape(1, -1)
     D, I = secret_index.search(qv, max(1, int(top_k)))
     best_score = float(D[0][0])
     best_idx = int(I[0][0])
@@ -246,7 +276,7 @@ def embedding_secret_precheck(
 
 
 # -----------------------------
-# Retrieval
+# Retrieval (v2: accepts pre-computed query vector)
 # -----------------------------
 def retrieve_topk(
     embed_model,
@@ -255,8 +285,11 @@ def retrieve_topk(
     query: str,
     top_k: int = 5,
     candidate_k: int = 50,
+    query_vec: Optional[np.ndarray] = None,
 ) -> Tuple[List[dict], dict]:
-    q = embed_model.encode([query], normalize_embeddings=True).astype("float32")
+    if query_vec is None:
+        query_vec = embed_model.encode([query], normalize_embeddings=True).astype("float32")
+    q = query_vec if query_vec.ndim == 2 else query_vec.reshape(1, -1)
     D, I = index.search(q, int(candidate_k))
 
     ticker = _extract_ticker(query)
@@ -466,40 +499,26 @@ def main():
         sec_index, sec_meta = load_faiss_index(paths["secret_index"], paths["secret_meta"])
 
         # =========================================================
-        # Gate 0: Intent-level precheck (regex rules + hard-block class)
+        # Gate 0: RuleGate — merged intent + hardblock (<1ms, sync)
         # =========================================================
         policy_cfg = (cfg.get("policy", {}) or {})
-        intent_rules = policy_cfg.get("intent_rules", [])
 
         t0 = time.time()
-        intent_res = intent_precheck(query, intent_rules)
-        hb_res = hardblock_precheck(query, policy_cfg)
-        t_intent = time.time() - t0
-
-        merged_hits = (intent_res.get("matched") or []) + (hb_res.get("matched") or [])
-        blocked = bool(intent_res.get("blocked")) or bool(hb_res.get("blocked"))
-
-        merged = {
-            "blocked": blocked,
-            "matched": merged_hits,
-            "decision": "block" if blocked else "allow",
-        }
+        gate0_result = rule_gate(query, policy_cfg)
+        t_gate0 = time.time() - t0
 
         writer.append("intent_precheck", {
             "session_id": session_id,
             "query": query,
-            "decision": merged["decision"],
-            "blocked": merged["blocked"],
-            "latency_s": round(t_intent, 4),
-            "matched": merged["matched"],
+            "decision": gate0_result["decision"],
+            "blocked": gate0_result["blocked"],
+            "latency_s": round(t_gate0, 4),
+            "matched": gate0_result["matched"],
             "llm_called": False,
-            "components": {
-                "regex_blocked": bool(intent_res.get("blocked")),
-                "hardblock_blocked": bool(hb_res.get("blocked")),
-            },
+            "components": gate0_result["components"],
         })
 
-        if merged["blocked"]:
+        if gate0_result["blocked"]:
             final_answer = policy_cfg.get("block_message", "[BLOCKED] Unsafe intent detected.")
             writer.append("final_output", {
                 "session_id": session_id,
@@ -516,7 +535,27 @@ def main():
             return
 
         # =========================================================
+        # v2.0: Shared query encoding (encode once, reuse for Gate1 + Retrieve)
+        # =========================================================
+        t_enc = time.time()
+        query_vec = embed_model.encode([query], normalize_embeddings=True).astype("float32")
+        t_encode = time.time() - t_enc
+
+        # =========================================================
+        # v2.0: Start Llama Guard async (if enabled)
+        # =========================================================
+        guard_cfg = cfg.get("guard", {}) or {}
+        guard_enabled = bool(guard_cfg.get("enabled", False))
+        guard_future: Optional[Future] = None
+
+        if guard_enabled:
+            from scripts.llm_guard import llm_guard
+            executor = ThreadPoolExecutor(max_workers=1)
+            guard_future = executor.submit(llm_guard, query, guard_cfg)
+
+        # =========================================================
         # Gate 1: Embedding precheck vs Secret Index
+        # (runs concurrently with Llama Guard)
         # =========================================================
         pre_cfg = cfg.get("query_precheck", {}) or {}
         if bool(pre_cfg.get("enabled", True)):
@@ -528,6 +567,7 @@ def main():
                 secret_meta=sec_meta,
                 threshold=float(pre_cfg.get("threshold", 0.60)),
                 top_k=int(pre_cfg.get("top_k_secrets", 3)),
+                query_vec=query_vec,
             )
             t_pre = time.time() - t1
 
@@ -545,6 +585,9 @@ def main():
             })
 
             if emb_pre["blocked"]:
+                # Cancel guard if running
+                if guard_future is not None:
+                    guard_future.cancel()
                 final_answer = pre_cfg.get("block_message", "[BLOCKED] Query too similar to confidential topics.")
                 writer.append("final_output", {
                     "session_id": session_id,
@@ -561,7 +604,55 @@ def main():
                 return
 
         # =========================================================
-        # Retrieve (public)
+        # v2.0: AWAIT Llama Guard result (sync point before LLM call)
+        # =========================================================
+        if guard_future is not None:
+            guard_timeout = float(guard_cfg.get("timeout_s", 2.0))
+            try:
+                guard_result = guard_future.result(timeout=guard_timeout)
+            except Exception as e:
+                # Timeout or error — apply fail mode
+                fail_mode = guard_cfg.get("fail_mode", "closed")
+                guard_result = {
+                    "blocked": fail_mode == "closed",
+                    "categories": [],
+                    "score": 0.0,
+                    "latency_s": guard_timeout,
+                    "error": f"guard_timeout: {repr(e)}",
+                    "backend": guard_cfg.get("backend", "unknown"),
+                }
+
+            writer.append("llm_guard", {
+                "session_id": session_id,
+                "query": query,
+                "decision": "block" if guard_result["blocked"] else "allow",
+                "blocked": guard_result["blocked"],
+                "categories": guard_result.get("categories", []),
+                "score": guard_result.get("score", 0.0),
+                "latency_s": guard_result.get("latency_s", 0.0),
+                "backend": guard_result.get("backend", ""),
+                "error": guard_result.get("error"),
+                "llm_called": False,
+            })
+
+            if guard_result["blocked"]:
+                final_answer = "[BLOCKED] Query flagged by ML safety classifier."
+                writer.append("final_output", {
+                    "session_id": session_id,
+                    "query": query,
+                    "final_answer": final_answer,
+                    "final_answer_chars": len(final_answer),
+                    "llm_called": False,
+                    "blocked_by": "llm_guard",
+                })
+                print("\n=== FINAL ANSWER (post-firewall) ===\n")
+                print(final_answer)
+                print("\n=== AUDIT LOG ===")
+                print(audit_path)
+                return
+
+        # =========================================================
+        # Retrieve (public) — reuses shared query_vec
         # =========================================================
         rag_cfg = cfg.get("rag", {}) or {}
         t2 = time.time()
@@ -572,6 +663,7 @@ def main():
             query=query,
             top_k=int(rag_cfg.get("top_k", 5)),
             candidate_k=int(rag_cfg.get("candidate_k", 50)),
+            query_vec=query_vec,
         )
         t_retrieve = time.time() - t2
 
@@ -656,9 +748,12 @@ def main():
         })
 
         # =========================================================
-        # Leakage scan (postcheck)
+        # Leakage scan (postcheck) — with DFP fusion
         # =========================================================
         leak_cfg = cfg.get("leakage", {}) or {}
+        dfp_cfg = cfg.get("dfp", {}) or {}
+        dfp_enabled = bool(dfp_cfg.get("enabled", False))
+
         leak_result = scan_text(
             text=raw_answer,
             model=embed_model,
@@ -675,6 +770,8 @@ def main():
             grounding_scores=g_scores if g_scores else None,
             grounding_top_docs=g_top_docs if g_top_docs else None,
             return_sentence_table=True,
+            dfp_enabled=dfp_enabled,
+            dfp_config=dfp_cfg if dfp_enabled else None,
         )
 
         writer.append("leakage_scan", {

@@ -195,3 +195,113 @@ leakage:
   cascade_k: 2
   action: "redact"
   top_k_secrets: 1
+
+# -------------------------
+# Digital Fingerprinting (DFP)
+# -------------------------
+dfp:
+  enabled: false                    # default off for backward compatibility
+  weights:
+    entropy: 0.35
+    cooccurrence: 0.65
+  entropy_baselines:                # computed by calibrate_dfp.py
+    char_entropy_mean: 4.2
+    char_entropy_std: 0.5
+    word_entropy_mean: 8.5
+    word_entropy_std: 1.0
+    numeric_density_mean: 0.03
+    numeric_density_std: 0.02
+    param_specificity_mean: 0.15
+    param_specificity_std: 0.08
+  cooccurrence:
+    threshold_operator_weight: 0.25
+    conjunction_weight: 0.20
+    actionable_verb_weight: 0.25
+    time_window_weight: 0.15
+    position_sizing_weight: 0.15
+    density_threshold: 0.65
+  cluster:
+    strategy_centroid_path: "data/index/dfp_strategy_centroid.pkl"
+    normal_centroid_path: "data/index/dfp_normal_centroid.pkl"
+    distance_threshold: 2.5          # Mahalanobis distance
+  dfp_boost: 0.08
+  composite_threshold: 0.70
+  financial_allowlist:
+    - "RSI"
+    - "MACD"
+    - "EBITDA"
+    - "P/E"
+    - "EPS"
+    - "Sharpe"
+    - "VWAP"
+    - "TWAP"
+    - "SMA"
+    - "EMA"
+    - "ATR"
+    - "ADV"
+    - "NAV"
+    - "AUM"
+    - "VaR"
+    - "VIX"
+    - "ROIC"
+    - "FCF"
+    - "ROE"
+    - "ROA"
+    - "ETF"
+    - "ADR"
+    - "IPO"
+    - "WACC"
+    - "CAPM"
+    - "OBV"
+    - "Bollinger"
+    - "Fibonacci"
+    - "Stochastic"
+
+# -------------------------
+# Llama Guard / PromptGuard
+# -------------------------
+guard:
+  enabled: false                    # start disabled, enable when ready
+  backend: "promptguard"            # "promptguard" | "llamaguard3" | "api"
+  model_path: "meta-llama/Prompt-Guard-86M"
+  timeout_s: 2.0
+  fail_mode: "closed"              # "closed" = block on timeout, "open" = allow
+  categories:
+    - "S1"
+    - "S2"
+    - "S5"
+    - "S8"
+    - "S13"
+
+# -------------------------
+# Benchmarking
+# -------------------------
+benchmark:
+  datasets:
+    jailbreakbench:
+      source: "JailbreakBench/JBB-Behaviors"
+      local_cache: "data/benchmark/jailbreakbench.jsonl"
+    advbench:
+      source: "data/raw/harmful_behaviors.csv"
+      local_cache: "data/benchmark/advbench_prompts.jsonl"
+    salesforce_prompt_leakage:
+      source: "salesforce/prompt-leakage"
+      subset: "finance"
+      local_cache: "data/benchmark/salesforce_leakage.jsonl"
+    financial_phrasebank:
+      source: "data/raw/FinancialPhraseBank-v1.0/Sentences_AllAgree.txt"
+      local_cache: "data/benchmark/financial_phrasebank.jsonl"
+      sample_size: 200
+      seed: 42
+    custom_exfil:
+      source: "data/benchmark/custom_strategy_exfil.jsonl"
+  garak:
+    probes:
+      - "promptinject"
+      - "leakreplay"
+      - "latentinjection"
+      - "dan"
+      - "encoding"
+    target: "http://localhost:8000/v1/chat/completions"
+  reports_dir: "reports"
+  timeout_per_query_s: 60

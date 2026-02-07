@@ -241,8 +241,9 @@ def render_sentence_actions(sent_rows: List[dict], title: str):
         return
 
     table = []
+    has_dfp = any(r.get("dfp_elevated") is not None for r in sent_rows)
     for r in sent_rows:
-        table.append({
+        row = {
             "sent_index": r.get("sent_index"),
             "decision": r.get("decision"),
             "reason": r.get("reason"),
@@ -254,7 +255,12 @@ def render_sentence_actions(sent_rows: List[dict], title: str):
             "ground_doc_id": (r.get("ground_doc") or {}).get("doc_id") if r.get("ground_doc") else None,
             "ground_doc_title": (r.get("ground_doc") or {}).get("title") if r.get("ground_doc") else None,
             "text": r.get("text"),
-        })
+        }
+        if has_dfp:
+            row["dfp_cooc_density"] = r.get("dfp_cooccurrence_density")
+            row["dfp_elevated"] = r.get("dfp_elevated")
+            row["effective_score"] = r.get("effective_score")
+        table.append(row)
     df = pd.DataFrame(table)
     st.dataframe(df, use_container_width=True)
 
@@ -302,15 +308,17 @@ def main():
     llm_calls = sum(1 for r in records if get_event_type(r) == "llm_response")
     intent_blocks = sum(1 for r in records if get_event_type(r) == "intent_precheck" and (r.get("body") or {}).get("blocked") is True)
     precheck_blocks = sum(1 for r in records if get_event_type(r) == "query_precheck" and (r.get("body") or {}).get("blocked") is True)
+    guard_blocks = sum(1 for r in records if get_event_type(r) == "llm_guard" and (r.get("body") or {}).get("blocked") is True)
 
-    c1, c2, c3, c4, c5 = st.columns(5)
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
     c1.metric("Total events", len(records))
     c2.metric("Unique sessions", len(uniq_sessions))
     c3.metric("LLM calls", llm_calls)
     c4.metric("Intent blocks", intent_blocks)
     c5.metric("Precheck blocks", precheck_blocks)
+    c6.metric("Guard blocks", guard_blocks)
 
-    tabs = st.tabs(["Sessions", "Evaluation (demo_cases)", "Chain Debug"])
+    tabs = st.tabs(["Sessions", "Evaluation (demo_cases)", "Chain Debug", "Benchmark"])
 
     # Sessions tab
     with tabs[0]:
@@ -340,6 +348,7 @@ def main():
 
         intent_ev = _find("intent_precheck")
         pre_ev = _find("query_precheck")
+        guard_ev = _find("llm_guard")
         retr_ev = _find("retrieve")
         ground_ev = _find("grounding_check")
         leak_ev = _find("leakage_scan")
@@ -354,6 +363,14 @@ def main():
             if pre_ev:
                 st.markdown("**query_precheck**")
                 st.json(pre_ev.get("body") or {})
+            if guard_ev:
+                st.markdown("**llm_guard**")
+                guard_body = guard_ev.get("body") or {}
+                if guard_body.get("blocked"):
+                    st.error(f"Guard BLOCKED — categories: {guard_body.get('categories')}, score: {guard_body.get('score')}")
+                else:
+                    st.success(f"Guard passed — score: {guard_body.get('score')}, latency: {guard_body.get('latency_s', 'N/A')}s")
+                st.json(guard_body)
             if retr_ev:
                 st.markdown("**retrieve (top-k docs)**")
                 docs = (retr_ev.get("body") or {}).get("docs") or []
@@ -367,7 +384,19 @@ def main():
                 st.json(ground_ev.get("body") or {})
             if leak_ev:
                 st.markdown("**leakage_scan summary**")
-                st.json((leak_ev.get("body") or {}).get("summary") or {})
+                leak_summary = (leak_ev.get("body") or {}).get("summary") or {}
+                st.json(leak_summary)
+                # DFP fields if present
+                if leak_summary.get("dfp_composite_score") is not None:
+                    st.markdown("**DFP Scores**")
+                    dc1, dc2, dc3 = st.columns(3)
+                    dc1.metric("Entropy", round(leak_summary.get("dfp_entropy_score", 0), 4))
+                    dc2.metric("Co-occurrence", round(leak_summary.get("dfp_cooccurrence_score", 0), 4))
+                    dc3.metric("Composite", round(leak_summary.get("dfp_composite_score", 0), 4))
+                    if leak_summary.get("dfp_elevated_count", 0) > 0:
+                        st.warning(f"DFP elevated {leak_summary['dfp_elevated_count']} sentence(s)")
+                    if leak_summary.get("dfp_cluster_distance") is not None:
+                        st.caption(f"Strategy cluster distance: {leak_summary['dfp_cluster_distance']:.4f}")
             if final_ev:
                 st.markdown("**final_output**")
                 b = final_ev.get("body") or {}
@@ -440,6 +469,103 @@ def main():
             ok, df_val = validate_session_chain(records, sid)
             st.success("Session chain OK ✅" if ok else "Session chain BROKEN ❌")
             st.dataframe(df_val, use_container_width=True)
+
+    # Benchmark tab
+    with tabs[3]:
+        st.subheader("Benchmark Results")
+        bench_summary = safe_load_json("reports/benchmark_summary.json")
+
+        if not bench_summary:
+            st.info("No reports/benchmark_summary.json found. Run: python scripts/benchmark.py --mode all")
+        else:
+            st.markdown("### Overview")
+            ts = bench_summary.get("timestamp", "N/A")
+            st.caption(f"Generated: {ts}")
+
+            # Standard benchmarks
+            std = bench_summary.get("standard_benchmarks") or {}
+            if std:
+                st.markdown("### Standard Benchmarks")
+                sc1, sc2, sc3 = st.columns(3)
+                sc1.metric("JailbreakBench ASR", std.get("jailbreakbench_asr", "N/A"))
+                sc2.metric("AdvBench ASR", std.get("advbench_asr", "N/A"))
+                sc3.metric("Custom Exfil ASR", std.get("custom_exfil_asr", "N/A"))
+
+                garak_rates = std.get("garak_failure_rates") or {}
+                if garak_rates:
+                    st.markdown("**garak probe failure rates**")
+                    st.dataframe(pd.DataFrame([garak_rates]).T.rename(columns={0: "failure_rate"}), use_container_width=True)
+
+            # Domain benchmarks
+            dom = bench_summary.get("domain_benchmarks") or {}
+            if dom:
+                st.markdown("### Domain Benchmarks")
+                dc1, dc2, dc3 = st.columns(3)
+                dc1.metric("SLPR", dom.get("strategy_leakage_prevention_rate", "N/A"))
+                dc2.metric("Financial FPR", dom.get("financial_phrasebank_fpr", "N/A"))
+                dc3.metric("FinanceRAG FPR", dom.get("financerag_queries_fpr", "N/A"))
+
+            # Operational metrics
+            ops = bench_summary.get("operational_metrics") or {}
+            if ops:
+                st.markdown("### Operational Metrics")
+                lat = ops.get("latency_ms") or {}
+                if lat:
+                    lc1, lc2, lc3 = st.columns(3)
+                    lc1.metric("Latency P50 (ms)", lat.get("p50", "N/A"))
+                    lc2.metric("Latency P95 (ms)", lat.get("p95", "N/A"))
+                    lc3.metric("Latency P99 (ms)", lat.get("p99", "N/A"))
+
+                overhead = ops.get("latency_overhead_ms") or {}
+                if overhead:
+                    st.caption(f"Overhead — P50: {overhead.get('p50', 'N/A')}ms, P95: {overhead.get('p95', 'N/A')}ms, P99: {overhead.get('p99', 'N/A')}ms")
+
+            # Cost effectiveness
+            cost = bench_summary.get("cost_effectiveness") or {}
+            if cost:
+                st.markdown("### Cost Effectiveness (SLE per gate)")
+                cost_rows = []
+                for gate_name, gate_data in cost.items():
+                    if isinstance(gate_data, dict):
+                        cost_rows.append({
+                            "gate": gate_name,
+                            "unique_catches": gate_data.get("unique_catches", 0),
+                            "added_latency_p50_ms": gate_data.get("added_latency_p50_ms", 0),
+                            "SLE": gate_data.get("SLE", "N/A"),
+                        })
+                if cost_rows:
+                    st.dataframe(pd.DataFrame(cost_rows), use_container_width=True)
+
+            # Demo cases
+            demo = bench_summary.get("demo_cases") or {}
+            if demo:
+                st.markdown("### Demo Cases")
+                dm1, dm2, dm3 = st.columns(3)
+                dm1.metric("Total", demo.get("total", 0))
+                dm2.metric("Passed", demo.get("passed", 0))
+                dm3.metric("Pass Rate", demo.get("pass_rate", "N/A"))
+
+            # Full JSON
+            with st.expander("Raw benchmark_summary.json"):
+                st.json(bench_summary)
+
+        # Benchmark report CSV
+        if os.path.exists("reports/benchmark_report.csv"):
+            st.markdown("### Per-Query Results")
+            try:
+                df_bench = pd.read_csv("reports/benchmark_report.csv")
+                only_blocked = st.checkbox("Show only blocked queries", value=False, key="bench_blocked")
+                if only_blocked:
+                    df_bench = df_bench[df_bench.get("blocked", df_bench.get("decision", "")) == True].copy()
+                st.dataframe(df_bench, use_container_width=True)
+            except Exception as e:
+                st.warning(f"Could not load benchmark_report.csv: {e}")
+
+        # Ablation report
+        ablation = safe_load_json("reports/benchmark_ablation.json")
+        if ablation:
+            st.markdown("### Ablation Study")
+            st.json(ablation)
 
 
 if __name__ == "__main__":
