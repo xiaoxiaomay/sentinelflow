@@ -748,19 +748,63 @@ def main():
         })
 
         # =========================================================
+        # C4: Prompt distribution monitoring (anomaly detection)
+        # =========================================================
+        pm_cfg = cfg.get("prompt_monitoring", {}) or {}
+        pm_enabled = bool(pm_cfg.get("enabled", False))
+        anomaly_result = None
+        leak_hard_override = None
+        leak_soft_override = None
+
+        if pm_enabled:
+            from scripts.prompt_monitor import check_anomaly, load_centroid
+            try:
+                centroid_data = load_centroid(pm_cfg["centroid_path"])
+                anomaly_result = check_anomaly(
+                    query_vec=query_vec,
+                    centroid=centroid_data["centroid"],
+                    mean_dist=centroid_data["mean_dist"],
+                    std_dist=centroid_data["std_dist"],
+                    sigma=float(pm_cfg.get("sigma_threshold", 2.0)),
+                )
+                writer.append("prompt_monitoring", {
+                    "session_id": session_id,
+                    "query": query,
+                    "anomalous": anomaly_result["anomalous"],
+                    "z_score": round(anomaly_result["z_score"], 4),
+                    "distance": round(anomaly_result["distance"], 6),
+                })
+                if anomaly_result["anomalous"]:
+                    tighten = pm_cfg.get("threshold_tightening", {}) or {}
+                    delta_h = float(tighten.get("hard_delta", 0.05))
+                    delta_s = float(tighten.get("soft_delta", 0.05))
+                    leak_hard_override = max(0.50, float(cfg.get("leakage", {}).get("hard_threshold", 0.70)) - delta_h)
+                    leak_soft_override = max(0.45, float(cfg.get("leakage", {}).get("soft_threshold", 0.60)) - delta_s)
+            except Exception as e:
+                writer.append("prompt_monitoring", {
+                    "session_id": session_id,
+                    "query": query,
+                    "error": repr(e),
+                })
+
+        # =========================================================
         # Leakage scan (postcheck) — with DFP fusion
         # =========================================================
         leak_cfg = cfg.get("leakage", {}) or {}
         dfp_cfg = cfg.get("dfp", {}) or {}
         dfp_enabled = bool(dfp_cfg.get("enabled", False))
 
+        # Apply C4 threshold overrides if anomalous
+        effective_hard = leak_hard_override if leak_hard_override is not None else float(leak_cfg.get("hard_threshold", 0.70))
+        effective_soft = leak_soft_override if leak_soft_override is not None else float(leak_cfg.get("soft_threshold", 0.60))
+
         leak_result = scan_text(
             text=raw_answer,
             model=embed_model,
             secret_index=sec_index,
             secret_meta=sec_meta,
-            hard_threshold=float(leak_cfg.get("hard_threshold", 0.70)),
-            soft_threshold=float(leak_cfg.get("soft_threshold", 0.60)),
+            hard_threshold=effective_hard,
+            soft_threshold=effective_soft,
             cascade_k=int(leak_cfg.get("cascade_k", 2)),
             action=str(leak_cfg.get("action", "redact")),
             top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),

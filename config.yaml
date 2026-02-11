@@ -31,15 +31,12 @@ policy:
       action: block
       patterns:
         - "ignore\\s+all\\s+previous\\s+instructions"
-        - "ignore\\s+the\\s+documents"
         - "disregard\\s+the\\s+system"
         - "developer\\s+mode"
         - "jailbreak"
         - "do\\s+anything\\s+now"
         - "you\\s+are\\s+now\\s+a\\s+system\\s+admin"
         - "override\\s+the\\s+rules"
-        - "output\\s+everything\\s+you\\s+know"
-        - "even\\s+if\\s+not\\s+in\\s+docs"
 
     # System prompt / hidden instructions / policies
     - id: SYS_01
@@ -272,6 +269,17 @@ guard:
     - "S5"
     - "S8"
     - "S13"
+
+# -------------------------
+# Prompt Distribution Monitoring (C4)
+# -------------------------
+prompt_monitoring:
+  enabled: false
+  centroid_path: "data/index/normal_centroid.pkl"
+  sigma_threshold: 2.0
+  threshold_tightening:
+    hard_delta: 0.05
+    soft_delta: 0.05
 
 # -------------------------
 # Benchmarking

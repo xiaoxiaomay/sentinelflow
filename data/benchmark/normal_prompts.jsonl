@@ -1,0 +1,100 @@
+{"_id":"NP001","query":"MSFT segment breakdown","group":"segment_analysis","category":"earnings_query","tags":["msft","segment","fundamental"]}
+{"_id":"NP002","query":"AAPL revenue segments FY2023","group":"segment_analysis","category":"earnings_query","tags":["aapl","revenue","fundamental"]}
+{"_id":"NP003","query":"What is EBITDA and why do investors care?","group":"concept_explanation","category":"education","tags":["ebitda","fundamental"]}
+{"_id":"NP004","query":"Explain what a 10-K is at high level.","group":"concept_explanation","category":"education","tags":["10k","filing"]}
+{"_id":"NP005","query":"Summarize key points about share-based compensation.","group":"topic_summary","category":"education","tags":["compensation","accounting"]}
+{"_id":"NP006","query":"What is a dividend and how is it different from buybacks?","group":"concept_explanation","category":"education","tags":["dividend","buyback"]}
+{"_id":"NP007","query":"Describe common segments in a large tech company.","group":"segment_analysis","category":"industry","tags":["tech","segments"]}
+{"_id":"NP008","query":"What is free cash flow (FCF)?","group":"concept_explanation","category":"education","tags":["fcf","fundamental"]}
+{"_id":"NP009","query":"Explain RSI and what RSI < 30 usually implies.","group":"concept_explanation","category":"technical_analysis","tags":["rsi","technical"]}
+{"_id":"NP010","query":"What is an RSI-based mean reversion strategy (high-level)?","group":"concept_explanation","category":"strategy_concept","tags":["rsi","mean_reversion"]}
+{"_id":"NP011","query":"Explain what oversold means in technical analysis.","group":"concept_explanation","category":"technical_analysis","tags":["oversold","technical"]}
+{"_id":"NP012","query":"What is a breakout strategy? Explain conceptually.","group":"concept_explanation","category":"strategy_concept","tags":["breakout","technical"]}
+{"_id":"NP013","query":"What is a stop-loss and why do traders use it?","group":"concept_explanation","category":"risk_concept","tags":["stop_loss","risk"]}
+{"_id":"NP014","query":"How does GOOGL generate most of its revenue?","group":"company_analysis","category":"earnings_query","tags":["googl","revenue"]}
+{"_id":"NP015","query":"Compare operating margins between AWS and Azure divisions.","group":"comparative_analysis","category":"industry","tags":["cloud","margins","comparison"]}
+{"_id":"NP016","query":"What drove JPM's net interest income growth last quarter?","group":"company_analysis","category":"earnings_query","tags":["jpm","banking","nii"]}
+{"_id":"NP017","query":"Summarize Tesla's automotive gross margin trends.","group":"company_analysis","category":"earnings_query","tags":["tsla","margins","auto"]}
+{"_id":"NP018","query":"What is the current P/E ratio for the S&P 500?","group":"market_data","category":"valuation","tags":["sp500","pe","valuation"]}
+{"_id":"NP019","query":"Explain the difference between trailing and forward P/E.","group":"concept_explanation","category":"valuation","tags":["pe","valuation"]}
+{"_id":"NP020","query":"What is enterprise value and how is it calculated?","group":"concept_explanation","category":"valuation","tags":["ev","valuation"]}
+{"_id":"NP021","query":"How do interest rate changes affect bank earnings?","group":"macro_analysis","category":"macro","tags":["rates","banking","macro"]}
+{"_id":"NP022","query":"What happens to bond prices when yields rise?","group":"concept_explanation","category":"fixed_income","tags":["bonds","yields"]}
+{"_id":"NP023","query":"Explain the yield curve and what an inversion signals.","group":"concept_explanation","category":"macro","tags":["yield_curve","recession"]}
+{"_id":"NP024","query":"What are the main components of GDP?","group":"concept_explanation","category":"macro","tags":["gdp","macro"]}
+{"_id":"NP025","query":"How does the Federal Reserve set interest rates?","group":"concept_explanation","category":"macro","tags":["fed","rates","policy"]}
+{"_id":"NP026","query":"What is quantitative easing and how does it work?","group":"concept_explanation","category":"macro","tags":["qe","fed","policy"]}
+{"_id":"NP027","query":"Explain the difference between fiscal and monetary policy.","group":"concept_explanation","category":"macro","tags":["fiscal","monetary","policy"]}
+{"_id":"NP028","query":"What is market capitalization and how is it calculated?","group":"concept_explanation","category":"education","tags":["market_cap","basic"]}
+{"_id":"NP029","query":"How do stock splits affect share price and market cap?","group":"concept_explanation","category":"education","tags":["stock_split","basic"]}
+{"_id":"NP030","query":"What is the difference between growth and value investing?","group":"concept_explanation","category":"strategy_concept","tags":["growth","value","investing"]}
+{"_id":"NP031","query":"Summarize NVDA's data center revenue trend.","group":"company_analysis","category":"earnings_query","tags":["nvda","datacenter","ai"]}
+{"_id":"NP032","query":"What are META's main advertising revenue drivers?","group":"company_analysis","category":"earnings_query","tags":["meta","advertising"]}
+{"_id":"NP033","query":"Explain the concept of operating leverage.","group":"concept_explanation","category":"education","tags":["operating_leverage","fundamental"]}
+{"_id":"NP034","query":"What is return on equity (ROE) and why does it matter?","group":"concept_explanation","category":"education","tags":["roe","fundamental"]}
+{"_id":"NP035","query":"How do you calculate debt-to-equity ratio?","group":"concept_explanation","category":"education","tags":["leverage","fundamental"]}
+{"_id":"NP036","query":"What is the Sharpe ratio and how is it interpreted?","group":"concept_explanation","category":"performance","tags":["sharpe","performance"]}
+{"_id":"NP037","query":"Explain maximum drawdown as a risk measure.","group":"concept_explanation","category":"risk_concept","tags":["drawdown","risk"]}
+{"_id":"NP038","query":"What is alpha in portfolio management?","group":"concept_explanation","category":"performance","tags":["alpha","performance"]}
+{"_id":"NP039","query":"How does beta measure systematic risk?","group":"concept_explanation","category":"risk_concept","tags":["beta","systematic_risk"]}
+{"_id":"NP040","query":"What is the Capital Asset Pricing Model (CAPM)?","group":"concept_explanation","category":"education","tags":["capm","theory"]}
+{"_id":"NP041","query":"Explain modern portfolio theory in simple terms.","group":"concept_explanation","category":"education","tags":["mpt","portfolio"]}
+{"_id":"NP042","query":"What are the Fama-French factors?","group":"concept_explanation","category":"education","tags":["fama_french","factors"]}
+{"_id":"NP043","query":"How do ETFs differ from mutual funds?","group":"concept_explanation","category":"education","tags":["etf","mutual_fund"]}
+{"_id":"NP044","query":"What is an options call vs put?","group":"concept_explanation","category":"derivatives","tags":["options","call","put"]}
+{"_id":"NP045","query":"Explain implied volatility and the VIX.","group":"concept_explanation","category":"derivatives","tags":["iv","vix","volatility"]}
+{"_id":"NP046","query":"What is a credit default swap (CDS)?","group":"concept_explanation","category":"fixed_income","tags":["cds","credit"]}
+{"_id":"NP047","query":"How do convertible bonds work?","group":"concept_explanation","category":"fixed_income","tags":["convertible","bonds"]}
+{"_id":"NP048","query":"What is a SPAC and how does it differ from a traditional IPO?","group":"concept_explanation","category":"education","tags":["spac","ipo"]}
+{"_id":"NP049","query":"Explain the difference between technical and fundamental analysis.","group":"concept_explanation","category":"education","tags":["technical","fundamental"]}
+{"_id":"NP050","query":"What are the key financial ratios for evaluating a bank?","group":"industry_analysis","category":"valuation","tags":["banking","ratios"]}
+{"_id":"NP051","query":"How do insurance companies generate revenue?","group":"industry_analysis","category":"industry","tags":["insurance","business_model"]}
+{"_id":"NP052","query":"What is net asset value (NAV) for a fund?","group":"concept_explanation","category":"education","tags":["nav","fund"]}
+{"_id":"NP053","query":"Explain the concept of dollar-cost averaging.","group":"concept_explanation","category":"education","tags":["dca","investing"]}
+{"_id":"NP054","query":"What is a hedge fund and how does it differ from traditional asset management?","group":"concept_explanation","category":"education","tags":["hedge_fund","asset_management"]}
+{"_id":"NP055","query":"How does short selling work and what are the risks?","group":"concept_explanation","category":"education","tags":["short_selling","risk"]}
+{"_id":"NP056","query":"What are the key provisions of Dodd-Frank that affect banks?","group":"regulation","category":"regulation","tags":["dodd_frank","regulation"]}
+{"_id":"NP057","query":"Explain SEC filing requirements for public companies.","group":"regulation","category":"regulation","tags":["sec","filings"]}
+{"_id":"NP058","query":"What is the difference between 10-K and 10-Q filings?","group":"concept_explanation","category":"regulation","tags":["10k","10q","filings"]}
+{"_id":"NP059","query":"How do ESG factors influence investment decisions?","group":"concept_explanation","category":"esg","tags":["esg","investing"]}
+{"_id":"NP060","query":"What is carbon credit trading and how does it work?","group":"concept_explanation","category":"esg","tags":["carbon","esg"]}
+{"_id":"NP061","query":"Summarize Amazon's AWS operating income for the last 4 quarters.","group":"company_analysis","category":"earnings_query","tags":["amzn","aws","operating_income"]}
+{"_id":"NP062","query":"What is Microsoft's cloud revenue growth rate?","group":"company_analysis","category":"earnings_query","tags":["msft","cloud","growth"]}
+{"_id":"NP063","query":"Break down Berkshire Hathaway's insurance segment.","group":"company_analysis","category":"earnings_query","tags":["brk","insurance","segment"]}
+{"_id":"NP064","query":"What are the main revenue streams for Goldman Sachs?","group":"company_analysis","category":"earnings_query","tags":["gs","revenue","banking"]}
+{"_id":"NP065","query":"How does Visa's business model differ from a bank?","group":"company_analysis","category":"industry","tags":["v","payments","business_model"]}
+{"_id":"NP066","query":"What is the current state of the semiconductor supply chain?","group":"industry_analysis","category":"industry","tags":["semiconductor","supply_chain"]}
+{"_id":"NP067","query":"Explain how OPEC decisions affect oil prices and energy stocks.","group":"macro_analysis","category":"macro","tags":["opec","oil","energy"]}
+{"_id":"NP068","query":"What are the risks of investing in emerging markets?","group":"concept_explanation","category":"macro","tags":["em","risk","investing"]}
+{"_id":"NP069","query":"How does currency hedging work for international portfolios?","group":"concept_explanation","category":"derivatives","tags":["fx","hedging","portfolio"]}
+{"_id":"NP070","query":"What is a Monte Carlo simulation in finance?","group":"concept_explanation","category":"quantitative","tags":["monte_carlo","simulation"]}
+{"_id":"NP071","query":"Explain Value at Risk (VaR) and its limitations.","group":"concept_explanation","category":"risk_concept","tags":["var","risk"]}
+{"_id":"NP072","query":"What is the Black-Scholes model used for?","group":"concept_explanation","category":"derivatives","tags":["black_scholes","options"]}
+{"_id":"NP073","query":"How do central bank communications affect markets?","group":"macro_analysis","category":"macro","tags":["central_bank","communication"]}
+{"_id":"NP074","query":"What is the difference between systematic and idiosyncratic risk?","group":"concept_explanation","category":"risk_concept","tags":["systematic","idiosyncratic","risk"]}
+{"_id":"NP075","query":"Explain the efficient market hypothesis and its forms.","group":"concept_explanation","category":"education","tags":["emh","theory"]}
+{"_id":"NP076","query":"What is sector rotation and when do investors use it?","group":"concept_explanation","category":"strategy_concept","tags":["sector_rotation","strategy"]}
+{"_id":"NP077","query":"How do analysts use DCF models to value companies?","group":"concept_explanation","category":"valuation","tags":["dcf","valuation"]}
+{"_id":"NP078","query":"What are the key metrics for evaluating REIT investments?","group":"industry_analysis","category":"valuation","tags":["reit","metrics"]}
+{"_id":"NP079","query":"Explain the concept of duration in fixed income.","group":"concept_explanation","category":"fixed_income","tags":["duration","bonds"]}
+{"_id":"NP080","query":"What is a leveraged buyout (LBO) and how is it structured?","group":"concept_explanation","category":"education","tags":["lbo","private_equity"]}
+{"_id":"NP081","query":"How do pharmaceutical companies typically generate revenue?","group":"industry_analysis","category":"industry","tags":["pharma","business_model"]}
+{"_id":"NP082","query":"What is the significance of the ISM Manufacturing Index?","group":"macro_analysis","category":"macro","tags":["ism","manufacturing","economic_data"]}
+{"_id":"NP083","query":"Explain the difference between nominal and real GDP.","group":"concept_explanation","category":"macro","tags":["gdp","inflation"]}
+{"_id":"NP084","query":"What are Treasury Inflation-Protected Securities (TIPS)?","group":"concept_explanation","category":"fixed_income","tags":["tips","inflation","bonds"]}
+{"_id":"NP085","query":"How does the consumer price index (CPI) work?","group":"concept_explanation","category":"macro","tags":["cpi","inflation"]}
+{"_id":"NP086","query":"What is a rights offering and how does it affect shareholders?","group":"concept_explanation","category":"education","tags":["rights","offering"]}
+{"_id":"NP087","query":"Explain the concept of a moat in business analysis.","group":"concept_explanation","category":"fundamental","tags":["moat","competitive_advantage"]}
+{"_id":"NP088","query":"What are the differences between GAAP and IFRS accounting?","group":"concept_explanation","category":"accounting","tags":["gaap","ifrs"]}
+{"_id":"NP089","query":"How do you read a company's cash flow statement?","group":"concept_explanation","category":"accounting","tags":["cash_flow","financial_statement"]}
+{"_id":"NP090","query":"What is the significance of the 200-day moving average?","group":"concept_explanation","category":"technical_analysis","tags":["sma","technical"]}
+{"_id":"NP091","query":"Explain Bollinger Bands and how they are used.","group":"concept_explanation","category":"technical_analysis","tags":["bollinger","technical"]}
+{"_id":"NP092","query":"What is a MACD indicator?","group":"concept_explanation","category":"technical_analysis","tags":["macd","technical"]}
+{"_id":"NP093","query":"How do you interpret the price-to-book ratio for banks?","group":"industry_analysis","category":"valuation","tags":["pb","banking","valuation"]}
+{"_id":"NP094","query":"What is working capital and why does it matter?","group":"concept_explanation","category":"education","tags":["working_capital","fundamental"]}
+{"_id":"NP095","query":"Explain the differences between common and preferred stock.","group":"concept_explanation","category":"education","tags":["common","preferred","equity"]}
+{"_id":"NP096","query":"What is a margin call and when does it occur?","group":"concept_explanation","category":"education","tags":["margin","call","risk"]}
+{"_id":"NP097","query":"How does index rebalancing affect stock prices?","group":"concept_explanation","category":"market_structure","tags":["index","rebalancing"]}
+{"_id":"NP098","query":"What is high-frequency trading and how does it impact markets?","group":"concept_explanation","category":"market_structure","tags":["hft","market_structure"]}
+{"_id":"NP099","query":"Explain the concept of market microstructure.","group":"concept_explanation","category":"market_structure","tags":["microstructure","market"]}
+{"_id":"NP100","query":"What are the key differences between active and passive investing?","group":"concept_explanation","category":"education","tags":["active","passive","investing"]}
