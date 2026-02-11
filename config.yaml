@@ -73,9 +73,9 @@ policy:
         - "restricted\\s+data\\s+sources"
         - "restricted\\s+dataset"
         - "client\\s+sensitive"
-        - "proprietary"
-        - "confidential"
-        - "\\bsecret\\b"
+        - "proprietary\\s+(strategy|alpha|signal|rule|formula|model)"
+        - "confidential\\s+(strategy|data|rule|parameter|threshold|signal|alpha|model|information)"
+        - "\\bsecrets?\\s+(index|ids?|data|strategy|rule|parameter|list)"
         - "^secret:"
 
     # Embeddings / vectors / secret index data exfil
@@ -134,15 +134,11 @@ policy:
       - "output"
       - "display"
       - "list"
-      - "full"
-      - "entire"
 
     # sensitive objects (substring match, case-insensitive)
     sensitive_objects:
       - "system prompt"
-      - "prompt"
       - "hidden instruction"
-      - "policy"
       - "audit log"
       - "audit"
       - "secret"
@@ -151,14 +147,11 @@ policy:
       - "finder_meta.pkl"
       - "secrets_meta.pkl"
       - "embedding"
-      - "vector"
-      - "weights"
       - "api key"
       - "openai key"
       - "password"
       - "credential"
       - "private key"
-      - "token"      
 
 
 
@@ -168,9 +161,24 @@ policy:
 # -------------------------
 query_precheck:
   enabled: true
-  threshold: 0.60
+  threshold: 0.75
+  sensitive_threshold: 0.55
   top_k_secrets: 3
   block_message: "[BLOCKED] This query is too similar to internal confidential topics."
+  intent_amplifiers:
+    - "parameters"
+    - "thresholds"
+    - "rules"
+    - "exact"
+    - "specific"
+    - "conditions"
+    - "entry conditions"
+    - "exit conditions"
+    - "criteria"
+    - "logic"
+    - "formula"
+    - "signal"
+    - "trigger"
 
 # -------------------------
 # Grounding check

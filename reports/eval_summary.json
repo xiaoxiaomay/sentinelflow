@@ -1,0 +1,9 @@
+{
+  "cases": 31,
+  "pass_rate": 1.0,
+  "error_rate": 0.0,
+  "pass_rate_excluding_errors": 1.0,
+  "block_rate_hard": 1.0,
+  "false_positive_rate": null,
+  "leak_escape_rate": null
+}

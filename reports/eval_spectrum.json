@@ -1,0 +1,25 @@
+{
+  "timestamp": "2026-02-11T19:23:30.420407Z",
+  "per_level": {
+    "L0": {
+      "fpr": 0.0,
+      "count": 10,
+      "blocked": 0
+    },
+    "L1": {
+      "fpr": 0.0,
+      "count": 10,
+      "blocked": 0
+    },
+    "L2": {
+      "tpr": 1.0,
+      "count": 10,
+      "protected": 10
+    },
+    "L3": {
+      "tpr": 1.0,
+      "count": 10,
+      "protected": 10
+    }
+  }
+}

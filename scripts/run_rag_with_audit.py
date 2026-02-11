@@ -559,13 +559,23 @@ def main():
         # =========================================================
         pre_cfg = cfg.get("query_precheck", {}) or {}
         if bool(pre_cfg.get("enabled", True)):
+            # Intent-aware dual threshold: use lower threshold when
+            # query contains extraction-intent amplifiers (e.g. "parameters",
+            # "rules", "exact"), higher threshold for generic queries.
+            base_thr = float(pre_cfg.get("threshold", 0.70))
+            sens_thr = float(pre_cfg.get("sensitive_threshold", base_thr))
+            amplifiers = pre_cfg.get("intent_amplifiers", [])
+            q_lower = query.lower()
+            has_intent = any(amp.lower() in q_lower for amp in amplifiers)
+            effective_threshold = sens_thr if has_intent else base_thr
+
             t1 = time.time()
             emb_pre = embedding_secret_precheck(
                 embed_model,
                 query=query,
                 secret_index=sec_index,
                 secret_meta=sec_meta,
-                threshold=float(pre_cfg.get("threshold", 0.60)),
+                threshold=effective_threshold,
                 top_k=int(pre_cfg.get("top_k_secrets", 3)),
                 query_vec=query_vec,
             )
