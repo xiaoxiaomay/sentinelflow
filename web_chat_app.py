@@ -21,7 +21,7 @@ engine = get_sentinel_engine()
 
 # 3. Sidebar: Audit Trail & System Status
 with st.sidebar:
-    st.title("🛡️ Audit Control Panel")
+    st.title("Audit Control Panel")
     st.markdown("---")
     st.status("System Connected", state="complete")
     
@@ -37,7 +37,7 @@ with st.sidebar:
         st.info(f"Status: {audit.get('status', 'N/A').upper()}")
         
         if audit.get("leakage_flag"):
-            st.error("⚠️ SENSITIVE DATA LEAK DETECTED")
+            st.error("SENSITIVE DATA LEAK DETECTED")
         
         # Display HashChain Integrity
         st.success("Integrity Verified")
