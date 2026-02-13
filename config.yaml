@@ -3,9 +3,13 @@ embedding:
 
 openai_model: "gpt-4o-mini"
 
+db:
+  host: "18.220.95.90"
+  name: "sentinel_db"
+  user: "postgres"
+  password: "root"
+
 paths:
-  public_index: "data/index/finder.faiss"
-  public_meta:  "data/index/finder_meta.pkl"
   secret_index: "data/index/secrets.faiss"
   secret_meta:  "data/index/secrets_meta.pkl"
 
