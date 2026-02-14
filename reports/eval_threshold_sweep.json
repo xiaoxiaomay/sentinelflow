@@ -1,33 +1,33 @@
 {
-  "timestamp": "2026-02-11T19:24:35.348298Z",
+  "timestamp": "2026-02-14T01:45:56.032925Z",
   "sweep": [
     {
       "hard_threshold": 0.55,
       "soft_threshold": 0.45,
-      "detected": 33,
+      "detected": 36,
       "total": 70,
-      "detection_rate": 0.4714
+      "detection_rate": 0.5143
     },
     {
       "hard_threshold": 0.55,
       "soft_threshold": 0.5,
-      "detected": 22,
+      "detected": 26,
       "total": 70,
-      "detection_rate": 0.3143
+      "detection_rate": 0.3714
     },
     {
       "hard_threshold": 0.6,
       "soft_threshold": 0.45,
-      "detected": 30,
+      "detected": 31,
       "total": 70,
-      "detection_rate": 0.4286
+      "detection_rate": 0.4429
     },
     {
       "hard_threshold": 0.6,
       "soft_threshold": 0.5,
-      "detected": 16,
+      "detected": 19,
       "total": 70,
-      "detection_rate": 0.2286
+      "detection_rate": 0.2714
     },
     {
       "hard_threshold": 0.6,
@@ -39,16 +39,16 @@
     {
       "hard_threshold": 0.65,
       "soft_threshold": 0.45,
-      "detected": 29,
+      "detected": 30,
       "total": 70,
-      "detection_rate": 0.4143
+      "detection_rate": 0.4286
     },
     {
       "hard_threshold": 0.65,
       "soft_threshold": 0.5,
-      "detected": 15,
+      "detected": 17,
       "total": 70,
-      "detection_rate": 0.2143
+      "detection_rate": 0.2429
     },
     {
       "hard_threshold": 0.65,
@@ -67,37 +67,37 @@
     {
       "hard_threshold": 0.7,
       "soft_threshold": 0.45,
-      "detected": 29,
+      "detected": 30,
       "total": 70,
-      "detection_rate": 0.4143
+      "detection_rate": 0.4286
     },
     {
       "hard_threshold": 0.7,
       "soft_threshold": 0.5,
-      "detected": 15,
+      "detected": 16,
       "total": 70,
-      "detection_rate": 0.2143
+      "detection_rate": 0.2286
     },
     {
       "hard_threshold": 0.7,
       "soft_threshold": 0.55,
-      "detected": 6,
+      "detected": 5,
       "total": 70,
-      "detection_rate": 0.0857
+      "detection_rate": 0.0714
     },
     {
       "hard_threshold": 0.7,
       "soft_threshold": 0.6,
-      "detected": 4,
+      "detected": 3,
       "total": 70,
-      "detection_rate": 0.0571
+      "detection_rate": 0.0429
     },
     {
       "hard_threshold": 0.7,
       "soft_threshold": 0.65,
-      "detected": 1,
+      "detected": 3,
       "total": 70,
-      "detection_rate": 0.0143
+      "detection_rate": 0.0429
     },
     {
       "hard_threshold": 0.75,
@@ -109,23 +109,23 @@
     {
       "hard_threshold": 0.75,
       "soft_threshold": 0.5,
-      "detected": 15,
+      "detected": 14,
       "total": 70,
-      "detection_rate": 0.2143
+      "detection_rate": 0.2
     },
     {
       "hard_threshold": 0.75,
       "soft_threshold": 0.55,
-      "detected": 6,
+      "detected": 3,
       "total": 70,
-      "detection_rate": 0.0857
+      "detection_rate": 0.0429
     },
     {
       "hard_threshold": 0.75,
       "soft_threshold": 0.6,
-      "detected": 3,
+      "detected": 1,
       "total": 70,
-      "detection_rate": 0.0429
+      "detection_rate": 0.0143
     },
     {
       "hard_threshold": 0.75,
@@ -151,23 +151,23 @@
     {
       "hard_threshold": 0.8,
       "soft_threshold": 0.5,
-      "detected": 15,
+      "detected": 14,
       "total": 70,
-      "detection_rate": 0.2143
+      "detection_rate": 0.2
     },
     {
       "hard_threshold": 0.8,
       "soft_threshold": 0.55,
-      "detected": 6,
+      "detected": 3,
       "total": 70,
-      "detection_rate": 0.0857
+      "detection_rate": 0.0429
     },
     {
       "hard_threshold": 0.8,
       "soft_threshold": 0.6,
-      "detected": 3,
+      "detected": 1,
       "total": 70,
-      "detection_rate": 0.0429
+      "detection_rate": 0.0143
     },
     {
       "hard_threshold": 0.8,
