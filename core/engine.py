@@ -6,6 +6,7 @@ import psycopg2
 from pgvector.psycopg2 import register_vector
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from core.config_loader import get_db_params
 from sentence_transformers import SentenceTransformer
 
 from dotenv import load_dotenv
@@ -23,30 +24,24 @@ class SentinelEngine:
     def __init__(self, config_path: str = "config.yaml"):
         # 1. 加载配置
         self.cfg = load_config(config_path)
-        
+
         # 2. 初始化嵌入模型 (Embedding)
         emb_cfg = self.cfg.get("embedding", {})
         model_name = emb_cfg.get("model_name", "sentence-transformers/all-MiniLM-L6-v2")
         self.embed_model = SentenceTransformer(model_name)
-        
+
         # 3. 初始化 PostgreSQL 连接 (公开语料)
-        db_cfg = self.cfg.get("db", {})
-        self.db_conn = psycopg2.connect(
-            host=db_cfg.get("host", "localhost"),
-            database=db_cfg.get("name", "sentinel_db"),
-            user=db_cfg.get("user", "postgres"),
-            password=db_cfg.get("password", ""),
-            port=db_cfg.get("port", "5432")
-        )
+        db_params = get_db_params()
+        self.db_conn = psycopg2.connect(**db_params)
         register_vector(self.db_conn)
-        
+
         # 4. 加载本地 FAISS 索引 (私密语料 - 用于安全扫描)
         paths = self.cfg.get("paths", {})
         self.sec_index, self.sec_meta = load_faiss_index(
-            paths["secret_index"], 
+            paths["secret_index"],
             paths["secret_meta"]
         )
-        
+
         # 5. 初始化审计记录器 (HashChain)
         audit_cfg = self.cfg.get("audit", {})
         audit_path = Path(audit_cfg.get("out_dir", "data/audit")) / audit_cfg.get("file_name", "audit_log.jsonl")
