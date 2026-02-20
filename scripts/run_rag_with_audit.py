@@ -31,7 +31,11 @@ if str(REPO_ROOT) not in sys.path:
 # ----------------------------------
 
 from core.audit import HashChainWriter
+from core.config_loader import get_db_params
 from scripts.leakage_scan import split_sentences, load_faiss_index, scan_text
+
+import psycopg2
+from pgvector.psycopg2 import register_vector
 
 
 def load_config(path="config.yaml") -> dict:
@@ -332,6 +336,66 @@ def retrieve_topk(
     return hits[: int(top_k)], {"ticker": ticker, "candidate_k": int(candidate_k)}
 
 
+# -----------------------------
+# Retrieval from PostgreSQL (replaces FAISS for public corpus)
+# -----------------------------
+def db_retrieve_topk(
+    db_conn,
+    query: str,
+    query_vec: np.ndarray,
+    top_k: int = 5,
+    candidate_k: int = 50,
+) -> Tuple[List[dict], dict]:
+    qv = query_vec.flatten().tolist()
+    with db_conn.cursor() as cur:
+        cur.execute("""
+            SELECT doc_id, title, content, ticker, source_type, trust_score,
+                   (1 - (embedding <=> %s::vector)) as similarity
+            FROM financial_corpus
+            ORDER BY embedding <=> %s::vector
+            LIMIT %s
+        """, (qv, qv, int(candidate_k)))
+        rows = cur.fetchall()
+
+    ticker = _extract_ticker(query)
+    ticker_lower = ticker.lower() if ticker else None
+
+    hits = []
+    for rank, r in enumerate(rows, start=1):
+        doc_id = (r[0] or "").strip()
+        title = (r[1] or "").strip()
+        text = (r[2] or "").strip()
+        row_ticker = (r[3] or "").strip()
+        source_type = r[4] or "public"
+        trust_score = float(r[5]) if r[5] is not None else 1.0
+        score = float(r[6])
+
+        bonus = 0.0
+        if ticker:
+            if doc_id.startswith(ticker):
+                bonus += 0.25
+            if ticker in title:
+                bonus += 0.15
+            if ticker_lower and ticker_lower in text.lower():
+                bonus += 0.10
+            if ticker == "MSFT" and "microsoft" in text.lower():
+                bonus += 0.10
+
+        hits.append({
+            "rank": rank,
+            "score": score,
+            "score_rerank": score + bonus,
+            "doc_id": doc_id,
+            "title": title,
+            "text": text,
+            "source_type": source_type,
+            "trust_score": trust_score,
+        })
+
+    hits.sort(key=lambda x: x["score_rerank"], reverse=True)
+    return hits[: int(top_k)], {"ticker": ticker, "candidate_k": int(candidate_k)}
+
+
 def build_prompt(query: str, docs: List[dict], max_chars_per_doc: int = 1200) -> str:
     hard_rules = """
 HARD SECURITY RULES (must follow):
@@ -439,6 +503,7 @@ def main():
     Path(audit_dir).mkdir(parents=True, exist_ok=True)
     audit_path = str(Path(audit_dir) / audit_file)
     writer = HashChainWriter(audit_path)
+    db_conn = None
 
     try:
         # --- embedding model import happens here; catch torch failures ---
@@ -488,15 +553,19 @@ def main():
             "llm_called": False,
         })
 
-        # --- indexes ---
+        # --- indexes & DB ---
         paths = cfg.get("paths") or {}
-        required = ["public_index", "public_meta", "secret_index", "secret_meta"]
+        required = ["secret_index", "secret_meta"]
         missing = [k for k in required if not paths.get(k)]
         if missing:
             raise ValueError(f"config.yaml missing paths keys: {missing}. Please add them under top-level 'paths:'")
 
-        pub_index, pub_meta = load_faiss_index(paths["public_index"], paths["public_meta"])
         sec_index, sec_meta = load_faiss_index(paths["secret_index"], paths["secret_meta"])
+
+        # PostgreSQL connection for public corpus retrieval
+        db_params = get_db_params()
+        db_conn = psycopg2.connect(**db_params)
+        register_vector(db_conn)
 
         # =========================================================
         # Gate 0: RuleGate — merged intent + hardblock (<1ms, sync)
@@ -666,14 +735,12 @@ def main():
         # =========================================================
         rag_cfg = cfg.get("rag", {}) or {}
         t2 = time.time()
-        docs, rerank_info = retrieve_topk(
-            embed_model,
-            pub_index,
-            pub_meta,
+        docs, rerank_info = db_retrieve_topk(
+            db_conn,
             query=query,
+            query_vec=query_vec,
             top_k=int(rag_cfg.get("top_k", 5)),
             candidate_k=int(rag_cfg.get("candidate_k", 50)),
-            query_vec=query_vec,
         )
         t_retrieve = time.time() - t2
 
@@ -877,6 +944,10 @@ def main():
         print(repr(e))
         print("\n=== AUDIT LOG ===")
         print(audit_path)
+
+    finally:
+        if db_conn is not None:
+            db_conn.close()
 
 
 if __name__ == "__main__":
