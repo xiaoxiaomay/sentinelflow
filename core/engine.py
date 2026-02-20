@@ -53,7 +53,7 @@ class SentinelEngine:
         with self.db_conn.cursor() as cur:
             # 这里的 (1 - distance) 计算余弦相似度分数
             cur.execute("""
-                SELECT content, ticker, title, 
+                SELECT content, ticker, doc_id, title, 
                        (1 - (embedding <=> %s::vector)) as similarity
                 FROM financial_corpus 
                 ORDER BY embedding <=> %s::vector 
@@ -66,12 +66,14 @@ class SentinelEngine:
             for i, r in enumerate(rows):
                 results.append({
                     "rank": i + 1,
-                    "score": float(r[3]),
+                    "score": float(r[4]),
                     "text": r[0],
-                    "doc_id": r[1],  # 股票代码
-                    "title": r[2],
+                    "ticker": r[1],     # 股票代码
+                    "doc_id": r[2],
+                    "title": r[3],
                     "source_type": "public"
                 })
+            # print(f"the results are : --------{results}")
             return results
 
     def run_query(self, query: str) -> Dict[str, Any]:
