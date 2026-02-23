@@ -14,6 +14,7 @@ class FinancialArticleItem(scrapy.Item):
     # 内容核心
     title = scrapy.Field()
     content = scrapy.Field()
+    content_hash = scrapy.Field()
     ticker = scrapy.Field()
 
     # 来源分类

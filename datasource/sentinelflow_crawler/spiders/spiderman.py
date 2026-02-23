@@ -1,5 +1,6 @@
 import os
 import yaml
+import datetime
 import psycopg2
 import scrapy
 import feedparser
@@ -10,6 +11,16 @@ from ..items import FinancialArticleItem
 
 class SpiderMan(scrapy.Spider):
     name = "spiderman"
+
+    def __init__(self, *args, **kwargs):
+        super(SpiderMan, self).__init__(*args, **kwargs)
+
+        config = self.load_config()
+        self.item_per_source = config.get('scraper', {}).get('item_per_source', 10)
+
+        # 初始化一个统计字典
+        self.crawl_stats = {}
+        self.start_time = datetime.datetime.now()
 
     def load_config(self):
         # 准确定位项目根目录下的 config.yaml
@@ -47,6 +58,7 @@ class SpiderMan(scrapy.Spider):
 
             for site_name, rss_url, category in missions:
                 self.logger.info(f"Starting mission: {site_name} -> {rss_url}")
+                self.crawl_stats[site_name] = {"url": rss_url, "count": 0}
                 yield scrapy.Request(
                     url=rss_url,
                     callback=self.parse,
@@ -61,9 +73,33 @@ class SpiderMan(scrapy.Spider):
         site_name = response.meta.get('site_name')
         category = response.meta.get('category')
 
-        feed = feedparser.parse(response.text)
+        # 初始化统计（如果还没初始化）
+        if site_name not in self.crawl_stats:
+            self.crawl_stats[site_name] = {'url': response.url, 'count': 0}
 
-        for entry in feed.entries[:2]:     # limited by 2
+        feed = feedparser.parse(response.text)
+        """
+            Yahoo (同步阻塞控制)：
+            Yahoo 使用的是 httpx.Client（同步请求）。
+            这意味着当 parse 循环运行时，它必须等 fetch_with_httpx 执行完并返回结果，才会处理下一条。
+            因此，一旦计数达到 10，循环立刻 break，控制非常精准。
+        """
+        """
+            CNBC (异步并发控制)：
+            CNBC 走的是 yield scrapy.Request。
+            当你循环 RSS 列表时，Scrapy 瞬间就把这 30 条请求全部丢进了调度队列。
+            等 Pipeline 里的数据库反馈“已存够 10 条”时，那剩下的 20 条请求已经发往 CNBC 服务器或者已经在下载路上了。
+            Scrapy 不会自动撤回已经发出的请求，所以它们最终都会入库
+        """
+        for entry in feed.entries:
+
+            # --- 第一重锁：检查当前已入库/已发出的总数 ---
+            # 如果该源已处理的数量达到限额，直接停止解析该 RSS
+            current_count = self.crawl_stats.get(site_name, {}).get('count', 0)
+            if current_count >= self.item_per_source:
+                self.logger.info(f"Source {site_name} reached quota ({self.item_per_source}), stopping.")
+                break
+
             item = FinancialArticleItem()
             item['title'] = entry.title
             item['source_url'] = entry.link.split('?')[0]
@@ -72,9 +108,17 @@ class SpiderMan(scrapy.Spider):
 
             # 策略：如果是 yahoo 域名，直接用 httpx 抓取正文
             if "finance.yahoo.com" in item['source_url']:
-                yield self.fetch_with_httpx(item)
+                # 注意：这里需要通过 yield 确保 item 流向 Pipeline
+                result = self.fetch_with_httpx(item)
+                if result:
+                    # 只有在这里确认有产出，才增加计数
+                    yield result
+                    self.crawl_stats[site_name]['count'] += 1
             else:
-                # 其他源（如 Investors.com）继续走 Scrapy 异步引擎
+                # --- 第二重锁：异步预计数 ---
+                # 在发送 Request 之前，先占个位，防止瞬间发出过多请求
+                self.crawl_stats[site_name]['count'] += 1
+                # 其他源, 继续走 Scrapy 异步引擎 (parse_body 是异步的，计数建议移至 Pipeline)
                 yield scrapy.Request(item['source_url'], callback=self.parse_body, meta={'item': item})
 
     def fetch_with_httpx(self, item):

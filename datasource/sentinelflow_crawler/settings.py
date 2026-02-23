@@ -1,3 +1,21 @@
+import sys
+from pathlib import Path
+
+# --- 路径补丁：确保能找到根目录下的 core 模块 ---
+# 获取当前 settings.py 的上两级目录（即项目根目录）
+BASE_DIR = Path(__file__).resolve().parent.parent
+if str(BASE_DIR) not in sys.path:
+    sys.path.append(str(BASE_DIR))
+
+# --- 导入配置 ---
+try:
+    from core.config_loader import load_global_config
+    cfg = load_global_config()
+    scraper_cfg = cfg.get('scraper', {})
+except Exception as e:
+    print(f"[*] Warning: Could not load config.yaml, using defaults. Error: {e}")
+    scraper_cfg = {}
+
 # Scrapy settings for sentinelflow_crawler project
 #
 # For simplicity, this file contains only settings considered important or
@@ -105,5 +123,18 @@ USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTM
 ITEM_PIPELINES = {
     'sentinelflow_crawler.pipelines.FinancialPipeline': 300,
 }
-# 当爬虫采集满 20 个 Item 时，自动关闭蜘蛛
-CLOSESPIDER_ITEMCOUNT = 2
+
+# --- 动态赋值 ---
+
+# 1. 抓取限额：达到数目后自动关闭蜘蛛
+# Scrapy 内置扩展：CloseSpider
+# CLOSESPIDER_ITEMCOUNT = scraper_cfg.get('item_limit', 20)  # 为了让每个抓取源都能获的资源，不再使用scrapy的全局控制
+
+# 2. 并发设置
+CONCURRENT_REQUESTS = scraper_cfg.get('concurrent_requests', 10)
+
+# --- 其他建议配置 ---
+# 为了配合 CloseSpider，通常需要确保扩展是开启的（默认是开启的）
+EXTENSIONS = {
+    'scrapy.extensions.closespider.CloseSpider': 500,
+}
