@@ -78,20 +78,42 @@ class FinancialPipeline:
             # 3. 执行 SQL 插入
             sql = """
                 INSERT INTO financial_corpus (
-                    doc_id, title, content, ticker, source_type, 
-                    category, dataset, trust_score, sensitivity_level, 
-                    embedding, source_url, tags, published_at, 
-                    sentiment_score, importance_rank, content_hash
+                    doc_id, 
+                    title, 
+                    content, 
+                    ticker, 
+                    source_type, 
+                    category, 
+                    dataset, 
+                    trust_score, 
+                    sensitivity_level, 
+                    embedding, 
+                    source_url, 
+                    tags, 
+                    published_at, 
+                    sentiment_score, 
+                    importance_rank, 
+                    content_hash
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON CONFLICT (source_url) DO NOTHING;
             """
             self.cur.execute(sql, (
-                item['doc_id'], item['title'], item['content'], item.get('ticker', 'GENERIC'),
-                item.get('source_type', 'public'), item.get('category', 'news'),
-                item.get('dataset', 'Scrapy-Yahoo'), item.get('trust_score', 0.9),
-                item.get('sensitivity_level', 0), item['embedding'],
-                item['source_url'], item.get('tags', []), item.get('published_at'),
-                item.get('sentiment_score', 0.0), item.get('importance_rank', 5), item.get('content_hash', '')
+                item['doc_id'],
+                item['title'],
+                item['content'],
+                item.get('ticker', 'GENERIC'),
+                item.get('source_type', 'public'),
+                item.get('category', 'News'),
+                item.get('dataset', 'Scrapy-Crawler'),
+                item.get('trust_score', 0.9),
+                item.get('sensitivity_level', 0),
+                item['embedding'],
+                item['source_url'],
+                item.get('tags', []),
+                item.get('published_at'),
+                item.get('sentiment_score', 0.0),
+                item.get('importance_rank', 5),
+                item.get('content_hash', '')
             ))
 
             # -- 新增：如果插入成功（且不是因为冲突跳过），增加计数
@@ -128,7 +150,14 @@ class FinancialPipeline:
                     # 纯插入模式，记录每一笔流水
                     sql_audit = """
                             INSERT INTO ingestion_tasks 
-                            (file_name, file_path, file_type, status, record_count, started_at, completed_at)
+                            (
+                            file_name, 
+                            file_path, 
+                            file_type, 
+                            status, 
+                            record_count, 
+                            started_at, 
+                            completed_at)
                             VALUES (%s, %s, %s, %s, %s, %s, %s);
                         """
                     self.cur.execute(sql_audit, (
