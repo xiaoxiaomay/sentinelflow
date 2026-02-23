@@ -88,6 +88,46 @@ st.markdown("""
         line-height: 1.5rem !important;
         font-size: 0.8rem !important;
     }
+    
+    /* 强制表单内的图片容器水平居中 */
+    [data-testid="stForm"] [data-testid="stImage"] {
+       
+        width: 200px !important;    /* 固定宽度 */
+        height: auto !important;    /* 高度自适应 */
+        margin: 0 auto !important;
+        display: block;
+        
+        /* 关键：防止模糊 */
+        image-rendering: -webkit-optimize-contrast; /* 提高对比度/清晰度 */
+        image-rendering: crisp-edges;               /* 保持边缘锐利 */
+        
+        /* 如果背景是黑色的，可以加一点点对比度增强 */
+        filter: contrast(1.1) brightness(1.1);
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* 移除 Logo 图片可能的默认边距 */
+    [data-testid="stForm"] [data-testid="stImage"] img {
+        margin: 0 auto !important;
+    }
+    
+    /* 1. 彻底隐藏侧边栏顶部的默认 Header 容器 */
+    [data-testid="stSidebarHeader"] {
+        display: none !important;
+    }
+
+    /* 2. 移除隐藏后的多余边距，让你的 Logo 真正贴顶 */
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        padding-top: 0rem !important;
+    }
+    
+    /* 3. 可选：如果你觉得 Logo 离最顶端太近，可以微调你自己的容器 */
+    .sidebar-logo-container {
+        margin-top: -30px !important; /* 根据实际视觉效果上下微调 */
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
@@ -139,19 +179,27 @@ def get_recent_audit_steps(limit=5):
 
 # --- 5. 登录界面 UI ---
 def show_login_page():
-    _, col, _ = st.columns([1, 1.5, 1])
+    _, col, _ = st.columns([1, 0.5, 1])
     with col:
         st.write("#")
         # 使用 st.form 包裹登录逻辑
         with st.form("login_form", clear_on_submit=False):
-            st.markdown("<h2 style='text-align: center;'>🔐 SentinelFlow</h2>", unsafe_allow_html=True)
+            # --- 关键修改：在 Form 内部再次划分列来强制居中 Logo ---
+            l_space, logo_col, r_space = st.columns([1, 2, 1])
+            with logo_col:
+                logo_path = "assets/sentinelflow-logo-login.png"
+                if os.path.exists(logo_path):
+                    st.image(logo_path, use_container_width=True)
+
+            # 标题也要居中
+            # st.markdown("<h2 style='text-align: center; color: white; margin-top: -10px;'>SentinelFlow</h2>", unsafe_allow_html=True)
 
             user_input = st.text_input("Username")
             pwd_input = st.text_input("Password", type="password")
 
             # 使用 form_submit_button 替代普通的 st.button
             # 这样用户在任一输入框按回车，都会触发此按钮逻辑
-            submit_button = st.form_submit_button("Sign In", use_container_width=True, type="primary")
+            submit_button = st.form_submit_button("Log In", use_container_width=True, type="primary")
 
             if submit_button:
                 if verify_login(user_input, pwd_input):
@@ -188,7 +236,12 @@ def show_chat_interface():
     st.markdown("<hr style='margin: 0px 0px 20px 0px; border-top: 1px solid #333;'>", unsafe_allow_html=True)
     # --- Sidebar (chat history and audit panel) ---
     with st.sidebar:
-        st.title("SentinelFlow")
+        logo_path = "assets/sentinelflow-logo-leftside.png"
+        if os.path.exists(logo_path):
+            # 给 Logo 一个唯一的容器名方便 CSS 控制
+            st.markdown('<div class="sidebar-logo-container">', unsafe_allow_html=True)
+            st.image(logo_path, width=320)  # 侧边栏建议设为 320 显得更精致
+            st.markdown('</div>', unsafe_allow_html=True)
 
         # New Chat 按钮放在侧边栏顶部，显眼位置
         if st.button("➕ New Chat", use_container_width=True, type="primary"):

@@ -8,10 +8,12 @@ db:
   name: "sentinel_db"
   user: "postgres"
   password: "root"
+  port : 5432
 
 paths:
   secret_index: "data/index/secrets.faiss"
   secret_meta:  "data/index/secrets_meta.pkl"
+  docs_dir : "datasource/docs" # internal documents
 
 rag:
   top_k: 5
@@ -325,3 +327,18 @@ benchmark:
     target: "http://localhost:8000/v1/chat/completions"
   reports_dir: "reports"
   timeout_per_query_s: 60
+
+# -------------------------
+# configuration for scraper
+# -------------------------
+scraper:
+  # item_limit: 10         # 抓取达到数目后 关闭爬虫蜘蛛 (这个是scrapy的全局设置，会形成抓取的马太效应，暂时不用)
+  item_per_source : 15     # 每个源各抓10个
+  concurrent_requests: 3   # 并发数量
+
+# -------------------------
+# chunk configuration for docs ingestion
+# -------------------------
+ingestion:
+  chunk_size : 500          # The approximate number of characters in each chunk
+  chunk_overlap : 50        # The overlap between blocks prevents semantic breaks
