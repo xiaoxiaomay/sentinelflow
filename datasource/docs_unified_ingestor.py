@@ -95,17 +95,32 @@ class UnifiedIngestor:
         """单条数据插入（不在这里 commit，由 process 函数统一控制事务）"""
         sql = """
             INSERT INTO financial_corpus (
-                doc_id, title, content, ticker, source_type, 
-                category, dataset, trust_score, embedding, tags
+                doc_id, 
+                title, 
+                content, 
+                ticker, 
+                source_type, 
+                category, 
+                dataset, 
+                trust_score, 
+                embedding, 
+                tags
             ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             ON CONFLICT (doc_id) DO NOTHING
         """
+
         embedding = self.model.encode(item['content']).tolist()
         self.cur.execute(sql, (
-            item['doc_id'], item['title'], item['content'],
-            item.get('ticker', 'GENERIC'), 'internal',
-            item.get('category', 'document'), 'Internal-Upload',
-            1.0, embedding, item.get('tags', [])
+            item['doc_id'],
+            item['title'],
+            item['content'],
+            item.get('ticker', 'GENERIC'),
+            item.get('source_type', 'internal'),
+            item.get('category', 'document'),
+            item.get('dataset', 'Internal-Upload'),
+            1.0,
+            embedding,
+            item.get('tags', [])
         ))
 
     def process_pdf(self, path):
