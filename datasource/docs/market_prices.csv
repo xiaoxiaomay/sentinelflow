@@ -1,4 +1,5 @@
-ticker,title,content,published_at,tags
-MSFT,Microsoft Cloud Outlook,Azure revenue growth is expected to remain stable at 33% in the next quarter.,2026-02-15,"Cloud,Growth"
-TSLA,Tesla Delivery Targets,Tesla aims for 2 million deliveries in 2026 despite increasing competition in China.,2026-02-16,"EV,Automotive"
-GOOGL,Google AI Integration,Alphabet introduces new Gemini 3.0 features into workspace productivity suite.,2026-02-17,"AI,Software"
+ticker,title,content,price,change_pct
+AAPL,Apple Inc. Update,"Apple's stock rose by 2.3% today after announcing a new AI partnership. 分析师认为其在端侧 AI (On-device AI) 的布局将带动 iPhone 17 的换机潮。Target price adjusted to $245.50.",228.12,2.3
+TSLA,Tesla Momentum,"Tesla's Giga Berlin reached a new production milestone of 6,000 cars per week. 尽管存在交付压力，但 FSD V13 的发布提振了投资者信心。Current market cap stands at $850.4 billion.",250.45,-1.2
+600519.SH,贵州茅台公告,"Kweichow Moutai reported a steady dividend payout ratio. 预计 2025 年现金分红比例不低于 75%。The company continues to dominate the premium Baijiu market in China. 机构维持 '买入' 评级。",1650.00,0.5
+NVDA,NVIDIA Earnings Preview,"NVIDIA is expected to report Q4 revenue of $32.5 billion. 市场关注其 Blackwell 芯片的量产进度。AI demand remains insatiable globally. 只要毛利率保持在 75% 以上，股价仍有上行空间。",145.67,4.8

@@ -1,5 +1,7 @@
 embedding:
   model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  chunk_size: 800     # for langchain_text_splitters
+  chunk_overlap: 100  # for langchain_text_splitters
 
 openai_model: "gpt-4o-mini"
 

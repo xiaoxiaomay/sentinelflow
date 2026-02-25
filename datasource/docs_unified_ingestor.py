@@ -8,6 +8,9 @@ import logging
 from pgvector.psycopg2 import register_vector
 from sentence_transformers import SentenceTransformer
 
+# --- 引入: LangChain 切分器
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 # 导入配置加载器
 from core.config_loader import get_db_params, get_engine_configs, get_project_root
 
@@ -38,6 +41,28 @@ class UnifiedIngestor:
             configs = get_engine_configs()
             self.embed_cfg = configs.get("embedding", {})
             self.path_cfg = configs.get("paths", {})
+
+            # 初始化 LangChain 递归切分器
+            # 它会按照 ["\n\n", "\n", "。", "！", "？", " ", ""] 的优先级递归切分
+            self.text_splitter = RecursiveCharacterTextSplitter(
+                chunk_size=self.embed_cfg.get("chunk_size", 800),  # 建议金融文本调大到 800-1000
+                chunk_overlap=self.embed_cfg.get("chunk_overlap", 100),  # 增加重叠度以保持上下文
+                length_function=len,
+                is_separator_regex=False,
+                # 按照语义强度从高到低排列
+                separators=[
+                    "\n\n",              # 1. 双换行（段落）
+                    "\n",                # 2. 单换行（行）
+                    "。 ",               # 3. 中文句号 + 空格（规整的中英混排）
+                    "。",                # 4. 中文句号
+                    ". ",                # 5. 英文句号 + 空格（核心：保护数字小数点）
+                    "！", "!",           # 6. 感叹号（中英）
+                    "？", "?",           # 7. 问号（中英）
+                    "；", "; ",          # 8. 分号（中英，金融文档常用）
+                    " ",                # 9. 空格（单词边界）
+                    ""                  # 10. 字符级（保底方案）
+                ]
+            )
 
             # 初始化模型
             logger.info(f"[*] Loading model: {self.embed_cfg.get('model_name')}")
@@ -87,12 +112,19 @@ class UnifiedIngestor:
 
     # --- 核心逻辑 ---
     def get_chunks(self, text):
-        size = self.embed_cfg.get("chunk_size", 500)
-        overlap = self.embed_cfg.get("chunk_overlap", 50)
-        return [text[i: i + size] for i in range(0, len(text), size - overlap)] if text else []
+        # size = self.embed_cfg.get("chunk_size", 500)
+        # overlap = self.embed_cfg.get("chunk_overlap", 50)
+        # return [text[i: i + size] for i in range(0, len(text), size - overlap)] if text else []
+
+        """使用LangChain 替代上面的 text[i:i+size] 逻辑"""
+        if not text or not isinstance(text, str):
+            return []
+        # 返回的是切分后的字符串列表
+        return self.text_splitter.split_text(text)
 
     def insert_to_db(self, item):
         """单条数据插入（不在这里 commit，由 process 函数统一控制事务）"""
+        """插入逻辑（引入LangChain，增强了 doc_id的生成逻辑，防止 Chunk 冲突）"""
         sql = """
             INSERT INTO financial_corpus (
                 doc_id, 
@@ -133,11 +165,12 @@ class UnifiedIngestor:
             full_text = "".join([page.get_text() for page in doc])
             doc.close()
 
+            # 使用 LangChain 切分
             chunks = self.get_chunks(full_text)
             for i, chunk in enumerate(chunks):
                 self.insert_to_db({
-                    "doc_id": f"PDF_{file_hash}_P{i}",
-                    "title": f"{file_name} (P{i + 1})",
+                    "doc_id": f"PDF_{file_hash}_C{i}",  # C stands for Chunk
+                    "title": f"{file_name} (Chunk{i})",
                     "content": chunk
                 })
                 count += 1
@@ -151,39 +184,67 @@ class UnifiedIngestor:
         count = 0
         try:
             file_name = os.path.basename(path)
-            file_hash = hashlib.md5(file_name.encode()).hexdigest()[:10].upper()
+            file_hash = hashlib.md5(file_name.encode()).hexdigest()[:8].upper()
+            # 使用pandas分块读取，防止大文件撑爆内存
             reader = pd.read_csv(path, chunksize=500)
-            for chunk_idx, chunk in enumerate(reader):
-                for index, row in chunk.iterrows():
-                    actual_idx = chunk_idx * 500 + index
-                    self.insert_to_db({
-                        "doc_id": f"CSV_{file_hash}_{actual_idx}",
-                        "title": row.get('title', f"{file_name} Row {actual_idx}"),
-                        "content": row.get('content', str(row.to_dict())),
-                        "ticker": row.get('ticker', 'GENERIC')
-                    })
-                    count += 1
+
+            for batch_idx, df_batch in enumerate(reader):
+                for index, row in df_batch.iterrows():
+                    actual_row_idx = batch_idx * 500 + index
+
+                    # 提取主要内容字段
+                    raw_content = str(row.get('content', ''))
+                    title = row.get('title', f"{file_name} Row {actual_row_idx}")
+                    ticker = row.get('ticker', 'GENERIC')
+
+                    if not raw_content.strip():
+                        continue
+
+                    # --- 对 CSV 的列内容进行中英通用切分 ---
+                    # 即使是一行数据，如果 content 字段超长，也会被切分成多个 Chunk
+                    sub_chunks = self.get_chunks(raw_content)
+
+                    for sub_idx, chunk in enumerate(sub_chunks):
+                        # 构造唯一的 doc_id：文件名哈希 + 行号 + 子分片索引
+                        doc_id = f"CSV_{file_hash}_R{actual_row_idx}_C{sub_idx}"
+
+                        self.insert_to_db({
+                            "doc_id": doc_id,
+                            "title": f"{title} (Part {sub_idx})" if len(sub_chunks) > 1 else title,
+                            "content": chunk,
+                            "ticker": ticker,
+                            "tags": [f"row_{actual_row_idx}"]  # 记录原始行号作为标签
+                        })
+                        count += 1
+
             self._update_task('SUCCESS', count)
+            logger.info(f"Successfully processed CSV: {file_name}, generated {count} chunks.")
         except Exception as e:
             self._update_task('FAILED', count, str(e))
             logger.error(f"CSV Error {path}: {e}")
 
     def process_jsonl(self, path):
+        """升级：即使是 JSONL 里的每一行，如果太长也要切分"""
         self._start_task(path)
         count = 0
         try:
             with open(path, 'r', encoding='utf-8') as f:
                 for line_num, line in enumerate(f):
                     data = json.loads(line)
-                    doc_id = data.get('_id') or f"JSL_{hashlib.md5(line.encode()).hexdigest()[:10]}_{line_num}"
-                    content = data.get('text') or data.get('content', "")
-                    self.insert_to_db({
-                        "doc_id": doc_id,
-                        "title": data.get('title', f"JSONL Item {line_num}"),
-                        "content": content,
-                        "ticker": data.get('ticker', 'GENERIC')
-                    })
-                    count += 1
+                    raw_content = data.get('text') or data.get('content', "")
+                    file_hash = hashlib.md5(path.encode()).hexdigest()[:6]
+
+                    # 关键修改：对 JSONL 的每一条内容再做一次切分
+                    sub_chunks = self.get_chunks(raw_content)
+                    for sub_idx, chunk in enumerate(sub_chunks):
+                        doc_id = f"JSL_{file_hash}_L{line_num}_C{sub_idx}"
+                        self.insert_to_db({
+                            "doc_id": doc_id,
+                            "title": data.get('title', f"JSONL L{line_num} C{sub_idx}"),
+                            "content": chunk,
+                            "ticker": data.get('ticker', 'GENERIC')
+                        })
+                        count += 1
             self._update_task('SUCCESS', count)
         except Exception as e:
             self._update_task('FAILED', count, str(e))
