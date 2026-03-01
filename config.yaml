@@ -81,10 +81,20 @@ policy:
         - "restricted\\s+data\\s+sources"
         - "restricted\\s+dataset"
         - "client\\s+sensitive"
-        - "proprietary\\s+(strategy|alpha|signal|rule|formula|model)"
-        - "confidential\\s+(strategy|data|rule|parameter|threshold|signal|alpha|model|information)"
+        # proprietary + plural-safe nouns
+        - "proprietary\\s+(strateg(y|ies)|alpha|signals?|rules?|formulas?|models?|algorithms?)"
+        # private synonym (Gap 2 fix)
+        - "private\\s+(strateg(y|ies)|alpha|signals?|rules?|formulas?|models?|parameters?|thresholds?)"
+        # non-public synonym (Gap 2 fix)
+        - "non[- ]public\\s+(strateg(y|ies)|algorithms?|execution|data|rules?|models?|parameters?)"
+        # confidential + expanded alternation (Gap 1+3 fix: plurals + hedging/portfolio/execution/limit)
+        - "confidential\\s+(strateg(y|ies)|data|rules?|parameters?|thresholds?|signals?|alpha|models?|information|hedg(e|ing)|portfolio|execution|algorithms?|formulas?|positions?|limits?)"
         - "\\bsecrets?\\s+(index|ids?|data|strategy|rule|parameter|list)"
         - "^secret:"
+        # internal + sensitive combos (Gap 7 fix: remove ^ anchor dependency)
+        - "\\binternal\\s+trading\\s+rules?"
+        - "\\binternal\\s+risk\\s+(management\\s+)?rules?"
+        - "\\binternal\\s+(strateg(y|ies)|positions?\\s+limits?|thresholds?|models?)"
 
     # Embeddings / vectors / secret index data exfil
     - id: EXF_01
@@ -94,7 +104,7 @@ policy:
       patterns:
         - "tell\\s+me\\s+the\\s+secret"
         - "confidential\\s+strategy"
-        - "internal\\s+alpha\\s+rule"
+        - "internal\\s+alpha\\s+rules?"
         - "rsi\\s*<\\s*25\\s+strategy\\s+logic"
         - "exact\\s+buy\\s*-?signal\\s+rule"
         - "entry\\s+conditions\\s+for\\s+the\\s+rsi"
@@ -103,6 +113,8 @@ policy:
         - "return\\s+the\\s+embedding\\s+vectors"
         - "secret\\s+index"
         - "provide\\s+the\\s+restricted\\s+dataset\\s+names"
+        # alpha extraction patterns (Gap 4/8 fix)
+        - "alpha\\s+(generation|rules?|formulas?)"
 
   # -------------------------
   # Gate 0b: hard-block class (generic exfiltration)
@@ -160,6 +172,15 @@ policy:
       - "password"
       - "credential"
       - "private key"
+      # Financial domain sensitive objects (Gap 4 fix)
+      - "alpha rule"
+      - "alpha formula"
+      - "trading strategy"
+      - "trading strategies"
+      - "risk model"
+      - "position limit"
+      - "execution algorithm"
+      - "proprietary"
 
 
 
@@ -170,7 +191,7 @@ policy:
 query_precheck:
   enabled: true
   threshold: 0.75
-  sensitive_threshold: 0.55
+  sensitive_threshold: 0.50
   top_k_secrets: 3
   block_message: "[BLOCKED] This query is too similar to internal confidential topics."
   intent_amplifiers:
@@ -187,6 +208,22 @@ query_precheck:
     - "formula"
     - "signal"
     - "trigger"
+    # Expanded amplifiers (Gap 6 fix)
+    - "strategies"
+    - "strategy"
+    - "hedging"
+    - "hedge"
+    - "limits"
+    - "position limits"
+    - "algorithm"
+    - "execution"
+    - "alpha"
+    - "internal rules"
+    - "trading rules"
+    - "cap"
+    - "caps"
+    - "constraint"
+    - "constraints"
 
 # -------------------------
 # Grounding check
