@@ -228,21 +228,34 @@ class UnifiedIngestor:
         self._start_task(path)
         count = 0
         try:
+            file_hash = hashlib.md5(path.encode()).hexdigest()[:6]
             with open(path, 'r', encoding='utf-8') as f:
                 for line_num, line in enumerate(f):
                     data = json.loads(line)
                     raw_content = data.get('text') or data.get('content', "")
-                    file_hash = hashlib.md5(path.encode()).hexdigest()[:6]
+                    original_id = data.get('_id', '')
 
-                    # 关键修改：对 JSONL 的每一条内容再做一次切分
+                    # 对 JSONL 的每一条内容做 LangChain 切分
                     sub_chunks = self.get_chunks(raw_content)
                     for sub_idx, chunk in enumerate(sub_chunks):
-                        doc_id = f"JSL_{file_hash}_L{line_num}_C{sub_idx}"
+                        # doc_id 策略：单 chunk 优先用原始 _id（兼容已有数据），
+                        # 多 chunk 用 {_id}_C{n} 保留可追溯性
+                        if original_id and len(sub_chunks) == 1:
+                            doc_id = original_id
+                        elif original_id and len(sub_chunks) > 1:
+                            doc_id = f"{original_id}_C{sub_idx}"
+                        else:
+                            doc_id = f"JSL_{file_hash}_L{line_num}_C{sub_idx}"
+
                         self.insert_to_db({
                             "doc_id": doc_id,
                             "title": data.get('title', f"JSONL L{line_num} C{sub_idx}"),
                             "content": chunk,
-                            "ticker": data.get('ticker', 'GENERIC')
+                            "ticker": data.get('ticker', 'GENERIC'),
+                            "source_type": data.get('source_type', 'internal'),
+                            "category": data.get('category', 'document'),
+                            "dataset": data.get('dataset', 'Internal-Upload'),
+                            "tags": data.get('tags', [])
                         })
                         count += 1
             self._update_task('SUCCESS', count)
