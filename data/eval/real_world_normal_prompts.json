@@ -1,0 +1,5042 @@
+[
+  {
+    "id": "real_001",
+    "query": "Where do we go from here?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424006674/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_002",
+    "query": "What are we doing specifically?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424006674/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_003",
+    "query": "What is that point at which the sales and the costs kind of link up?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424006674/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_004",
+    "query": "Does this remove that as well?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1866175/000119312524140742/d822329dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_005",
+    "query": "Is that going to continue to be a key part of the strategy?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1866175/000119312524140742/d822329dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_006",
+    "query": "What are we going to do with the Mexican assets?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424004778/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_007",
+    "query": "What progress can we report?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424004778/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_008",
+    "query": "Can you talk about the drivers there?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1948455/000121390024096235/ea022069801ex99-2_ispiretech.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_009",
+    "query": "How should we think about the gross profit margin going forward, or maybe just for this fiscal year?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1948455/000121390024096235/ea022069801ex99-2_ispiretech.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_010",
+    "query": "Do you plan on taking market share from others or trying to grow the total addressable market?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424010371/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_011",
+    "query": "Do we have anyone trying to grow this business, especially in Canada?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/101538/000165495424010371/uamy_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_012",
+    "query": "Are you going to keep building out or acquiring new clinics?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1227636/000119312524198986/d761494dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_013",
+    "query": "What does Phase II look like?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1227636/000119312524198986/d761494dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_014",
+    "query": "Could you just remind us on what you feel is your sustainable long-term level here, excluding some of these headwinds?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1227636/000119312524198986/d761494dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_015",
+    "query": "What about the people who make cookies?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924017416/ex_676226.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_016",
+    "query": "Can you give your current thoughts on M A opportunities?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924017416/ex_676226.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_017",
+    "query": "Why in a world would you try and separate Rule 204 products from regular products, expand the labor cost and confuse all of your operations?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_018",
+    "query": "What this means for suppliers?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_019",
+    "query": "What could it be in the year?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_020",
+    "query": "How do we get to that number?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_021",
+    "query": "How do we get it into our administration system?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_022",
+    "query": "How do we give in billions of transactions?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_023",
+    "query": "Do you like to give the number on the cost of running the business?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_024",
+    "query": "Can I get your quarterly update on your AI efforts?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_025",
+    "query": "Can you give your current thoughts on strategic M A?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_026",
+    "query": "Could you acquire a business to accelerate your onboarding efforts?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924035543/ex_749223.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_027",
+    "query": "Is it safe to keep layering on with more assets?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/929351/000119312524003495/d30538dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_028",
+    "query": "Can you talk about the timeline to backfill that space and what kind of mark-to-market opportunity you see achievable there?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_029",
+    "query": "Do you feel that the tax environment though in Chicago has improved a little bit?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_030",
+    "query": "Do you feel that there's been a little bit of a change in taxes in Chicago and Cook County?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_031",
+    "query": "Do you have any view about whether it's real or political?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_032",
+    "query": "Is there anything going on in the variability of expenses positively or negatively that we should be thinking about?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_033",
+    "query": "Is that just a hint of conservatism or is there a real deceleration that's going to come about in the back part?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_034",
+    "query": "Are they still in the mix?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_035",
+    "query": "Can you please provide further insight on the Jacksonville market, especially in reference to your current development and the recent completions?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1515816/000117152024000279/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_036",
+    "query": "How important will it be versus organic growth for your future growth going forward?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_037",
+    "query": "Is this new product, is it something that might be material enough to get you guys to break-even on a cash flow basis at scale?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_038",
+    "query": "Could you give us some color on your potential acquisition targets?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_039",
+    "query": "How do you guys think about it on a long term, maybe not the first couple of acquisitions, but on the long term?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_040",
+    "query": "Is it complementary to your current offerings to leverage your existing infrastructure or do you see them as standalone products?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_041",
+    "query": "Can you just give us some color on what the acquisition strategy long term is?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_042",
+    "query": "What value proposition will resonate with customers in the meantime in this landscape?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1826011/000149315224046829/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_043",
+    "query": "Is that becoming a bigger portion of the pipeline going forward?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/924383/000143774924004083/ex_626209.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_044",
+    "query": "What was the other question?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/924383/000143774924004083/ex_626209.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_045",
+    "query": "Are you guys specifically targeting much bigger deals?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/924383/000143774924004083/ex_626209.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_046",
+    "query": "Can you maybe give us an update on how are you seeing customer engagement and pipeline regarding your sales into the enterprise market?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/924383/000143774924004083/ex_626209.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_047",
+    "query": "Would you ever consider a onetime dividend?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924030452/ex_729118.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_048",
+    "query": "Can you give an updated number there?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924030452/ex_729118.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_049",
+    "query": "Does that answer your question?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924030452/ex_729118.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_050",
+    "query": "Can you give your current thoughts on M A?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/50471/000143774924030452/ex_729118.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_051",
+    "query": "How meaningful is Raven today?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1368622/000110465924032356/tm248361d1_ex99-3.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_052",
+    "query": "Is that the right way to think about it?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1368622/000110465924032356/tm248361d1_ex99-3.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_053",
+    "query": "Is the Puma also a Replicator contender?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1368622/000110465924032356/tm248361d1_ex99-3.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_054",
+    "query": "Can you maybe just outline some of yours as to kind of where we sit now?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1368622/000110465924032356/tm248361d1_ex99-3.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_055",
+    "query": "Is it coming back down rapidly?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024012873/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_056",
+    "query": "How much of that is variable versus structural?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024012873/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_057",
+    "query": "Can you tell us what fab utilization was in the quarter, what you expect it to be next quarter?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024012873/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_058",
+    "query": "Are people trying to ask for better pricing or is it relatively stable?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024012873/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_059",
+    "query": "Are you seeing any demand impacts in the China region, specifically from some of the domestically sourced component quotas that they've initiated?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_060",
+    "query": "Is that dampening down your demand?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_061",
+    "query": "Are you able to quantify the percentage of the product that you're migrating to internal manufacturing on the front end?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_062",
+    "query": "What is the percentage that you're currently outsourcing, what that percentage will be as you qualify more product internally?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_063",
+    "query": "Can you remind us what the long-term inventory target is and when you'd expect to get there approximately?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_064",
+    "query": "Can you just confirm my understanding?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_065",
+    "query": "What we've seen is actually with the mix independent ASP change is actually pretty small and definitely within the range, within our estimate, right?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/29002/000095017024058803/diod-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_066",
+    "query": "Could you just give us an update on your pricing strategy globally?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_067",
+    "query": "Are there some markets where you could potentially look to increase price?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_068",
+    "query": "Do you expect any change in pricing?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_069",
+    "query": "Is the reduction in ASP going to be greater than 20%?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_070",
+    "query": "Is that going to flow down?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_071",
+    "query": "Can you talk a little bit about some of the puts and takes in there?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_072",
+    "query": "Does it make it easier for STAAR to fulfill the orders?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_073",
+    "query": "How has that been going?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_074",
+    "query": "Is it going to drive meaningful growth to the US business?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_075",
+    "query": "Can you talk about the steps you've taken to make it easier for lens selection?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/718937/000095017024022247/staa-ex99_1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_076",
+    "query": "Is this a function of just timing on maybe building some rifles and shipping them?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/95029/000117494724001206/ex99-1.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_077",
+    "query": "Can you talk about pace of deliveries on the equipment on order and the contracts that those may be backed by?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1697500/000119312524177418/d810505dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_078",
+    "query": "Is it pretty smooth over the next 12-months or so or is it kind of lumpy?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1697500/000119312524177418/d810505dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_079",
+    "query": "Could this market evolve into signing long-term PPAs?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1697500/000119312524177418/d810505dex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_080",
+    "query": "Is that how it works, David?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/5981/000119312524197961/d796763dex992.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_081",
+    "query": "What is the status of the water damaged office building in Asheville?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774924019972/ex_686641.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_082",
+    "query": "Could you comment on the purchasing patterns in the carrier industry?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774924019972/ex_686641.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_083",
+    "query": "Are your customers building large inventories they work through over time?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774924019972/ex_686641.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_084",
+    "query": "Did horizontal drilling/increased rig productivity impact demand for your product similarly back then?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/1000230/000143774924019972/ex_686641.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_085",
+    "query": "Are you able to utilize your existing strong engineering team?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/2186/000165495424006056/bkti_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_086",
+    "query": "Do you need more resources for that?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/2186/000165495424006056/bkti_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_087",
+    "query": "What you can say about that?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/2186/000165495424006056/bkti_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_088",
+    "query": "Could you give us a little bit of color into what factored into the consistent year-over-year drop in SG A for the last quarter?",
+    "source": "SEC_EDGAR_8K",
+    "source_url": "https://www.sec.gov/Archives/edgar/data/2186/000165495424006056/bkti_ex991.htm",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_089",
+    "query": "Morgan Stanley delivers curt 2-word verdict on S&P 500",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.thestreet.com/investing/morgan-stanley-delivers-curt-2-word-verdict-on-sp-500?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_090",
+    "query": "JPMorgan predicts massive shift by mid-year",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.thestreet.com/crypto/policy/jpmorgan-predicts-massive-shift-by-mid-year?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_091",
+    "query": "FRN Variable Rate Fix",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/frn-variable-rate-fix-161600988.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_092",
+    "query": "JPMorgan Balances Tricolor Fraud Lawsuit With AI And Branch Expansion",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/jpmorgan-balances-tricolor-fraud-lawsuit-160609235.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_093",
+    "query": "Marvell's Solid Underlying Demand Should Offset Any Share Loss, Morgan Stanley Says",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/marvell-apos-solid-underlying-demand-155248048.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_094",
+    "query": "SCCM Enhanced Equity Portfolio Sold JPMorgan Chase (JPM) Despite Being the Highest-Quality Money Center Bank",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sccm-enhanced-equity-portfolio-sold-145825145.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_095",
+    "query": "Wells Fargo Trims Equitable Holdings (EQH) to $57",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/wells-fargo-trims-equitable-holdings-144705322.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_096",
+    "query": "JPMorgan to Start Debt Deal for $55 Billion EA Buyout Next Week",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/jpmorgan-start-debt-deal-55-144527767.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_097",
+    "query": "JPMorgan starts Netflix at Overweight after co’s exit from Warner Bros deal",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/jpmorgan-starts-netflix-overweight-co-141159791.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_098",
+    "query": "How Investors May Respond To Goldman Sachs (GS) Amid Inflation Jitters And Private‑Credit Risk Warnings",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/investors-may-respond-goldman-sachs-141048833.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_099",
+    "query": "Casella Waste Systems, Inc. Announces Additional Information Regarding Presentations at Upcoming Investor Conferences",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/casella-waste-systems-inc-announces-133000035.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_100",
+    "query": "I smell a crash coming, says former Goldman Sachs boss",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://uk.finance.yahoo.com/news/smell-crash-coming-says-former-124959972.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_101",
+    "query": "JPM’s Matejka says Iran escalation is an opportunity to buy more stocks",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/jpm-matejka-says-iran-escalation-124530049.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_102",
+    "query": "Will CLARITY Act Boost Crypto Prices? JPMorgan Claims Mid-Year Passing Will Act As 'Positive Catalyst",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.ccn.com/news/crypto/will-clarity-act-boost-crypto-prices-jpmorgan-claims-mid-year-passing-will-act-as-positive-catalyst/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_103",
+    "query": "Goldman Sachs Says Hedge Funds and Mutual Funds Both Love 5 Top Stocks",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://247wallst.com/investing/2026/03/02/goldman-sachs-says-hedge-funds-and-mutual-funds-both-love-5-top-stocks/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_104",
+    "query": "MS Seeks National Trust Bank Charter: What it Means & Why it Matters",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/ms-seeks-national-trust-bank-120700023.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_105",
+    "query": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell Monday Amid Middle East Conflict",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-134826532.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_106",
+    "query": "2 S&P 500 Stocks Turn $10,000 Into $36,541 In Two Months",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/acc55958-d1eb-3678-a722-c0db8b069fc5/2-s%26p-500-stocks-turn-%2410%2C000.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_107",
+    "query": "Red Wave Investments Supercharges Treasury Bill Holdings by 44%",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/coverage/filings/2026/02/27/red-wave-investments-supercharges-treasury-bill-holdings-by-44/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_108",
+    "query": "Inflation Surprise Jolts Wall Street",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/inflation-surprise-jolts-wall-street-183437750.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_109",
+    "query": "Exchange-Traded Funds Decline as US Equities Fall After Midday",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/exchange-traded-funds-decline-us-180917335.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_110",
+    "query": "Mid-Cap ETFs in a High Momentum: Here's Why",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/mid-cap-etfs-high-momentum-170000893.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_111",
+    "query": "Exchange-Traded Funds, Equity Futures Lower Pre-Bell Friday Amid Inflation Data Release",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-135523252.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_112",
+    "query": "11 S&P 500 Stocks Blow Away Analysts' Quarterly Estimates",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/5f32a3da-fb1b-3f54-8f4e-511f6b5bc87a/11-s%26p-500-stocks-blow-away.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_113",
+    "query": "Scott Bessent Sidesteps $134 Billion Tariff Refund Question, Calls Corporate Lawsuits 'Ultimate Corporate Welfare",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/scott-bessent-sidesteps-134-billion-013029260.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_114",
+    "query": "Csenge Advisory Group Increased Its LMBS Stake in Q4",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/coverage/filings/2026/02/26/csenge-advisory-group-increases-its-lmbs-stake-in-q4/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_115",
+    "query": "Exchange-Traded Funds Fall as US Equities Drop After Midday",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/exchange-traded-funds-fall-us-181947451.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_116",
+    "query": "This Is How NVIDIA Gets to $250 Per Share",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://247wallst.com/investing/2026/02/26/this-is-how-nvidia-gets-to-250-per-share/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_117",
+    "query": "Exchange-Traded Funds, Equity Futures Higher Pre-Bell Thursday as Investors Analyze Nvidia Results",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/exchange-traded-funds-equity-futures-135522978.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_118",
+    "query": "Actual Income' Is The Type Of AI Stock Investors Want Now",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/e6c9dfb0-3146-33ba-b0a0-3f70eed9ae19/%27actual-income%27-is-the-type.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_119",
+    "query": "Bank of America resets AMD stock forecast on deal with Meta",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.thestreet.com/investing/bank-of-america-resets-amd-stock-price-target-on-deal-with-meta?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_120",
+    "query": "The Market Paradox Of Nvidia Earnings Reports",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/eb677510-a792-3d75-95a6-5a54d0f832f1/the-market-paradox-of-nvidia.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_121",
+    "query": "Nvidia Stock, Biotech Put This Line In Focus Amid U.S.-Iran Attacks",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/e3bdb9b7-7ff3-34a0-8a75-5e8c19bd1009/nvidia-stock%2C-biotech-put.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_122",
+    "query": "Stock Market Today: Nasdaq Up After U.S.-Iran Attacks; LNG Stock Clears Entry As Oil Prices Pop (Live Coverage)",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/e88c7c86-4225-3d8a-9ffb-a8fb2b9c9596/stock-market-today%3A-nasdaq-up.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_123",
+    "query": "MercadoLibre Hits $14.5 Billion Sales as New $829 Million Position Surfaces",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/coverage/filings/2026/03/02/mercadolibre-hits-usd14-5-billion-sales-as-new-usd829-million-position-surfaces/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_124",
+    "query": "Up 1,000%, Should You Buy Apple Right Now?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/up-1000-should-you-buy-apple-right-now/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_125",
+    "query": "Why Did Alphabet Stock Drop Today?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/why-did-alphabet-stock-drop-today/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_126",
+    "query": "Apple Announces New iPhone and iPad Air as Week of Launches Begins",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/d5c4e7fd-5663-3b81-b0c8-59975fb6b7bd/apple-announces-new-iphone.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_127",
+    "query": "Uber Shows Building Blocks to be 'one of, if not the Dominant' Tech Agnostic AV Mobility Networks, RBC Says",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/uber-shows-building-blocks-apos-164817629.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_128",
+    "query": "Apple launches iPhone 17e at $599, boosts base storage to 256 gigabytes",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/apple-launches-iphone-17e-prices-141150848.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_129",
+    "query": "Tech stocks today: Nvidia invests $4B in photonics makers, Apple announces low-cost iPhone, OpenAI strikes deal with Pentagon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/live/tech-stocks-today-nvidia-invests-4b-in-photonics-makers-apple-announces-low-cost-iphone-openai-strikes-deal-with-pentagon-163709849.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_130",
+    "query": "Top Midday Stories: Nvidia to Invest $2 Billion Each in Coherent, Lumentum; BlackRock's GIP, EQT to Acquire AES",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/top-midday-stories-nvidia-invest-163247227.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_131",
+    "query": "Anthony Scaramucci Once Said Steve Jobs' 'Shoot The iPod' Mindset Fueled His Big Bitcoin Bet: 'Disrupt Yourself Before Someone Else Does",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/anthony-scaramucci-once-said-steve-163038038.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_132",
+    "query": "AES to Be Taken Private in $33 Billion Deal. Why It’s the S&P 500’s Worst Stock Today.",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/be9cb406-b7c7-3bd0-95ad-f07e25e5431f/aes-to-be-taken-private-in.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_133",
+    "query": "Meta's reported AI chip pullback seen bolstering Nvidia and AMD while dimming custom silicon push",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.proactiveinvestors.com/companies/news/1088161/meta-s-reported-ai-chip-pullback-seen-bolstering-nvidia-and-amd-while-dimming-custom-silicon-push-1088161.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_134",
+    "query": "Apple Introduces Low-Cost iPhone 17, Upgraded iPad Air",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/82c57de8-02ca-3ec3-b335-1a89cae4f1ca/apple-introduces-low-cost.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_135",
+    "query": "Apple’s Arizona Chip Orders Reinforce TSMC’s Role In U.S. Supply Chain",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/apple-arizona-chip-orders-reinforce-160747638.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_136",
+    "query": "Apple’s New AI Devices And U.S. Manufacturing Shift Weigh On Valuation",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/apple-ai-devices-u-manufacturing-160717324.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_137",
+    "query": "4 Software Stocks With 38% to 82% Upside Potential According to Wall Street",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/4-software-stocks-with-38-to-82-upside-potential/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_138",
+    "query": "Apple launches cheaper iPhone 17e in push to boost iPhone sales",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.cnn.com/2026/03/02/tech/apple-iphone-17e-launch?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_139",
+    "query": "2 Nuclear Energy Stocks to Buy in March",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/2-nuclear-energy-stocks-to-buy-in-march/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_140",
+    "query": "1 Reason I'd Happily Buy Pfizer (PFE) Stock and Never Sell",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/1-reason-id-happily-buy-pfizer-pfe-stock-and-never/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_141",
+    "query": "Why I'm Not Worried About Novo Nordisk Stock",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/why-im-not-worried-about-novo-nordisk-stock/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_142",
+    "query": "Up Over 400% in 5 Years, Is It Too Late to Invest in Eli Lilly Stock?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/up-over-400-in-5-years-is-it-too-late-to-invest-in/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_143",
+    "query": "Where Could Duolingo Be in 3 Years?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/where-could-duolingo-be-in-3-years/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_144",
+    "query": "Is CRISPR Therapeutics Stock Too Risky to Buy Right Now?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/is-crispr-therapeutics-stock-too-risky-to-buy-righ/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_145",
+    "query": "UnitedHealth's Stock Might Not Rally Until This Number Improves",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/unitedhealths-stock-might-not-rally-until-this-num/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_146",
+    "query": "Why AbbVie Stock May Be the Ultimate Option for Dividend Investors",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/why-abbvie-stock-may-be-the-ultimate-option-for-di/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_147",
+    "query": "Intel Ericsson 6G Alliance Ties AI Networks To Valuation Debate",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/intel-ericsson-6g-alliance-ties-171803976.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_148",
+    "query": "Rule Breaker Investing Mailbag: Listeners Air Their Grievances",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/rule-breaker-investing-mailbag-listeners-air-their/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_149",
+    "query": "How Buying Nio Stock Today Could 10x Your Net Worth",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/how-buying-nio-today-could-10x-your-net-wo/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_150",
+    "query": "Nvidia Stock Wavers Amid $2 Billion Optics Deal; Is Nvidia A Buy Or Sell Now?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/4bf0718c-e1fe-30bf-95cb-e11753984dd9/nvidia-stock-wavers-amid-%242.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_151",
+    "query": "Why Smart Money Is Piling Into This AI Infrastructure Stock",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/why-smart-money-is-piling-into-this-ai-infrastruct/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_152",
+    "query": "Why Did Near Protocol Surge 13% Today?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/why-did-near-protocol-surge-13-today/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_153",
+    "query": "Nvidia Invests In Lumentum, Coherent In Optical Networking Push",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/3552bfc8-3a1b-37dd-93fb-3a4d62b97259/nvidia-invests-in-lumentum%2C.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_154",
+    "query": "Gas prices will soar 'very quickly' as Iran conflict boosts oil",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/video/gas-prices-soar-very-quickly-164804642.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_155",
+    "query": "Energy stocks rise on oil prices, BlackRock consortium to acquire AES",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/video/energy-stocks-rise-oil-prices-154741202.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_156",
+    "query": "Stocks Recover From Opening Lows",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/52718d1a-9432-3703-9629-659d1f6d0468/stocks-recover-from-opening.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_157",
+    "query": "SLB Stock: Is SLB Outperforming the Energy Sector?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.barchart.com/story/news/510487/slb-stock-is-slb-outperforming-the-energy-sector?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_158",
+    "query": "Sector Update: Energy Stocks Rise Pre-Bell Monday",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-energy-stocks-rise-pre-142654614.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_159",
+    "query": "This analyst isn't buying into software's existential risk narrative",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/video/analyst-isnt-buying-softwares-existential-220000681.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_160",
+    "query": "US Equity Markets Close Lower After Higher-Than-Expected Producer Price Data",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/us-equity-markets-close-lower-211423544.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_161",
+    "query": "Sector Update: Financial Stocks Decline Friday",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-financial-stocks-decline-friday-210712013.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_162",
+    "query": "Sector Update: Energy Stocks Gain Late Afternoon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-energy-stocks-gain-afternoon-210637097.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_163",
+    "query": "Sector Update: Health Care Stocks Advance Late Afternoon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-health-care-stocks-advance-210229048.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_164",
+    "query": "Sector Update: Tech Stocks Fall Late Afternoon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-tech-stocks-fall-afternoon-205811674.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_165",
+    "query": "Sector Update: Energy Stocks Gain Friday Afternoon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-energy-stocks-gain-friday-190638749.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_166",
+    "query": "Sector Update: Health Care Stocks Higher Friday Afternoon",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-health-care-stocks-higher-190129206.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_167",
+    "query": "Sector Update: Financial Stocks Fall in Afternoon Trading",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-financial-stocks-fall-afternoon-190127610.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_168",
+    "query": "Sector Update: Energy Stocks Rise Premarket Friday",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/sector-energy-stocks-rise-premarket-142652001.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_169",
+    "query": "AM Best Affirms Credit Ratings of Alleghany Corporation and Its Affiliates",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/am-best-affirms-credit-ratings-175600342.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_170",
+    "query": "Berkshire beyond Buffett: How new CEO Greg Abel's legacy may unfold",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/video/berkshire-beyond-buffett-ceo-greg-172812224.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_171",
+    "query": "Mastercard Pushes AI And Crypto Payments While Shaping Future Fee Economics",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/mastercard-pushes-ai-crypto-payments-171830746.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_172",
+    "query": "Visa and Global Fashion Agenda Back Emerging Designers with Circular Fashion Programme",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/visa-global-fashion-agenda-back-165800474.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_173",
+    "query": "These Stocks Are Today’s Movers: Chevron, AES, Norwegian, Lockheed, Delta, Strategy, Coherent, Berkshire Hathaway, and More",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/84b4038d-94fc-302b-87f7-bcadf517801b/these-stocks-are-today%E2%80%99s.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_174",
+    "query": "Stocks to Watch Monday: American Airlines, Berkshire, Nvidia, Lumentum",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/9e3095bf-76a4-3021-9bad-854c5b4670ce/stocks-to-watch-monday%3A.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_175",
+    "query": "3 Mega-Cap Stocks with Exciting Potential",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/3-mega-cap-stocks-exciting-150210834.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_176",
+    "query": "Visa Inc. (V) Is a Trending Stock: Facts to Know Before Betting on It",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/visa-inc-v-trending-stock-140006657.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_177",
+    "query": "2 Reasons to Buy Berkshire Hathaway Stock Like There's No Tomorrow",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/2-reasons-to-buy-berkshire-hathaway-stock-like-the/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_178",
+    "query": "Why Berkshire Hathaway’s Earnings Weren’t as Bad as They Looked",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/943300aa-5728-3717-b63a-f8b9f0a10591/why-berkshire-hathaway%E2%80%99s.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_179",
+    "query": "Rogers Bank Introduces Canada’s First-Ever World Legend Mastercard",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/rogers-bank-introduces-canada-first-130000210.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_180",
+    "query": "Amex Exploration Signs Exploration Agreement with Apitipi Anicinapek Nation of Ontario",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/amex-exploration-signs-exploration-agreement-120000844.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_181",
+    "query": "Stock Markets Aren’t Panicking Over Trump’s Iran Attack—Yet. This Is Why.",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/ad96ecaf-4968-3eff-82e7-21b06c0ac0ba/stock-markets-aren%E2%80%99t.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_182",
+    "query": "2 Cash-Producing Stocks Worth Your Attention and 1 We Avoid",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/2-cash-producing-stocks-worth-113443649.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_183",
+    "query": "Greg Abel Publishes First Berkshire Letter, Signals Buffett Continuity at 95",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/greg-abel-publishes-first-berkshire-110848652.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_184",
+    "query": "Amex doubles down on NYC",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.paymentsdive.com/news/amex-doubles-down-on-nyc/813497/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_185",
+    "query": "Berkshire’s New CEO Lays Out How He Will Pick Up Where the Buffett Era Left Off",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/4bc8a65f-82e6-3464-8776-0dab4d21013a/berkshire%E2%80%99s-new-ceo-lays-out.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_186",
+    "query": "Iowa's Harry Stine named one of America's greatest innovators",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.desmoinesregister.com/story/money/agriculture/2026/03/02/harry-stine-forbes-list-great-american-innovators/88860864007/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_187",
+    "query": "Cantor Fitzgerald Cites Lower Production and Forecasts for Lucid Group, Inc. (LCID) Target Cut",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/cantor-fitzgerald-cites-lower-production-174407505.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_188",
+    "query": "BYD stock jumps on 'disruptive tech' teaser, despite 41% sales tumble",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/byd-stock-jumps-on-disruptive-tech-teaser-despite-41-sales-tumble-160609328.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_189",
+    "query": "Tesla's China EV Rivals Hit By Lunar New Year Holidays, But Nio Stands Out",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/769830a4-646d-3a06-8cca-2c763fda947f/tesla%27s-china-ev-rivals-hit.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_190",
+    "query": "Tesla Hits 8.4B FSD Miles: Is Unsupervised Autonomy Within Reach?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/tesla-hits-8-4b-fsd-154000976.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_191",
+    "query": "BYD Sales Collapse. What About Tesla?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://247wallst.com/cars-and-drivers/2026/03/02/byd-sales-collapse-what-about-tesla/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_192",
+    "query": "Rivian Is the Ultimate Growth Stock to Buy Right Now -- Here's Why",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/02/rivian-is-the-ultimate-growth-stock-to-buy-right/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_193",
+    "query": "Tesla Stock Drops. Why It No Longer Gets a Boost From Higher Oil Prices.",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/fcfa4887-4a53-396f-8d98-70d227ff7527/tesla-stock-drops.-why-it-no.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_194",
+    "query": "Chinese EV Sales Slow Dramatically. What That Means for Tesla Stock.",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/dae0f208-5d86-38e8-bd71-1e1bfd99b822/chinese-ev-sales-slow.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_195",
+    "query": "Will Tesla's Cybertruck AWD Price Hike of 17% Sustain Demand Momentum?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/teslas-cybertruck-awd-price-hike-141500931.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_196",
+    "query": "Investors Heavily Search NIO Inc. (NIO): Here is What You Need to Know",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/investors-heavily-search-nio-inc-140006255.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_197",
+    "query": "Musk's Tesla Robotaxi Is Cheaper Than Waymo, But Longer Waiting Times And More Human Drivers Are A Drag, Analysts Say",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/musks-tesla-robotaxi-cheaper-waymo-130024128.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_198",
+    "query": "NIO's Growth Story Gains Pace",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/nios-growth-story-gains-pace-123449882.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_199",
+    "query": "Gary Black Says TSLA Stock Has 'Done Nothing' In 5 Years Despite 'Huge Advances' In Self-Driving: 'Fallen Way Behind...",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/gary-black-says-tsla-stock-123109630.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_200",
+    "query": "Elon Musk Predicts Tesla Moon Factories Within 20 Years, Tells Investors To 'Hold On' To TSLA: 'Gonna Be Worth A Lot",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/elon-musk-predicts-tesla-moon-120107724.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_201",
+    "query": "Boralex and SNGRDC commission battery storage facility in Canada",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.power-technology.com/news/boralex-sngrdc-commission-battery-storage/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_202",
+    "query": "Tesla gains market in France, Norway in February",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/tesla-gains-market-france-norway-101601572.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_203",
+    "query": "AI Matters More Than Iran for Stocks, Says Citi",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/2705bb72-0608-300f-ba61-54494db4fd5b/ai-matters-more-than-iran-for.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_204",
+    "query": "Valneva to Participate in Upcoming Investor Conferences",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/valneva-participate-upcoming-investor-conferences-164500541.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_205",
+    "query": "Elevance Health Stock Slips. CMS to Halt Enrollment in Prescription Drug Plans.",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/m/5828a163-df52-384a-b2b8-900d63d823c2/elevance-health-stock-slips..html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_206",
+    "query": "Netflix upgraded, Pinterest downgraded: Wall Street's top analyst calls",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/netflix-upgraded-pinterest-downgraded-wall-145319995.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_207",
+    "query": "Do You Believe in the Growth Potential of UnitedHealth Group (UNH)?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/believe-growth-potential-unitedhealth-group-144411092.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_208",
+    "query": "Is It Worth Investing in Merck (MRK) Based on Wall Street's Bullish Views?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/worth-investing-merck-mrk-based-143005400.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_209",
+    "query": "4 Large-Cap Pharma Stocks to Watch as Industry Recovery Gains Steam",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/4-large-cap-pharma-stocks-133900059.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_210",
+    "query": "How The Investment Story For UnitedHealth Group (UNH) Is Shifting After Mixed Analyst Signals",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/investment-story-unitedhealth-group-unh-130805601.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_211",
+    "query": "UnitedHealth limits salary increases to 2% during restructuring – report",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.lifeinsuranceinternational.com/news/unitedhealth-limits-salary-increases/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_212",
+    "query": "Apellis Announces Mikael Dolsten, M.D., Ph.D., to Join Board of Directors",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/apellis-announces-mikael-dolsten-m-120000297.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_213",
+    "query": "Merck's Potential Renal Cancer Combos Show Significant Improvement in Meeting Primary Endpoints",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/merck-apos-potential-renal-cancer-112706754.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_214",
+    "query": "1 of Wall Street’s Favorite Stock with Promising Prospects and 2 We Find Risky",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/1-wall-street-favorite-stock-105311679.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_215",
+    "query": "Former Optum chief departs UnitedHealth",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.healthcaredive.com/news/former-optum-chief-departs-unitedhealth/813461/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_216",
+    "query": "Forget Regencell Bioscience: This Blue Chip Drug Maker Is the Boring Compounder You Need",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/01/forget-regencell-this-bluechip-drug-maker-is/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_217",
+    "query": "Should You Forget Eli Lilly and Buy This Magnificent High-Yield Dividend Stock Instead?",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://www.fool.com/investing/2026/03/01/forget-eli-lilly-buy-high-yield-dividend-stock/?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_218",
+    "query": "Pfizer Inc. (PFE) and Astellas Pharma Announce Positive Results From the Phase 3 EV-304 Clinical Trial for PADCEVTM",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/pfizer-inc-pfe-astellas-pharma-092754566.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_219",
+    "query": "Kenvue Inc. (KVUE): A Bull Case Theory",
+    "source": "YAHOO_FINANCE_RSS",
+    "source_url": "https://finance.yahoo.com/news/kenvue-inc-kvue-bull-case-155502646.html?.tsrc=rss",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": false
+  },
+  {
+    "id": "real_220",
+    "query": "What is INTC's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_221",
+    "query": "How does INTC's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_222",
+    "query": "What is the current analyst consensus on INTC's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_223",
+    "query": "What are INTC's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_224",
+    "query": "Can you explain INTC's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_225",
+    "query": "How is INTC addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_226",
+    "query": "What is INTC's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_227",
+    "query": "What is the outlook for INTC's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_228",
+    "query": "What impact does the Fed's rate policy have on JPM's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_229",
+    "query": "Can you explain JPM's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_230",
+    "query": "Can you summarize JPM's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_231",
+    "query": "What are the key risk factors mentioned in JPM's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_232",
+    "query": "How has JPM's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_233",
+    "query": "What is the current analyst consensus on JPM's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_234",
+    "query": "What is the expected impact of interest rates on JPM?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_235",
+    "query": "How has JPM's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_236",
+    "query": "What are the main takeaways from MSFT's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_237",
+    "query": "How is MSFT addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_238",
+    "query": "How did MSFT perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_239",
+    "query": "How does MSFT's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_240",
+    "query": "What is MSFT's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_241",
+    "query": "Can you summarize MSFT's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_242",
+    "query": "How has MSFT's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_243",
+    "query": "What are the key risk factors mentioned in MSFT's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_244",
+    "query": "What is PFE's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_245",
+    "query": "What are the main competitive threats facing PFE?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_246",
+    "query": "What is PFE's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_247",
+    "query": "What are the main takeaways from PFE's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_248",
+    "query": "What is the expected impact of interest rates on PFE?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_249",
+    "query": "How has PFE's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_250",
+    "query": "What is the outlook for PFE's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_251",
+    "query": "What are the key risk factors mentioned in PFE's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_252",
+    "query": "How did UNH perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_253",
+    "query": "How does UNH plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_254",
+    "query": "What dividend policy changes has UNH announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_255",
+    "query": "What are the main competitive threats facing UNH?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_256",
+    "query": "What are the key risk factors mentioned in UNH's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_257",
+    "query": "What is the current analyst consensus on UNH's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_258",
+    "query": "Can you summarize UNH's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_259",
+    "query": "How has UNH's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_260",
+    "query": "How is MA addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_261",
+    "query": "How does MA's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_262",
+    "query": "What is MA's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_263",
+    "query": "What is the expected impact of interest rates on MA?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_264",
+    "query": "How does MA's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_265",
+    "query": "How does MA plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_266",
+    "query": "What are the main takeaways from MA's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_267",
+    "query": "What is the outlook for MA's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_268",
+    "query": "How does GS plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_269",
+    "query": "How is GS addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_270",
+    "query": "What is the current analyst consensus on GS's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_271",
+    "query": "What impact does the Fed's rate policy have on GS's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_272",
+    "query": "What is GS's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_273",
+    "query": "What are the key risk factors mentioned in GS's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_274",
+    "query": "How does GS's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_275",
+    "query": "What is GS's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_276",
+    "query": "How is TSLA positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_277",
+    "query": "What dividend policy changes has TSLA announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_278",
+    "query": "How does TSLA's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_279",
+    "query": "How does TSLA's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_280",
+    "query": "How has TSLA's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_281",
+    "query": "How is TSLA addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_282",
+    "query": "What is TSLA's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_283",
+    "query": "What impact does the Fed's rate policy have on TSLA's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_284",
+    "query": "How does DIS plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_285",
+    "query": "Can you explain DIS's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_286",
+    "query": "How did DIS perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_287",
+    "query": "What dividend policy changes has DIS announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_288",
+    "query": "What is the current analyst consensus on DIS's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_289",
+    "query": "How is DIS positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_290",
+    "query": "How has DIS's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_291",
+    "query": "How is DIS addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_292",
+    "query": "What are the key risk factors mentioned in NVDA's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_293",
+    "query": "What is the outlook for NVDA's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_294",
+    "query": "How has NVDA's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_295",
+    "query": "Can you explain NVDA's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_296",
+    "query": "How is NVDA positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_297",
+    "query": "What regulatory risks does NVDA face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_298",
+    "query": "How has NVDA's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_299",
+    "query": "How does NVDA's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_300",
+    "query": "What is ADBE's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_301",
+    "query": "How is ADBE addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_302",
+    "query": "What impact does the Fed's rate policy have on ADBE's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_303",
+    "query": "What dividend policy changes has ADBE announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_304",
+    "query": "What is ADBE's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_305",
+    "query": "What is ADBE's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_306",
+    "query": "How is ADBE positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_307",
+    "query": "What are ADBE's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_308",
+    "query": "How has WMT's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_309",
+    "query": "How has WMT's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_310",
+    "query": "What is the expected impact of interest rates on WMT?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_311",
+    "query": "What dividend policy changes has WMT announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_312",
+    "query": "What is WMT's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_313",
+    "query": "Can you describe WMT's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_314",
+    "query": "What regulatory risks does WMT face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_315",
+    "query": "What are the key risk factors mentioned in WMT's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_316",
+    "query": "What impact does the Fed's rate policy have on GOOGL's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_317",
+    "query": "How did GOOGL perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_318",
+    "query": "Can you summarize GOOGL's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_319",
+    "query": "What is GOOGL's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_320",
+    "query": "What is GOOGL's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_321",
+    "query": "How does GOOGL's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_322",
+    "query": "What are GOOGL's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_323",
+    "query": "What are the key risk factors mentioned in GOOGL's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_324",
+    "query": "How has BMY's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_325",
+    "query": "What impact does the Fed's rate policy have on BMY's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_326",
+    "query": "What are the main takeaways from BMY's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_327",
+    "query": "How does BMY's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_328",
+    "query": "Can you describe BMY's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_329",
+    "query": "How is BMY addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_330",
+    "query": "What is BMY's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_331",
+    "query": "What is BMY's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_332",
+    "query": "How does REGN plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_333",
+    "query": "How is REGN positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_334",
+    "query": "Can you summarize REGN's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_335",
+    "query": "What impact does the Fed's rate policy have on REGN's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_336",
+    "query": "What is REGN's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_337",
+    "query": "How is REGN addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_338",
+    "query": "Can you explain REGN's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_339",
+    "query": "What is the current analyst consensus on REGN's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_340",
+    "query": "What are the main competitive threats facing V?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_341",
+    "query": "What are V's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_342",
+    "query": "How does V's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_343",
+    "query": "How does V's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_344",
+    "query": "What is V's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_345",
+    "query": "How is V addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_346",
+    "query": "Can you describe V's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_347",
+    "query": "What is the current analyst consensus on V's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_348",
+    "query": "Can you describe LLY's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_349",
+    "query": "Can you summarize LLY's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_350",
+    "query": "What is LLY's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_351",
+    "query": "What are the main competitive threats facing LLY?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_352",
+    "query": "What is the current analyst consensus on LLY's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_353",
+    "query": "What impact does the Fed's rate policy have on LLY's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_354",
+    "query": "What is the outlook for LLY's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_355",
+    "query": "What is LLY's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_356",
+    "query": "What is the expected impact of interest rates on SBUX?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_357",
+    "query": "How does SBUX's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_358",
+    "query": "What is SBUX's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_359",
+    "query": "Can you describe SBUX's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_360",
+    "query": "What is SBUX's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_361",
+    "query": "What are the main takeaways from SBUX's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_362",
+    "query": "Can you explain SBUX's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_363",
+    "query": "What regulatory risks does SBUX face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_364",
+    "query": "What is CRM's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_365",
+    "query": "Can you summarize CRM's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_366",
+    "query": "What is the expected impact of interest rates on CRM?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_367",
+    "query": "What are the main competitive threats facing CRM?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_368",
+    "query": "What dividend policy changes has CRM announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_369",
+    "query": "How did CRM perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_370",
+    "query": "What is CRM's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_371",
+    "query": "What are the key risk factors mentioned in CRM's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_372",
+    "query": "What are the key risk factors mentioned in MRK's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_373",
+    "query": "How is MRK positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_374",
+    "query": "What regulatory risks does MRK face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_375",
+    "query": "What impact does the Fed's rate policy have on MRK's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_376",
+    "query": "What is MRK's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_377",
+    "query": "What is MRK's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_378",
+    "query": "What are the main takeaways from MRK's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_379",
+    "query": "What is the current analyst consensus on MRK's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_380",
+    "query": "What is TSM's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_381",
+    "query": "How does TSM's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_382",
+    "query": "How is TSM addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_383",
+    "query": "Can you describe TSM's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_384",
+    "query": "What are the main takeaways from TSM's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_385",
+    "query": "What are TSM's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_386",
+    "query": "What is the outlook for TSM's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_387",
+    "query": "What impact does the Fed's rate policy have on TSM's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_388",
+    "query": "What impact does the Fed's rate policy have on DUK's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_389",
+    "query": "How is DUK positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_390",
+    "query": "What is the current analyst consensus on DUK's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_391",
+    "query": "What is the outlook for DUK's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_392",
+    "query": "What are the main competitive threats facing DUK?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_393",
+    "query": "How has DUK's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_394",
+    "query": "What is the expected impact of interest rates on DUK?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_395",
+    "query": "How does DUK's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_396",
+    "query": "Can you describe COP's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_397",
+    "query": "How does COP's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_398",
+    "query": "Can you summarize COP's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_399",
+    "query": "What dividend policy changes has COP announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_400",
+    "query": "How does COP plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_401",
+    "query": "What are the key risk factors mentioned in COP's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_402",
+    "query": "Can you explain COP's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_403",
+    "query": "What is COP's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_404",
+    "query": "How has COST's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_405",
+    "query": "What is COST's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_406",
+    "query": "What dividend policy changes has COST announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_407",
+    "query": "What impact does the Fed's rate policy have on COST's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_408",
+    "query": "What is the current analyst consensus on COST's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_409",
+    "query": "What is COST's current revenue growth trajectory?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_410",
+    "query": "What are the key risk factors mentioned in COST's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_411",
+    "query": "How did COST perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_412",
+    "query": "What dividend policy changes has PEP announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_413",
+    "query": "What are the key risk factors mentioned in PEP's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_414",
+    "query": "How did PEP perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_415",
+    "query": "Can you explain PEP's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_416",
+    "query": "How is PEP positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_417",
+    "query": "Can you describe PEP's international expansion plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_418",
+    "query": "What impact does the Fed's rate policy have on PEP's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_419",
+    "query": "How is PEP addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_420",
+    "query": "How does AMD plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_421",
+    "query": "What regulatory risks does AMD face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_422",
+    "query": "What is the outlook for AMD's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_423",
+    "query": "What is AMD's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_424",
+    "query": "What is AMD's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_425",
+    "query": "How has AMD's gross margin evolved over the past four quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_426",
+    "query": "What are the main takeaways from AMD's latest earnings call?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_427",
+    "query": "How is AMD positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_428",
+    "query": "What dividend policy changes has GILD announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_429",
+    "query": "What regulatory risks does GILD face in its primary markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_430",
+    "query": "What are GILD's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_431",
+    "query": "What is the outlook for GILD's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_432",
+    "query": "Can you summarize GILD's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_433",
+    "query": "What is GILD's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_434",
+    "query": "What is the current analyst consensus on GILD's price target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_435",
+    "query": "What is the expected impact of interest rates on GILD?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_436",
+    "query": "What are NKE's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_437",
+    "query": "What impact does the Fed's rate policy have on NKE's borrowing costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_438",
+    "query": "How does NKE's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_439",
+    "query": "How did NKE perform in the latest quarterly earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_440",
+    "query": "What is NKE's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_441",
+    "query": "Can you summarize NKE's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_442",
+    "query": "How does NKE plan to invest in research and development?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_443",
+    "query": "How has NKE's management discussed AI strategy?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_444",
+    "query": "How is XOM positioned relative to the sector rotation trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_445",
+    "query": "Can you explain XOM's approach to share buybacks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_446",
+    "query": "Can you summarize XOM's capital expenditure plans?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_447",
+    "query": "What dividend policy changes has XOM announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_448",
+    "query": "What is the outlook for XOM's free cash flow generation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_449",
+    "query": "What is XOM's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_450",
+    "query": "What is XOM's exposure to foreign currency fluctuations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_451",
+    "query": "How does XOM's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_452",
+    "query": "What is QCOM's debt-to-equity ratio trend?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_453",
+    "query": "What are QCOM's key growth drivers for the next fiscal year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_454",
+    "query": "How does QCOM's operating margin compare to industry peers?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_455",
+    "query": "How is QCOM addressing supply chain challenges?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_456",
+    "query": "How does QCOM's valuation compare to its historical average?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_457",
+    "query": "What dividend policy changes has QCOM announced recently?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_458",
+    "query": "What are the key risk factors mentioned in QCOM's 10-K filing?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_459",
+    "query": "What is QCOM's strategy for managing rising input costs?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_460",
+    "query": "What is the outlook for the banking sector's net interest income?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_461",
+    "query": "How are rising rates affecting the real estate investment trust sector?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_462",
+    "query": "What is driving the recent rally in semiconductor stocks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_463",
+    "query": "How is the energy transition impacting traditional oil and gas companies?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_464",
+    "query": "What are the key themes in this quarter's healthcare earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_465",
+    "query": "How are consumer discretionary stocks responding to inflation data?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_466",
+    "query": "What is the outlook for technology sector capital expenditure?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_467",
+    "query": "How are utility stocks performing as a defensive play?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_468",
+    "query": "What impact is AI spending having on cloud infrastructure demand?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_469",
+    "query": "How is the retail sector adapting to changes in consumer behavior?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_470",
+    "query": "What are the implications of dollar strength for multinational earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_471",
+    "query": "How is the insurance sector pricing in climate-related risks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_472",
+    "query": "What is the outlook for mergers and acquisitions activity this quarter?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_473",
+    "query": "How are financial stocks responding to the yield curve normalization?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_474",
+    "query": "What trends are emerging in corporate debt issuance this year?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_475",
+    "query": "How is the pharmaceutical sector responding to patent cliff concerns?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_476",
+    "query": "What is the current state of IPO market activity?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_477",
+    "query": "How are defense stocks positioned given geopolitical tensions?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_478",
+    "query": "What is the outlook for commercial real estate fundamentals?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_479",
+    "query": "How are transportation stocks reflecting economic growth expectations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_480",
+    "query": "What impact is nearshoring having on industrial sector earnings?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_481",
+    "query": "How is the fintech sector competing with traditional banks?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_482",
+    "query": "What are the key drivers of private equity fundraising trends?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_483",
+    "query": "How is ESG investing affecting capital allocation in the energy sector?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_484",
+    "query": "What is the outlook for credit quality across the banking industry?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_485",
+    "query": "What is the current market expectation for the Fed funds rate path?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_486",
+    "query": "How are bond markets pricing in recession probability?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_487",
+    "query": "What is the outlook for US GDP growth in the coming quarters?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_488",
+    "query": "How is the labor market data affecting equity market sentiment?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_489",
+    "query": "What are the key risks to the current bull market thesis?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_490",
+    "query": "How is inflation trending relative to the Federal Reserve's target?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_491",
+    "query": "What is the expected trajectory of corporate earnings growth?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_492",
+    "query": "How are emerging market equities positioned relative to developed markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_493",
+    "query": "What is the impact of quantitative tightening on market liquidity?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_494",
+    "query": "How is the yield curve shape informing economic outlook?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_495",
+    "query": "What are the implications of the dollar index for commodity prices?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_496",
+    "query": "How is the housing market responding to mortgage rate changes?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_497",
+    "query": "What is the outlook for consumer spending given savings rate trends?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_498",
+    "query": "How are credit spreads reflecting corporate default expectations?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_499",
+    "query": "What geopolitical risks are currently weighing on market sentiment?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_500",
+    "query": "How is the trade balance affecting currency market dynamics?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_501",
+    "query": "What is the outlook for global central bank policy divergence?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_502",
+    "query": "How are institutional investors positioning in fixed income markets?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_503",
+    "query": "What is the current state of market breadth and participation?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  },
+  {
+    "id": "real_504",
+    "query": "How is volatility pricing reflecting expected market turbulence?",
+    "source": "SYNTHETIC_ANALYST",
+    "source_url": "generated",
+    "scraped_at": "2026-03-02T19:17:50.669118+00:00",
+    "expected_action": "allow",
+    "sensitivity_level": "L0",
+    "is_synthetic": true
+  }
+]

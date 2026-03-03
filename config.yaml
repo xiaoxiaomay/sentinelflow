@@ -220,8 +220,8 @@ query_precheck:
     - "alpha"
     - "internal rules"
     - "trading rules"
-    - "cap"
-    - "caps"
+    - "position cap"
+    - "position caps"
     - "constraint"
     - "constraints"
 
