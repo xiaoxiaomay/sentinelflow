@@ -416,10 +416,11 @@ HARD SECURITY RULES (must follow):
     prompt = f"""You are a financial research assistant.
 {hard_rules}
 
-GROUNDING CONSTRAINT:
-- Answer using ONLY the provided Documents as evidence.
-- If the Documents do not contain the answer, say: "I do not have enough information."
-- Prefer short, factual sentences. Avoid guessing.
+ANSWERING GUIDELINES:
+- Use the provided Documents as your primary source of evidence.
+- If the Documents contain relevant information, prioritize it in your answer.
+- You may supplement with your general knowledge when the Documents are incomplete, but clearly prioritize the retrieved content.
+- Prefer short, factual sentences.
 
 User question: {query}
 
@@ -1014,7 +1015,7 @@ def main():
                 cascade_k=int(leak_cfg.get("cascade_k", 2)),
                 action=str(leak_cfg.get("action", "redact")),
                 top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),
-                grounding_enabled=grounding_enabled,
+                grounding_enabled=False,
                 grounding_threshold=grounding_threshold,
                 grounding_action=grounding_action,
                 grounding_scores=g_scores if g_scores else None,

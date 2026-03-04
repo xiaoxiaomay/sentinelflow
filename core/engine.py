@@ -16,7 +16,7 @@ load_dotenv()
 from core.audit import HashChainWriter
 from scripts.run_rag_with_audit import (
     load_config, rule_gate, embedding_secret_precheck,
-    build_prompt, call_llm, grounding_validate
+    build_prompt, build_fallback_prompt, call_llm, grounding_validate
 )
 from scripts.leakage_scan import scan_text, load_faiss_index
 
@@ -115,43 +115,73 @@ class SentinelEngine:
         # --- 核心检索: 从 PostgreSQL 检索公开语料 ---
         rag_cfg = self.cfg.get("rag", {})
         docs = self._db_retrieve(query_vec, top_k=rag_cfg.get("top_k", 5))
-        
+
         self.writer.append("retrieve", {
             "session_id": session_id,
             "docs_count": len(docs),
             "latency_s": round(time.time() - start_time, 4)
         })
 
-        # --- 生成回答 (LLM) ---
-        prompt = build_prompt(query, docs)
-        model_name = os.getenv("OPENAI_MODEL") or self.cfg.get("openai_model", "gpt-4o-mini")
-        raw_answer = call_llm(prompt, model_name)
+        # --- Fallback decision ---
+        fallback_threshold = float(rag_cfg.get("fallback_threshold", 0.40))
+        max_retrieval_score = max((d["score"] for d in docs), default=0.0)
+        use_grounding = max_retrieval_score >= fallback_threshold
+        rag_mode = "rag" if use_grounding else "fallback_general"
 
-        # --- 后置审计: Grounding & Leakage Scan ---
-        # 1. 验证回答是否基于文档
-        g_scores, g_top_docs = grounding_validate(
-            self.embed_model, raw_answer, docs, 
-            threshold=self.cfg.get("grounding", {}).get("threshold", 0.55)
-        )
-
-        # 2. 扫描回答中是否包含私密信息
-        leak_cfg = self.cfg.get("leakage", {})
-        dfp_cfg = self.cfg.get("dfp", {})
-        leak_res = scan_text(
-            text=raw_answer, model=self.embed_model, 
-            secret_index=self.sec_index, secret_meta=self.sec_meta,
-            dfp_enabled=dfp_cfg.get("enabled", False), dfp_config=dfp_cfg,
-            grounding_scores=g_scores, grounding_top_docs=g_top_docs
-        )
-        
-        self.writer.append("final_output", {
-            "session_id": session_id, 
-            "leakage_flag": leak_res["summary"]["leakage_flag"]
+        self.writer.append("retrieval_quality", {
+            "session_id": session_id,
+            "query": query,
+            "max_retrieval_score": round(max_retrieval_score, 4),
+            "fallback_threshold": fallback_threshold,
+            "mode": rag_mode,
         })
-        
+
+        # --- 生成回答 (LLM) ---
+        model_name = os.getenv("OPENAI_MODEL") or self.cfg.get("openai_model", "gpt-4o-mini")
+
+        if rag_mode == "fallback_general":
+            prompt = build_fallback_prompt(query)
+            raw_answer = call_llm(prompt, model_name)
+
+            # Skip grounding, but leakage scan still runs
+            leak_cfg = self.cfg.get("leakage", {})
+            dfp_cfg = self.cfg.get("dfp", {})
+            leak_res = scan_text(
+                text=raw_answer, model=self.embed_model,
+                secret_index=self.sec_index, secret_meta=self.sec_meta,
+                dfp_enabled=dfp_cfg.get("enabled", False), dfp_config=dfp_cfg,
+                grounding_enabled=False,
+                grounding_scores=None, grounding_top_docs=None,
+            )
+        else:
+            prompt = build_prompt(query, docs)
+            raw_answer = call_llm(prompt, model_name)
+
+            # --- 后置审计: Grounding & Leakage Scan ---
+            g_scores, g_top_docs = grounding_validate(
+                self.embed_model, raw_answer, docs,
+                threshold=self.cfg.get("grounding", {}).get("threshold", 0.55)
+            )
+
+            leak_cfg = self.cfg.get("leakage", {})
+            dfp_cfg = self.cfg.get("dfp", {})
+            leak_res = scan_text(
+                text=raw_answer, model=self.embed_model,
+                secret_index=self.sec_index, secret_meta=self.sec_meta,
+                dfp_enabled=dfp_cfg.get("enabled", False), dfp_config=dfp_cfg,
+                grounding_scores=g_scores, grounding_top_docs=g_top_docs,
+            )
+
+        self.writer.append("final_output", {
+            "session_id": session_id,
+            "mode": rag_mode,
+            "leakage_flag": leak_res["summary"]["leakage_flag"],
+        })
+
         return {
             "answer": leak_res["redacted_text"],
             "status": "success",
+            "mode": rag_mode,
             "docs": docs,
             "session_id": session_id,
             "leakage_flag": leak_res["summary"]["leakage_flag"],
