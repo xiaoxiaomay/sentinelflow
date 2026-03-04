@@ -21,6 +21,7 @@ rag:
   top_k: 5
   candidate_k: 50
   max_context_chars_per_doc: 1200
+  fallback_threshold: 0.40       # if max retrieval score < this, use general knowledge
 
 audit:
   out_dir: "data/audit"
