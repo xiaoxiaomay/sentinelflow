@@ -280,12 +280,12 @@ def show_chat_interface():
             st.info("Awaiting command...")
         else:
             for log in reversed(logs):
-                event = log.get("event_type", "unknown")
+                event = log.get("type", "unknown")
                 icon = "🔍" if "check" in event else "📝"
                 if event == "final_output": icon = "✅"
                 with st.expander(f"{icon} {event.upper()}"):
-                    st.caption(f"Time: {log.get('timestamp', 'N/A')}")
-                    st.code(f"Hash: {log.get('hash', 'N/A')[:12]}...", language="text")
+                    st.caption(f"Time: {log.get('ts', 'N/A')}")
+                    st.code(f"Hash: {log.get('event_hash', 'N/A')[:12]}...", language="text")
 
     # Main Chat Area
     st.title("SentinelFlow Financial RAG")

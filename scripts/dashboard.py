@@ -21,6 +21,7 @@ def sha256_str(s: str) -> str:
     return hashlib.sha256(s.encode("utf-8")).hexdigest()
 
 
+@st.cache_data(ttl=30)
 def safe_load_json(path: str) -> Optional[dict]:
     if not os.path.exists(path):
         return None
@@ -31,6 +32,7 @@ def safe_load_json(path: str) -> Optional[dict]:
         return None
 
 
+@st.cache_data(ttl=30)
 def safe_load_jsonl(path: str) -> List[dict]:
     rows = []
     if not os.path.exists(path):
@@ -164,6 +166,7 @@ def load_eval_summary() -> Optional[dict]:
     return safe_load_json("reports/eval_summary.json")
 
 
+@st.cache_data(ttl=30)
 def load_eval_cases() -> pd.DataFrame:
     if os.path.exists("reports/eval_cases.csv"):
         try:
@@ -297,13 +300,25 @@ def main():
         st.divider()
         render_policy_panel(cfg)
 
+    if st.button("🔄 Refresh"):
+        st.cache_data.clear()
+        st.rerun()
+
     records = safe_load_jsonl(audit_path)
     if not records:
         st.warning("No audit events found. Run run_rag_with_audit.py or demo_cases.py first.")
         st.stop()
 
     session_ids = [sid for sid in [get_session_id(r) for r in records] if sid]
-    uniq_sessions = sorted(list(set(session_ids)))
+    # Build a map of session_id -> latest timestamp for reverse-chronological sorting
+    session_latest_ts: dict[str, str] = {}
+    for r in records:
+        sid = get_session_id(r)
+        if sid:
+            ts = r.get("ts", "")
+            if ts > session_latest_ts.get(sid, ""):
+                session_latest_ts[sid] = ts
+    uniq_sessions = sorted(list(set(session_ids)), key=lambda s: session_latest_ts.get(s, ""), reverse=True)
 
     llm_calls = sum(1 for r in records if get_event_type(r) == "llm_response")
     intent_blocks = sum(1 for r in records if get_event_type(r) == "intent_precheck" and (r.get("body") or {}).get("blocked") is True)
