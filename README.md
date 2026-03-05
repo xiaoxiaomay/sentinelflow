@@ -13,12 +13,13 @@ SentinelFlow prevents confidential financial strategy leakage from LLM-powered r
 
 | Metric | Target | SentinelFlow (B2) | Baseline (B0) |
 |--------|--------|-------------------|---------------|
-| Attack Success Rate (ASR) | 0% | **0.00%** | 1.43% |
-| False Positive Rate (FPR) L0/L1 | <2% / <5% | **0.00%** | — |
-| True Positive Rate (TPR) L2/L3 | >50% / >90% | **100%** | — |
+| Core ASR (70 adversarial prompts) | 0% | **0.00%** | 1.43% |
+| External ASR (24 garak + HarmBench) | — | **0.00%** (actual leakage) | — |
+| False Positive Rate (219 real-world queries) | <2% | **0.00%** | — |
+| Boundary Test (15 hardening cases) | 100% | **100%** | — |
 | Audit Chain Integrity | 100% | **100%** | — |
 
-Evaluated on 70 adversarial prompts across 10 attack categories. Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector.
+Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector. See [Evaluation Results](#evaluation-results) for full breakdown.
 
 ---
 
@@ -211,6 +212,64 @@ Each event stores `event_hash` (SHA-256 of this event) and `prev_hash` (hash of 
 | Boundary test cases | 15 | Iterative hardening validation |
 | External attacks | 24 (garak×14 + HarmBench×10) | Real-world attack vector validation |
 | Normal analyst queries | 100 | Behavioral baseline for C4 centroid |
+
+---
+
+## Evaluation Results
+
+### Core Adversarial Evaluation (70 prompts, 10 categories)
+
+| Metric | Target | SentinelFlow (B2) | Baseline (B0) |
+|--------|--------|-------------------|---------------|
+| Attack Success Rate (ASR) | 0% | **0.00%** | 1.43% |
+| False Positive Rate (FPR) | <2% | **0.00%** | — |
+| True Positive Rate (TPR) | >90% | **100%** | — |
+| Audit Chain Integrity | 100% | **100%** | — |
+
+Per-category B2 ASR: direct\_extraction 0%, indirect\_extraction 0%, prompt\_injection 0%, social\_engineering 0%, salami\_attack 0%, encoding\_extraction 0%, paraphrase\_extraction 0%, adversarial\_exfil 0%, indirect\_injection 0%, hard\_block 0%.
+
+### External Attack Evaluation (24 prompts: garak x14 + HarmBench x10)
+
+| Metric | Result |
+|--------|--------|
+| Total external attacks | 24 |
+| Blocked | 17 (70.83%) |
+| Bypassed (pre-LLM gates) | 7 (29.17%) |
+| Normal queries FPR | **0.00%** (0/219) |
+
+Bypass breakdown by category:
+
+| Category | Total | Blocked | Bypassed |
+|----------|-------|---------|----------|
+| garak\_dan\_financial | 4 | 3 | 1 |
+| garak\_divergence\_financial | 3 | 2 | 1 |
+| garak\_encoding\_financial | 3 | 0 | 3 |
+| harmbench\_exfiltration\_financial | 5 | 3 | 2 |
+| garak\_apikey\_financial | 2 | 2 | 0 |
+| garak\_latentinjection\_financial | 2 | 2 | 0 |
+| harmbench\_copyright\_financial | 1 | 1 | 0 |
+| harmbench\_escalation\_financial | 1 | 1 | 0 |
+| harmbench\_social\_engineering\_financial | 3 | 3 | 0 |
+
+> **Note:** The 7 bypasses passed pre-LLM gates but did **not** cause actual secret leakage — the LLM's own refusal + post-LLM leakage scan provided defense-in-depth. ASR (actual secret exposure) remains **0%**.
+
+### News-Anchored Attack Test (10 normal + 10 attack)
+
+| Group | Total | Expected | Actual | Pass Rate |
+|-------|-------|----------|--------|-----------|
+| Normal (news queries) | 10 | allow | 10 allowed | **100%** |
+| Attack (news-pivoted) | 10 | block | 7 blocked, 3 bypassed gates | **70%** gate block |
+
+The 3 gate-bypassed attacks were caught by LLM refusal — zero secret leakage confirmed.
+
+### Boundary Hardening Test (15 cases, 3 groups)
+
+| Group | Cases | Pass Rate | Description |
+|-------|-------|-----------|-------------|
+| A: Near-boundary benign | 5 | **100%** | High gate1 scores (0.42–0.48) correctly allowed |
+| B: News-pivoted attacks | 5 | **100%** | All blocked by Gate 0 |
+| C: Gap exploitation | 5 | **100%** | All blocked by Gate 0 |
+| **Total** | **15** | **100%** | Zero false positives, zero missed attacks |
 
 ---
 

@@ -81,6 +81,15 @@ class SentinelEngine:
         session_id = str(uuid.uuid4())
         start_time = time.time()
 
+        # --- runtime_info ---
+        self.writer.append("runtime_info", {
+            "session_id": session_id,
+            "query": query,
+            "stage": "engine_run_query",
+            "model": self.cfg.get("embedding", {}).get("model_name", "sentence-transformers/all-MiniLM-L6-v2"),
+            "llm_called": False,
+        })
+
         # --- GATE 0: 规则过滤 (意图预检) ---
         gate0_res = rule_gate(query, self.cfg.get("policy", {}))
         self.writer.append("intent_precheck", {"session_id": session_id, "query": query, **gate0_res})
@@ -104,7 +113,7 @@ class SentinelEngine:
                 threshold=float(pre_cfg.get("threshold", 0.60)),
                 query_vec=query_vec.reshape(1, -1)
             )
-            self.writer.append("query_precheck", {"session_id": session_id, **emb_pre})
+            self.writer.append("query_precheck", {"session_id": session_id, "query": query, **emb_pre})
             if emb_pre["blocked"]:
                 return {
                     "answer": pre_cfg.get("block_message", "该话题属于公司机密"),
@@ -138,12 +147,48 @@ class SentinelEngine:
 
         # --- 生成回答 (LLM) ---
         model_name = os.getenv("OPENAI_MODEL") or self.cfg.get("openai_model", "gpt-4o-mini")
+        grounding_cfg = self.cfg.get("grounding", {}) or {}
+        grounding_threshold = float(grounding_cfg.get("threshold", 0.55))
+        grounding_action = str(grounding_cfg.get("action", "redact")).lower()
 
         if rag_mode == "fallback_general":
             prompt = build_fallback_prompt(query)
-            raw_answer = call_llm(prompt, model_name)
 
-            # Skip grounding, but leakage scan still runs
+            self.writer.append("prompt_built", {
+                "session_id": session_id,
+                "query": query,
+                "prompt_chars": len(prompt),
+                "mode": "fallback_general",
+                "llm_called": False,
+            })
+
+            t_llm = time.time()
+            raw_answer = call_llm(prompt, model_name)
+            t_llm = time.time() - t_llm
+
+            self.writer.append("llm_response", {
+                "session_id": session_id,
+                "query": query,
+                "model": model_name,
+                "latency_s": round(t_llm, 4),
+                "raw_answer_chars": len(raw_answer),
+                "mode": "fallback_general",
+                "llm_called": True,
+            })
+
+            # Skip grounding — no docs to ground against
+            self.writer.append("grounding_check", {
+                "session_id": session_id,
+                "query": query,
+                "enabled": False,
+                "skip_reason": "fallback_general",
+                "threshold": grounding_threshold,
+                "action": grounding_action,
+                "sentences": [],
+                "llm_called": True,
+            })
+
+            # Leakage scan still runs
             leak_cfg = self.cfg.get("leakage", {})
             dfp_cfg = self.cfg.get("dfp", {})
             leak_res = scan_text(
@@ -153,16 +198,67 @@ class SentinelEngine:
                 grounding_enabled=False,
                 grounding_scores=None, grounding_top_docs=None,
             )
+
+            self.writer.append("leakage_scan", {
+                "session_id": session_id,
+                "query": query,
+                "summary": leak_res["summary"],
+                "sentences": leak_res["sentences"],
+                "redacted_text": leak_res["redacted_text"],
+                "mode": "fallback_general",
+                "llm_called": True,
+            })
         else:
             prompt = build_prompt(query, docs)
-            raw_answer = call_llm(prompt, model_name)
 
-            # --- 后置审计: Grounding & Leakage Scan ---
+            self.writer.append("prompt_built", {
+                "session_id": session_id,
+                "query": query,
+                "prompt_chars": len(prompt),
+                "mode": "rag",
+                "llm_called": False,
+            })
+
+            t_llm = time.time()
+            raw_answer = call_llm(prompt, model_name)
+            t_llm = time.time() - t_llm
+
+            self.writer.append("llm_response", {
+                "session_id": session_id,
+                "query": query,
+                "model": model_name,
+                "latency_s": round(t_llm, 4),
+                "raw_answer_chars": len(raw_answer),
+                "mode": "rag",
+                "llm_called": True,
+            })
+
+            # --- 后置审计: Grounding ---
+            from scripts.leakage_scan import split_sentences
             g_scores, g_top_docs = grounding_validate(
                 self.embed_model, raw_answer, docs,
-                threshold=self.cfg.get("grounding", {}).get("threshold", 0.55)
+                threshold=grounding_threshold,
             )
 
+            self.writer.append("grounding_check", {
+                "session_id": session_id,
+                "query": query,
+                "enabled": True,
+                "threshold": grounding_threshold,
+                "action": grounding_action,
+                "sentences": [
+                    {
+                        "sent_index": i,
+                        "text": s,
+                        "ground_score": round(float(g_scores[i]), 4) if i < len(g_scores) else None,
+                        "ground_doc": g_top_docs[i] if i < len(g_top_docs) else None,
+                    }
+                    for i, s in enumerate(split_sentences(raw_answer))
+                ],
+                "llm_called": True,
+            })
+
+            # --- Leakage Scan ---
             leak_cfg = self.cfg.get("leakage", {})
             dfp_cfg = self.cfg.get("dfp", {})
             leak_res = scan_text(
@@ -172,10 +268,24 @@ class SentinelEngine:
                 grounding_scores=g_scores, grounding_top_docs=g_top_docs,
             )
 
+            self.writer.append("leakage_scan", {
+                "session_id": session_id,
+                "query": query,
+                "summary": leak_res["summary"],
+                "sentences": leak_res["sentences"],
+                "redacted_text": leak_res["redacted_text"],
+                "mode": "rag",
+                "llm_called": True,
+            })
+
         self.writer.append("final_output", {
             "session_id": session_id,
+            "query": query,
+            "final_answer": leak_res["redacted_text"],
+            "final_answer_chars": len(leak_res["redacted_text"]),
             "mode": rag_mode,
             "leakage_flag": leak_res["summary"]["leakage_flag"],
+            "llm_called": True,
         })
 
         return {

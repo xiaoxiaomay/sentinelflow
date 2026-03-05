@@ -113,10 +113,18 @@ def intent_precheck(query: str, intent_rules: List[dict]) -> Dict[str, Any]:
                 break
 
     blocked = any(h["action"] == "block" for h in hits)
+    # Build human-readable trigger_reason from matched rules
+    reasons = []
+    for h in hits:
+        if h["action"] == "block":
+            reasons.append(f"{h['id']}({h.get('rule_type','regex')}): \"{h.get('match_text','')[:60]}\"")
+    trigger_reason = "; ".join(reasons) if reasons else None
+
     return {
         "blocked": blocked,
         "matched": hits,
         "decision": "block" if blocked else "allow",
+        "trigger_reason": trigger_reason,
     }
 
 
@@ -199,10 +207,20 @@ def hardblock_precheck(query: str, policy_cfg: dict) -> Dict[str, Any]:
             })
 
     blocked = any(h["action"] == "block" for h in hits)
+    reasons = []
+    for h in hits:
+        if h["action"] == "block":
+            if h.get("rule_type") == "hardblock_combo":
+                reasons.append(f"{h['id']}: verb={h.get('verb')}+obj={h.get('object')}")
+            else:
+                reasons.append(f"{h['id']}({h.get('rule_type','direct')}): \"{h.get('match_text','')[:60]}\"")
+    trigger_reason = "; ".join(reasons) if reasons else None
+
     return {
         "blocked": blocked,
         "matched": hits,
         "decision": "block" if blocked else "allow",
+        "trigger_reason": trigger_reason,
     }
 
 
@@ -221,10 +239,15 @@ def rule_gate(query: str, policy_cfg: dict) -> Dict[str, Any]:
     merged_hits = (intent_res.get("matched") or []) + (hb_res.get("matched") or [])
     blocked = bool(intent_res.get("blocked")) or bool(hb_res.get("blocked"))
 
+    # Merge trigger_reasons from both sub-gates
+    parts = [r for r in [intent_res.get("trigger_reason"), hb_res.get("trigger_reason")] if r]
+    trigger_reason = "; ".join(parts) if parts else None
+
     return {
         "blocked": blocked,
         "matched": merged_hits,
         "decision": "block" if blocked else "allow",
+        "trigger_reason": trigger_reason,
         "components": {
             "regex_blocked": bool(intent_res.get("blocked")),
             "hardblock_blocked": bool(hb_res.get("blocked")),
@@ -260,11 +283,17 @@ def embedding_secret_precheck(
     }
 
     blocked = best_score >= float(threshold)
+    trigger_reason = (
+        f"secret_similarity({top_match.get('secret_id')}, "
+        f"score={round(best_score, 4)}, threshold={float(threshold)})"
+    ) if blocked else None
+
     return {
         "blocked": blocked,
         "decision": "block" if blocked else "allow",
         "best_score": round(best_score, 4),
         "threshold": float(threshold),
+        "trigger_reason": trigger_reason,
         "top_match": top_match,
         "sentences": [{
             "sent_index": 0,
@@ -599,6 +628,7 @@ def main():
             "query": query,
             "decision": gate0_result["decision"],
             "blocked": gate0_result["blocked"],
+            "trigger_reason": gate0_result.get("trigger_reason"),
             "latency_s": round(t_gate0, 4),
             "matched": gate0_result["matched"],
             "llm_called": False,
@@ -673,6 +703,7 @@ def main():
                 "query": query,
                 "decision": emb_pre["decision"],
                 "blocked": emb_pre["blocked"],
+                "trigger_reason": emb_pre.get("trigger_reason"),
                 "score": emb_pre["best_score"],
                 "threshold": emb_pre["threshold"],
                 "top_match": emb_pre["top_match"],
