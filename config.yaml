@@ -2,6 +2,18 @@ embedding:
   model_name: "sentence-transformers/all-MiniLM-L6-v2"
   chunk_size: 800     # for langchain_text_splitters
   chunk_overlap: 100  # for langchain_text_splitters
+  separators: [
+                    "\n\n",              # 1. 双换行（段落）
+                    "\n",                # 2. 单换行（行）
+                    "。 ",               # 3. 中文句号 + 空格（规整的中英混排）
+                    "。",                # 4. 中文句号
+                    ". ",                # 5. 英文句号 + 空格（核心：保护数字小数点）
+                    "！", "!",           # 6. 感叹号（中英）
+                    "？", "?",           # 7. 问号（中英）
+                    "；", "; ",          # 8. 分号（中英，金融文档常用）
+                    " ",                # 9.  空格（单词边界）
+                    ""                  # 10. 字符级（保底方案）
+                ]
 
 openai_model: "gpt-4o-mini"
 

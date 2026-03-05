@@ -155,10 +155,11 @@ class FinancialPipeline:
                             file_path, 
                             file_type, 
                             status, 
-                            record_count, 
+                            record_count,
+                            file_source_from, 
                             started_at, 
                             completed_at)
-                            VALUES (%s, %s, %s, %s, %s, %s, %s);
+                            VALUES (%s, %s, %s, %s, %s, %s, %s, %s);
                         """
                     self.cur.execute(sql_audit, (
                         f"Crawler: {site_name}",
@@ -166,6 +167,7 @@ class FinancialPipeline:
                         'RSS',
                         'SUCCESS',
                         data['count'],
+                        'web_crawler',
                         spider.start_time,
                         now
                     ))
