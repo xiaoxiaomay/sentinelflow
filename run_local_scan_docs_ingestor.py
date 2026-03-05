@@ -5,7 +5,7 @@ import sys
 def main():
     print("Starting Documents Ingestor...")
     # 构造命令：python -m datasource.docs_unified_ingestor
-    cmd = [sys.executable, "-m", "datasource.docs_local_scan_ingestor"]
+    cmd = [sys.executable, "-m", "datasource.local_scan_docs_ingestor"]
 
     try:
         # shell=False 更安全，直接传递参数列表
