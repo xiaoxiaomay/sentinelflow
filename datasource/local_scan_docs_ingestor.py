@@ -3,10 +3,11 @@ from utils.logger_handler import logger
 from utils.db_conn_management import db_conn_manager
 from datasource.dao.implementation.ingestion_tasks_dao_impl import IngestionTaskDaoImpl
 from datasource.dao.implementation.financial_corpus_dao_impl import FinancialCorpusDaoImpl
-from datasource.knowledgebase import KnowledgeBaseService
+from datasource.knowledge_base import KnowledgeBaseService
 from sentence_transformers import SentenceTransformer
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from core.config_loader import get_engine_configs, get_project_root
+
 
 class UnifiedIngestor:
     def __init__(self, kb_service: KnowledgeBaseService):
