@@ -139,6 +139,16 @@ def get_user_sessions(username):
 def get_sentinel_engine():
     return SentinelEngine()
 
+def get_recent_audit_steps(limit=5):
+    audit_file = "data/audit/audit_log.jsonl"
+    if not Path(audit_file).exists(): return []
+    try:
+        with open(audit_file, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            return [json.loads(line) for line in lines[-limit:]]
+    except:
+        return []
+
 # --- 4. 登录页面 ---
 def show_login_page():
     _, col, _ = st.columns([1, 0.5, 1])
@@ -344,7 +354,26 @@ def show_chat_interface():
                         if st.button("Cancel", key=f"cancel_{sid}"):
                             st.session_state[f"edit_{sid}"] = False
                             st.rerun()   
-                                            
+        st.markdown("---")
+        st.subheader("Audit Control")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("DB Status", "Connected" if engine.db_conn else "Offline")
+        with col2:
+            st.metric("Security", "DFP Active")
+
+        st.subheader("🔗 HashChain Tracker")
+        logs = get_recent_audit_steps()
+        if not logs:
+            st.info("Awaiting command...")
+        else:
+            for log in reversed(logs):
+                event = log.get("type", "unknown")
+                icon = "🔍" if "check" in event else "📝"
+                if event == "final_output": icon = "✅"
+                with st.expander(f"{icon} {event.upper()}"):
+                    st.caption(f"Time: {log.get('ts', 'N/A')}")
+                    st.code(f"Hash: {log.get('event_hash', 'N/A')[:12]}...", language="text")                                    
                 
     # --- 主聊天区 ---
     st.title("SentinelFlow Financial RAG")
