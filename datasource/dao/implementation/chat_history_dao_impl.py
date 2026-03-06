@@ -83,3 +83,16 @@ class ChatHistoryDaoImpl(ChatHistoryDao):
     def count_messages(self, session_id: str) -> int:
         """统计消息数量，可用于 UI 显示 '共 X 条对话'"""
         return self.db.query(ChatHistory).filter(ChatHistory.session_id == session_id).count()
+    
+    def update_session_title(self, session_id: str, new_title: str):
+        try:
+            # 批量更新该 session_id 的所有记录标题
+            # 反斜杠 (\) 的作用是 “行连接符”，让代码更清晰，告诉 Python 解释器：这一行还没有写完，下一行的内容属于这一行的一部分
+            self.db.query(ChatHistory).filter(ChatHistory.session_id == session_id)\
+                .update({"title": new_title}, synchronize_session=False)
+            self.db.commit()
+            return True
+        except Exception as e:
+            self.db.rollback()
+            logger.error(f"Error renaming session {session_id}: {e}")
+            return False

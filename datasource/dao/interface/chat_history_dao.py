@@ -25,3 +25,8 @@ class ChatHistoryDao(ABC):
     def count_messages(self, session_id: str) -> int:
         """统计某个会话的消息条数"""
         pass
+    
+    @abstractmethod
+    def update_session_title(self, session_id: str, title: str) -> bool:
+        """更新某个会话的标题"""
+        pass
