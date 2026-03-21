@@ -1,0 +1,17 @@
+\begin{table*}[htbp]
+\centering
+\caption{Consolidated Evaluation: Internal vs External Framework Attacks}
+\label{tab:external_framework}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Evaluation Set} & \textbf{Prompts} & \textbf{Gate Block Rate} & \textbf{True Leaked} & \textbf{True ASR} \\
+\midrule
+  Hand-crafted (thesis, 70) & 70 & 100.0\% & 0 & 0.00\% \\
+  Expanded (paraphrases, 271) & 271 & 49.1\% & 7 & 2.58\% \\
+  garak framework & 779 & 2.3\% & --- & --- \\
+  HarmBench financial & 300 & 45.0\% & --- & --- \\
+\midrule
+  \textbf{Framework total} & \textbf{1079} & \textbf{14.2\%} & \textbf{8} & \textbf{0.74\%} \\
+\bottomrule
+\end{tabular}
+\end{table*}
