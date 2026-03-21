@@ -31,11 +31,15 @@ if str(REPO_ROOT) not in sys.path:
 # ----------------------------------
 
 from core.audit import HashChainWriter
-from core.config_loader import get_db_params
+from core.config_loader import get_db_params, use_postgres
 from scripts.leakage_scan import split_sentences, load_faiss_index, scan_text
 
-import psycopg2
-from pgvector.psycopg2 import register_vector
+try:
+    import psycopg2
+    from pgvector.psycopg2 import register_vector
+    _HAS_PSYCOPG2 = True
+except ImportError:
+    _HAS_PSYCOPG2 = False
 
 
 def load_config(path="config.yaml") -> dict:
@@ -113,6 +117,7 @@ def intent_precheck(query: str, intent_rules: List[dict]) -> Dict[str, Any]:
                 break
 
     blocked = any(h["action"] == "block" for h in hits)
+    flagged_for_strict = any(h["action"] == "flag" for h in hits)
     # Build human-readable trigger_reason from matched rules
     reasons = []
     for h in hits:
@@ -122,6 +127,7 @@ def intent_precheck(query: str, intent_rules: List[dict]) -> Dict[str, Any]:
 
     return {
         "blocked": blocked,
+        "flagged_for_strict": flagged_for_strict,
         "matched": hits,
         "decision": "block" if blocked else "allow",
         "trigger_reason": trigger_reason,
@@ -243,8 +249,11 @@ def rule_gate(query: str, policy_cfg: dict) -> Dict[str, Any]:
     parts = [r for r in [intent_res.get("trigger_reason"), hb_res.get("trigger_reason")] if r]
     trigger_reason = "; ".join(parts) if parts else None
 
+    flagged_for_strict = bool(intent_res.get("flagged_for_strict"))
+
     return {
         "blocked": blocked,
+        "flagged_for_strict": flagged_for_strict,
         "matched": merged_hits,
         "decision": "block" if blocked else "allow",
         "trigger_reason": trigger_reason,
@@ -609,10 +618,28 @@ def main():
 
         sec_index, sec_meta = load_faiss_index(paths["secret_index"], paths["secret_meta"])
 
-        # PostgreSQL connection for public corpus retrieval
-        db_params = get_db_params()
-        db_conn = psycopg2.connect(**db_params)
-        register_vector(db_conn)
+        # PostgreSQL connection for public corpus retrieval (skip if USE_POSTGRES=false)
+        if use_postgres() and _HAS_PSYCOPG2:
+            db_params = get_db_params()
+            db_conn = psycopg2.connect(**db_params)
+            register_vector(db_conn)
+
+        # =========================================================
+        # Gate 0 Decode: Encoding detection pre-processor
+        # =========================================================
+        decode_cfg = cfg.get("gate_0_decode", {}) or {}
+        if decode_cfg.get("enabled", False):
+            from gates.gate_0_decode import decode_gate
+            decode_result = decode_gate(query, decode_cfg)
+            if decode_result["encoding_detected"]:
+                writer.append("encoding_detected", {
+                    "session_id": session_id,
+                    "original_query": query,
+                    "decoded_query": decode_result["decoded_text"],
+                    "encoding_type": decode_result["encoding_type"],
+                    "all_detections": decode_result["all_detections"],
+                })
+                query = decode_result["decoded_text"]
 
         # =========================================================
         # Gate 0: RuleGate — merged intent + hardblock (<1ms, sync)
@@ -679,12 +706,21 @@ def main():
             # Intent-aware dual threshold: use lower threshold when
             # query contains extraction-intent amplifiers (e.g. "parameters",
             # "rules", "exact"), higher threshold for generic queries.
+            # If Gate 0a flagged for strict (HYP_01), use even lower threshold.
             base_thr = float(pre_cfg.get("threshold", 0.70))
             sens_thr = float(pre_cfg.get("sensitive_threshold", base_thr))
+            strict_thr = float(pre_cfg.get("strict_threshold", sens_thr - 0.05))
             amplifiers = pre_cfg.get("intent_amplifiers", [])
             q_lower = query.lower()
             has_intent = any(amp.lower() in q_lower for amp in amplifiers)
-            effective_threshold = sens_thr if has_intent else base_thr
+            flagged_strict = gate0_result.get("flagged_for_strict", False)
+
+            if flagged_strict:
+                effective_threshold = strict_thr
+            elif has_intent:
+                effective_threshold = sens_thr
+            else:
+                effective_threshold = base_thr
 
             t1 = time.time()
             emb_pre = embedding_secret_precheck(
@@ -784,13 +820,16 @@ def main():
         # =========================================================
         rag_cfg = cfg.get("rag", {}) or {}
         t2 = time.time()
-        docs, rerank_info = db_retrieve_topk(
-            db_conn,
-            query=query,
-            query_vec=query_vec,
-            top_k=int(rag_cfg.get("top_k", 5)),
-            candidate_k=int(rag_cfg.get("candidate_k", 50)),
-        )
+        if db_conn is not None:
+            docs, rerank_info = db_retrieve_topk(
+                db_conn,
+                query=query,
+                query_vec=query_vec,
+                top_k=int(rag_cfg.get("top_k", 5)),
+                candidate_k=int(rag_cfg.get("candidate_k", 50)),
+            )
+        else:
+            docs, rerank_info = [], {"ticker": None, "candidate_k": 0}
         t_retrieve = time.time() - t2
 
         writer.append("retrieve", {

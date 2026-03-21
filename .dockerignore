@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+.git/
+.env
+*.egg-info/
+data/audit/
+data/ingestion/
+data/raw/
+data/processed/
+data/benchmark/financial_phrasebank.jsonl
+*.ipynb
+.pytest_cache/
+Untitled.ipynb
+docs/*.pdf

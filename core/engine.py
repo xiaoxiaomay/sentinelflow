@@ -2,11 +2,9 @@ import os
 import time
 import uuid
 import numpy as np
-import psycopg2
-from pgvector.psycopg2 import register_vector
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
-from core.config_loader import get_db_params
+from core.config_loader import get_db_params, use_postgres
 from sentence_transformers import SentenceTransformer
 
 from dotenv import load_dotenv
@@ -30,10 +28,14 @@ class SentinelEngine:
         model_name = emb_cfg.get("model_name", "sentence-transformers/all-MiniLM-L6-v2")
         self.embed_model = SentenceTransformer(model_name)
 
-        # 3. 初始化 PostgreSQL 连接 (公开语料)
-        db_params = get_db_params()
-        self.db_conn = psycopg2.connect(**db_params)
-        register_vector(self.db_conn)
+        # 3. 初始化 PostgreSQL 连接 (公开语料) — skip if USE_POSTGRES=false
+        self.db_conn = None
+        if use_postgres():
+            import psycopg2
+            from pgvector.psycopg2 import register_vector
+            db_params = get_db_params()
+            self.db_conn = psycopg2.connect(**db_params)
+            register_vector(self.db_conn)
 
         # 4. 加载本地 FAISS 索引 (私密语料 - 用于安全扫描)
         paths = self.cfg.get("paths", {})
@@ -50,6 +52,8 @@ class SentinelEngine:
 
     def _db_retrieve(self, query_vec: np.ndarray, top_k: int = 5) -> List[Dict]:
         """从 PostgreSQL 执行向量检索，并返回标准化的文档格式"""
+        if self.db_conn is None:
+            return []  # No PostgreSQL — fallback to general knowledge mode
         with self.db_conn.cursor() as cur:
             # 这里的 (1 - distance) 计算余弦相似度分数
             cur.execute("""
@@ -89,6 +93,20 @@ class SentinelEngine:
             "model": self.cfg.get("embedding", {}).get("model_name", "sentence-transformers/all-MiniLM-L6-v2"),
             "llm_called": False,
         })
+
+        # --- GATE 0 Decode: Encoding detection pre-processor ---
+        decode_cfg = self.cfg.get("gate_0_decode", {}) or {}
+        if decode_cfg.get("enabled", False):
+            from gates.gate_0_decode import decode_gate
+            decode_result = decode_gate(query, decode_cfg)
+            if decode_result["encoding_detected"]:
+                self.writer.append("encoding_detected", {
+                    "session_id": session_id,
+                    "original_query": query,
+                    "decoded_query": decode_result["decoded_text"],
+                    "encoding_type": decode_result["encoding_type"],
+                })
+                query = decode_result["decoded_text"]
 
         # --- GATE 0: 规则过滤 (意图预检) ---
         gate0_res = rule_gate(query, self.cfg.get("policy", {}))
@@ -300,5 +318,5 @@ class SentinelEngine:
 
     def __del__(self):
         """确保程序退出时关闭数据库连接"""
-        if hasattr(self, 'db_conn'):
+        if hasattr(self, 'db_conn') and self.db_conn is not None:
             self.db_conn.close()

@@ -1,0 +1,92 @@
+version: '3.8'
+
+# =============================================================
+# SentinelFlow — Docker Compose for Paper Reviewers
+#
+# Quick start (no API key needed):
+#   docker-compose run --rm ablation
+#
+# With OpenAI API key:
+#   OPENAI_API_KEY=sk-... docker-compose run --rm full-eval
+#
+# Web UI (needs API key + PostgreSQL — see below):
+#   docker-compose up sentinelflow
+# =============================================================
+
+services:
+  # --- Evaluation services (no PostgreSQL needed) ---
+
+  ablation:
+    build: .
+    environment:
+      - USE_POSTGRES=false
+    volumes:
+      - ./eval/results:/app/eval/results
+    command: python eval/run_ablation.py --all
+    profiles: ["eval"]
+
+  latency:
+    build: .
+    environment:
+      - USE_POSTGRES=false
+    volumes:
+      - ./eval/results:/app/eval/results
+      - ./eval/figures:/app/eval/figures
+    command: python eval/run_latency_benchmark.py
+    profiles: ["latency"]
+
+  medical:
+    build: .
+    environment:
+      - USE_POSTGRES=false
+    volumes:
+      - ./eval/results:/app/eval/results
+    command: python eval/run_medical_eval.py
+    profiles: ["medical"]
+
+  statistical:
+    build: .
+    environment:
+      - USE_POSTGRES=false
+    volumes:
+      - ./eval/results:/app/eval/results
+    command: python eval/run_statistical_eval.py --runs 5
+    profiles: ["statistical"]
+
+  full-eval:
+    build: .
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_POSTGRES=false
+    volumes:
+      - ./eval/results:/app/eval/results
+    command: >
+      sh -c "
+        python eval/run_ablation.py --all &&
+        python eval/run_statistical_eval.py --runs 5 &&
+        python eval/run_latency_benchmark.py &&
+        python eval/run_medical_eval.py &&
+        python eval/analyze_bypass_cases.py &&
+        python eval/run_full_pipeline_eval.py &&
+        python eval/generate_latex_tables.py --results-dir eval/results/ --output eval/latex_tables/ &&
+        echo '=== All evaluations complete ==='
+      "
+    profiles: ["full"]
+
+  # --- Web UI (requires PostgreSQL) ---
+
+  sentinelflow:
+    build: .
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - USE_POSTGRES=${USE_POSTGRES:-false}
+      - DB_HOST=${DB_HOST:-localhost}
+      - DB_NAME=${DB_NAME:-sentinel_db}
+      - DB_USER=${DB_USER:-postgres}
+      - DB_PASSWORD=${DB_PASSWORD:-}
+    volumes:
+      - ./data:/app/data
+      - ./eval/results:/app/eval/results
+    ports:
+      - "8501:8501"
+    command: streamlit run web_chat_app.py --server.port 8501

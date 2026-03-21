@@ -11,6 +11,8 @@ SentinelFlow prevents confidential financial strategy leakage from LLM-powered r
 
 ## Key Results
 
+### Thesis Evaluation (70 original prompts)
+
 | Metric | Target | SentinelFlow (B2) | Baseline (B0) |
 |--------|--------|-------------------|---------------|
 | Core ASR (70 adversarial prompts) | 0% | **0.00%** | 1.43% |
@@ -19,7 +21,22 @@ SentinelFlow prevents confidential financial strategy leakage from LLM-powered r
 | Boundary Test (15 hardening cases) | 100% | **100%** | — |
 | Audit Chain Integrity | 100% | **100%** | — |
 
-Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector. See [Evaluation Results](#evaluation-results) for full breakdown.
+### Journal Evaluation (271 expanded prompts, 13 attack categories)
+
+| Metric | Value |
+|--------|-------|
+| **True end-to-end ASR (full pipeline with LLM)** | **2.58%** (7/271) |
+| Pre-gate block rate | 49.1% (133/271 blocked before LLM) |
+| False Positive Rate (100 benign queries) | 2.00% |
+| McNemar's test (B0 vs B2) | p < 0.001 (significant) |
+| End-to-end gate latency (P50) | 28.75 ms |
+| Medical domain TPR (config-only adaptation) | 85.00% |
+| Medical domain FPR | 0.00% |
+| Encoding evasion gate tests | 17/17 passing |
+
+> **Note:** "Pre-gate block rate" measures prompts blocked by regex/embedding gates. "True ASR" measures actual secret leakage through the full pipeline (pre-gates + LLM + leakage scan). Most bypass cases produce no leakage because the LLM does not have access to proprietary secrets.
+
+Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector. See [Evaluation Results](#evaluation-results) and [RESULTS_SUMMARY.md](RESULTS_SUMMARY.md) for full breakdown.
 
 ---
 
@@ -383,6 +400,123 @@ prompt_monitoring:               # C4 — implemented, not enabled in eval confi
 
 ## Codebase Scale
 
-- **70 Python files**
-- **~12,400 lines of code**
-- **~400 lines of YAML configuration**
+- **70+ Python files**
+- **~14,000 lines of code**
+- **~500 lines of YAML configuration**
+
+---
+
+## Reproducing Paper Results
+
+### Prerequisites
+
+```bash
+pip install -r requirements.txt
+# scipy and matplotlib needed for statistical eval and plots:
+pip install scipy matplotlib statsmodels
+```
+
+### Docker Deployment (Recommended for Reviewers)
+
+The project includes `Dockerfile` and `docker-compose.yml` for fully containerized, reproducible evaluation. **No PostgreSQL needed** — all evaluation scripts run with local FAISS indexes.
+
+**Step 1: Build the image** (~5 min, downloads embedding model):
+```bash
+docker-compose build
+```
+
+**Step 2: Run evaluations** (no API key needed for most):
+```bash
+# Ablation study — 7 configurations, ~2 min
+docker-compose run --rm ablation
+
+# Latency benchmark — per-gate timing + plot, ~3 min
+docker-compose run --rm latency
+
+# Medical domain generalization, ~1 min
+docker-compose run --rm medical
+
+# Statistical evaluation (5 runs), ~2 min
+docker-compose run --rm statistical
+```
+
+**Step 3: Full evaluation suite** (requires OPENAI_API_KEY for LLM calls):
+```bash
+OPENAI_API_KEY=sk-... docker-compose run --rm full-eval
+# Runs all evaluations including full pipeline eval with LLM
+# Estimated API cost: ~$0.01 (GPT-4o-mini)
+```
+
+Results are saved to `eval/results/` (mounted as Docker volume).
+
+**Available Docker services:**
+
+| Service | Profile | API Key? | Description |
+|---------|---------|----------|-------------|
+| `ablation` | `eval` | No | Ablation study (7 gate configs) |
+| `latency` | `latency` | No | Per-gate latency benchmark + PDF plot |
+| `medical` | `medical` | No | Medical domain generalization eval |
+| `statistical` | `statistical` | No | Multi-run statistical eval (5 runs) |
+| `full-eval` | `full` | Yes | All evaluations + full pipeline with LLM |
+| `sentinelflow` | (default) | Yes | Streamlit web UI (needs PostgreSQL) |
+
+> **Note:** The web UI (`sentinelflow` service) requires an external PostgreSQL database with the financial corpus. Set `USE_POSTGRES=true` and `DB_HOST`/`DB_PASSWORD` environment variables. All evaluation services run without PostgreSQL.
+
+### Full Evaluation Suite (without Docker)
+
+```bash
+OPENAI_API_KEY=your-key ./reproduce_paper_results.sh
+```
+
+### Individual Evaluations
+
+```bash
+# Ablation study (7 configs, no LLM calls needed)
+python eval/run_ablation.py --all
+
+# Statistical evaluation (5 runs, B0 vs B2)
+python eval/run_statistical_eval.py --runs 5
+
+# Latency benchmark (per-gate timing + scalability)
+python eval/run_latency_benchmark.py
+
+# Medical domain generalization
+python eval/run_medical_eval.py
+
+# Generate LaTeX tables for paper
+python eval/generate_latex_tables.py --results-dir eval/results/ --output eval/latex_tables/
+```
+
+### Encoding Evasion Tests
+
+```bash
+python -m pytest tests/test_encoding_gate.py -v
+```
+
+### New Files (Journal Upgrade)
+
+```
+UPGRADE_PLAN.md                          # Upgrade analysis and plan
+RESULTS_SUMMARY.md                       # Comprehensive results with true ASR vs bypass rate
+data/attack_prompts_expanded.jsonl       # 271 adversarial prompts (expanded from 70)
+data/attack_prompts_extended.jsonl       # 30 cross-category attack prompts
+data/medical/                            # Medical domain pilot data
+gates/gate_0_decode.py                   # Encoding detection gate (Base64/ROT13/Hex/URL/Unicode)
+eval/run_ablation.py                     # Ablation study (7 configurations)
+eval/run_statistical_eval.py             # Multi-run statistical evaluation
+eval/run_latency_benchmark.py            # Publication-quality latency benchmark
+eval/run_medical_eval.py                 # Cross-domain generalization evaluation
+eval/run_full_pipeline_eval.py           # Full pipeline eval with LLM (true ASR measurement)
+eval/analyze_bypass_cases.py             # Bypass root cause analysis (Phase 11)
+eval/generate_latex_tables.py            # LaTeX table generator for paper
+eval/ablation_table.py                   # Ablation-specific LaTeX table
+eval/results/                            # All evaluation result JSONs
+eval/latex_tables/                       # LaTeX table snippets for paper
+eval/figures/latency_plot.pdf            # Latency visualization
+config_medical.yaml                      # Medical domain configuration
+Dockerfile                               # Docker containerization
+docker-compose.yml                       # Docker Compose orchestration
+reproduce_paper_results.sh               # One-command reproduction script
+sentinelflow_journal_v1.tex              # IEEE 2-column journal format
+tests/test_encoding_gate.py              # Encoding gate unit tests
+```
