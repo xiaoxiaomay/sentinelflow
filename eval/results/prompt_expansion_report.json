@@ -1,0 +1,39 @@
+{
+  "total_expanded_prompts": 271,
+  "total_extended_prompts": 30,
+  "total_combined": 301,
+  "original_count": 70,
+  "generated_paraphrases": 201,
+  "valid_target_secrets": 211,
+  "invalid_target_secrets": 90,
+  "group_distribution": {
+    "direct_extraction": 51,
+    "indirect_extraction": 40,
+    "paraphrase_extraction": 20,
+    "salami_attack": 33,
+    "social_engineering": 23,
+    "encoding_extraction": 20,
+    "prompt_injection": 29,
+    "adversarial_exfil": 16,
+    "hard_block": 19,
+    "indirect_injection": 20,
+    "multi_turn_session": 15,
+    "authority_impersonation": 8,
+    "context_injection": 7
+  },
+  "difficulty_distribution": {
+    "easy": 78,
+    "medium": 87,
+    "hard": 136
+  },
+  "technique_distribution": {
+    "original": 100,
+    "hypothetical_extraction": 27,
+    "academic_framing": 29,
+    "passive_voice": 34,
+    "roleplay_framing": 30,
+    "multi_step_decomposition": 29,
+    "indirect_reference": 28,
+    "synonym_substitution": 24
+  }
+}

@@ -1,0 +1,169 @@
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+
+openai_model: "gpt-4o-mini"
+
+gate_0_decode:
+  enabled: true
+  base64_min_length: 20
+  require_printable_ratio: 0.60
+  log_decoded_payloads: true
+
+paths:
+  secret_index: "data/medical/medical_secrets.faiss"
+  secret_meta:  "data/medical/medical_secrets_meta.pkl"
+
+audit:
+  out_dir: "data/audit"
+  file_name: "medical_audit_log.jsonl"
+
+# -------------------------
+# Gate 0: intent rules (adapted for medical domain)
+# -------------------------
+policy:
+  block_message: "[BLOCKED] Unsafe intent detected by SentinelFlow."
+  intent_rules:
+    - id: INJ_01
+      name: prompt_injection_override
+      severity: high
+      action: block
+      patterns:
+        - "ignore\\s+all\\s+previous\\s+instructions"
+        - "disregard\\s+the\\s+system"
+        - "developer\\s+mode"
+        - "jailbreak"
+        - "do\\s+anything\\s+now"
+        - "you\\s+are\\s+now\\s+a\\s+system\\s+admin"
+        - "override\\s+the\\s+rules"
+
+    - id: SYS_01
+      name: system_prompt_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "reveal\\s+your\\s+system\\s+prompt"
+        - "print\\s+the\\s+system\\s+prompt"
+        - "hidden\\s+instructions"
+        - "internal\\s+policy"
+
+    - id: MED_01
+      name: confidential_protocol_request
+      severity: high
+      action: block
+      patterns:
+        - "confidential\\s+(protocol|criteria|formula|dosing|threshold|parameter|algorithm|score)"
+        - "proprietary\\s+(protocol|formula|dosing|algorithm|excipient|cytokine|vector|capsid)"
+        - "private\\s+(protocol|criteria|formula|dosing|threshold)"
+        - "non[- ]public\\s+(protocol|criteria|formula|data)"
+        - "\\binternal\\s+(protocol|criteria|dosing|threshold|coefficient|formula|algorithm)"
+        - "\\bsecrets?\\s+(index|ids?|data|protocol|formula)"
+
+    - id: MED_02
+      name: clinical_data_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "exact\\s+(dosing|dose|threshold|cutoff|coefficient|criteria|ratio|formula)"
+        - "specific\\s+(dosing|threshold|cutoff|coefficient|criteria|ratio|parameters?)"
+
+  # Gate 0b: hard-block class (adapted for medical domain)
+  hard_block:
+    enabled: true
+    action: block
+    severity: high
+    name: hard_block_medical_exfiltration
+
+    direct_patterns:
+      - "system\\s*prompt"
+      - "hidden\\s+instructions"
+      - "internal\\s+policy"
+      - "audit\\s*log"
+      - "secret\\s+index"
+      - "api\\s*key|openai\\s*key"
+      - "passwords?|credentials?"
+
+    exfil_verbs:
+      - "reveal"
+      - "show"
+      - "print"
+      - "dump"
+      - "export"
+      - "leak"
+      - "exfiltrate"
+      - "return"
+      - "give me"
+      - "provide"
+      - "output"
+      - "display"
+      - "list"
+      - "disclose"
+
+    sensitive_objects:
+      - "system prompt"
+      - "hidden instruction"
+      - "audit log"
+      - "secret"
+      - "api key"
+      - "password"
+      - "credential"
+      # Medical domain sensitive objects
+      - "clinical protocol"
+      - "drug formula"
+      - "dosing threshold"
+      - "biomarker cutoff"
+      - "trial parameter"
+      - "patient cohort"
+      - "escalation rule"
+      - "eGFR threshold"
+      - "dosing algorithm"
+      - "excipient ratio"
+      - "release criteria"
+      - "acceptance criteria"
+      - "institutional coefficient"
+      - "proprietary"
+      - "confidential protocol"
+      - "formulation parameter"
+
+# -------------------------
+# Gate 1: embedding precheck (same thresholds — domain-agnostic)
+# -------------------------
+query_precheck:
+  enabled: true
+  threshold: 0.75
+  sensitive_threshold: 0.50
+  top_k_secrets: 3
+  block_message: "[BLOCKED] This query is too similar to internal confidential topics."
+  intent_amplifiers:
+    - "parameters"
+    - "thresholds"
+    - "exact"
+    - "specific"
+    - "criteria"
+    - "formula"
+    - "protocol"
+    - "dosing"
+    - "dose"
+    - "cutoff"
+    - "coefficient"
+    - "ratio"
+    - "algorithm"
+    - "escalation"
+    - "trigger"
+    - "conditions"
+    - "institutional"
+    - "proprietary"
+    - "internal"
+
+# Grounding (same thresholds)
+grounding:
+  enabled: true
+  threshold: 0.55
+  action: "redact"
+
+# Leakage scan (same thresholds)
+leakage:
+  hard_threshold: 0.70
+  soft_threshold: 0.60
+  cascade_k: 2
+  action: "redact"
+  top_k_secrets: 1

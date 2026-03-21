@@ -17,6 +17,15 @@ embedding:
 
 openai_model: "gpt-4o-mini"
 
+# -------------------------
+# Gate 0 Decode: Encoding detection pre-processor
+# -------------------------
+gate_0_decode:
+  enabled: true
+  base64_min_length: 20
+  require_printable_ratio: 0.60
+  log_decoded_payloads: true
+
 db:
   host: "18.220.95.90"
   name: "sentinel_db"
@@ -108,6 +117,27 @@ policy:
         - "\\binternal\\s+trading\\s+rules?"
         - "\\binternal\\s+risk\\s+(management\\s+)?rules?"
         - "\\binternal\\s+(strateg(y|ies)|positions?\\s+limits?|thresholds?|models?)"
+
+    # Hypothetical / academic framing that targets secrets (Phase 12 fix)
+    # These flag for strict threshold rather than hard-block
+    - id: HYP_01
+      name: hypothetical_academic_framing
+      severity: medium
+      action: flag
+      patterns:
+        - "hypothetically.*?(threshold|parameter|rule|strategy|formula|ratio|allocation)"
+        - "in\\s+a.*?(case\\s+study|research|paper|thesis|example).*?(strategy|parameter|rule|threshold|formula|protocol)"
+        - "assume.*?(firm|fund|desk|system)\\s+(uses?|using|with|has)"
+        - "fictional.*?(trader|desk|fund|scenario).*?(uses?|using|with)"
+        - "for\\s+(my|a)\\s+(graduate|research|academic|university).*?(thesis|paper|project|study)"
+        - "imagine\\s+you\\s+are\\s+a\\s+(senior|lead|chief)"
+        - "pretend\\s+this\\s+is\\s+a\\s+(compliance|security|regulatory)"
+        - "in\\s+a\\s+(training|hypothetical|fictional)\\s+scenario"
+        - "off\\s+the\\s+record"
+        - "between\\s+you\\s+and\\s+me"
+        - "speaking\\s+generally.*?(system|fund|firm|desk)"
+        - "parallel\\s+universe"
+        - "thought\\s+experiment"
 
     # Embeddings / vectors / secret index data exfil
     - id: EXF_01
@@ -205,6 +235,7 @@ query_precheck:
   enabled: true
   threshold: 0.75
   sensitive_threshold: 0.50
+  strict_threshold: 0.45          # used when Gate 0a flags hypothetical/academic framing (HYP_01)
   top_k_secrets: 3
   block_message: "[BLOCKED] This query is too similar to internal confidential topics."
   intent_amplifiers:
@@ -237,6 +268,41 @@ query_precheck:
     - "position caps"
     - "constraint"
     - "constraints"
+    # Phase 12 expanded amplifiers (bypass analysis)
+    - "routing"
+    - "dark pool"
+    - "dark pools"
+    - "drawdown"
+    - "circuit breaker"
+    - "fee structure"
+    - "management fee"
+    - "performance fee"
+    - "allocation"
+    - "percentages"
+    - "percentage"
+    - "ratio"
+    - "ratios"
+    - "rebalance"
+    - "rebalancing"
+    - "scoring"
+    - "model features"
+    - "feature importance"
+    - "stress test"
+    - "leverage"
+    - "vix"
+    - "market impact"
+    - "impact model"
+    - "sentiment"
+    - "sector cap"
+    - "single-name cap"
+    - "volatility target"
+    - "hypothetical"
+    - "hypothetically"
+    - "assume"
+    - "fictional"
+    - "case study"
+    - "research paper"
+    - "graduate thesis"
 
 # -------------------------
 # Grounding check

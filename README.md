@@ -49,6 +49,10 @@ User Query
 ┌─────────────────────────────────────────────────────────────┐
 │  PRE-LLM GATES (fail-safe: LLM never called if blocked)     │
 │                                                             │
+│  Gate 0 Decode: Encoding Normalizer    (<0.1ms)             │
+│  ├─ Base64, ROT13, Hex, URL, Unicode, Reversed text         │
+│  └─ Decodes obfuscated payloads → passes to Gate 0a         │
+│                                                             │
 │  Gate 0a: Regex Intent Precheck        (~0.1ms)             │
 │  ├─ 5 rule categories (INJ/SYS/AUD/INT/EXF)                 │
 │  └─ Blocks prompt injection, sys-prompt exfiltration        │
@@ -57,9 +61,10 @@ User Query
 │  ├─ 13 exfiltration verbs × 23 sensitive objects            │
 │  └─ Combinatorial matrix: export × trading_strategy → BLOCK │
 │                                                             │
-│  Gate 1: Embedding Dual-Threshold      (~3ms)               │
+│  Gate 1: Embedding Dual-Threshold      (~15ms)              │
 │  ├─ SBERT all-MiniLM-L6-v2 (384-dim)                        │
 │  ├─ 28 intent amplifier keywords                            │
+│  ├─ HYP_01: hypothetical/academic framing → τ=0.45          │
 │  └─ τ_generic=0.75 | τ_extraction=0.50 (dual threshold)    │
 └─────────────────────────────────────────────────────────────┘
     │ (query allowed)
@@ -92,16 +97,17 @@ Final Output  ──────────────────────
 
 ---
 
-## Six Contributions (C1–C6)
+## Seven Contributions (C1–C7)
 
 | ID | Contribution | Key Design |
 |----|-------------|-----------|
 | C1 | Multi-Gate Inline Security Pipeline | Sequential gates; any pre-gate block short-circuits pipeline |
 | C2 | Sentence-Level Semantic Leakage Firewall | Three-tier hard/soft/cascade thresholds; salami attack defense |
-| C3 | L0–L3 Financial Knowledge Sensitivity Spectrum | 60 secret entries · 70 adversarial prompts · 10 attack categories |
+| C3 | L0–L3 Financial Knowledge Sensitivity Spectrum | 60 secret entries · 271 adversarial prompts · 13 attack categories (70 original + 201 paraphrases × 7 evasion techniques) |
 | C4 | Prompt Distribution Monitoring | Embedding centroid z-score; dynamically tightens leakage thresholds (implemented, not enabled in evaluated config) |
 | C5 | Tamper-Evident SHA-256 Dual Hash Chain | Global + per-session chains; 12 event types; verification tooling |
-| C6 | Reproducible Adversarial Evaluation Methodology | B0 baseline vs B2 SentinelFlow; 70 prompts × 10 categories |
+| C6 | Reproducible Adversarial Evaluation Methodology | Bypass root-cause analysis; ablation across 7 configs; 5-run statistical eval (McNemar p<0.001); per-gate latency benchmark |
+| C7 | Cross-Domain Generalization | Medical domain pilot: 85% TPR, 0% FPR — config-only adaptation, zero code changes |
 
 ---
 
@@ -224,11 +230,14 @@ Each event stores `event_hash` (SHA-256 of this event) and `prev_hash` (hash of 
 
 | Split | Size | Purpose |
 |-------|------|---------|
-| Attack prompts | 70 (10 categories) | B0 vs B2 ASR comparison |
+| Attack prompts (original) | 70 (10 categories) | B0 vs B2 ASR comparison (thesis) |
+| Attack prompts (expanded) | 271 (13 categories) | Journal evaluation — 201 adversarial paraphrases × 7 evasion techniques added |
 | Benign queries | 219 | FPR evaluation (real-world SEC EDGAR + Yahoo RSS) |
 | Boundary test cases | 15 | Iterative hardening validation |
 | External attacks | 24 (garak×14 + HarmBench×10) | Real-world attack vector validation |
 | Normal analyst queries | 100 | Behavioral baseline for C4 centroid |
+| Medical secrets | 20 (10×L2 + 10×L3) | Cross-domain generalization pilot |
+| Medical attack prompts | 20 | Medical domain adversarial evaluation |
 
 ---
 
@@ -517,6 +526,6 @@ config_medical.yaml                      # Medical domain configuration
 Dockerfile                               # Docker containerization
 docker-compose.yml                       # Docker Compose orchestration
 reproduce_paper_results.sh               # One-command reproduction script
-sentinelflow_journal_v1.tex              # IEEE 2-column journal format
+sentinelflow_journal_v2.tex              # IEEE 2-column journal format (latest)
 tests/test_encoding_gate.py              # Encoding gate unit tests
 ```
