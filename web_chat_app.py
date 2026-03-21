@@ -75,6 +75,24 @@ st.markdown("""
         padding-top: 1rem !important;
     }
     
+    /* 移除侧边栏内所有 columns 之间的间隙 */
+    [data-testid="stSidebar"] [data-testid="column"] {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    [data-testid="stSidebar"] [data-testid="stHorizontalBlock"] {
+        gap: 0px !important;
+    }
+    /* 调整 popover 按钮外观，使其更紧凑 */
+    [data-testid="stSidebar"] button[data-testid="baseButton-secondary"] {
+        border: none !important;
+    }
+    
+    div[data-testid="stButton"] button[kind="primary"] {
+        background-color: #ff4b4b !important;
+        color: white !important;
+    }
+    
     </style>
     """, unsafe_allow_html=True)
 
@@ -171,7 +189,7 @@ def generate_chat_title(question: str) -> str:
         
         system_prompt = (
             "You are a helpful assistant that generates concise titles for user questions. "
-            "Given a user's question, produce a very short title (no more than 10 words) that captures the essence of the question. "
+            "Given a user's question, produce a very short title (no more than 24 words) that captures the essence of the question. "
             "Return only the title without any explanation or additional text."
         )
         user_prompt = f"Question: {question}"
@@ -183,6 +201,7 @@ def generate_chat_title(question: str) -> str:
         return title.strip().replace('"', '')
     except:
         return question[:10] + "..." # 兜底逻辑
+
 
 # --- 5. 核心聊天页面 ---
 def show_chat_interface():
@@ -253,6 +272,31 @@ def show_chat_interface():
         # 此时 sessions 结构为 [{"id": "...", "title": "..."}, ...]
         sessions = chat_dao.get_user_session_list_with_titles(username) 
         
+        @st.dialog("delete confirmation", width=400)
+        def confirm_delete_dialog(sid):
+            st.write(f"Are you sure you want to delete this chat? This action cannot be undone.")
+            if st.button("Delete", type="primary"):
+                # 1. 执行数据库删除
+                chat_dao.delete_session(sid)
+                # 2. 清理 UI 状态残留
+                if f"edit_{sid}" in st.session_state:
+                    keys_to_delete = [
+                        f"edit_{sid}", 
+                        f"rename_mode_{sid}", 
+                        f"in_{sid}", 
+                        f"btn_{sid}",
+                        f"del_{sid}",
+                        f"rename_{sid}"
+                    ]
+                    for key in keys_to_delete:
+                        if key in st.session_state:
+                            del st.session_state[key]
+                # 3. 如果删除的是当前会话，重置 ID
+                if sid == st.session_state.current_session_id:
+                    st.session_state.current_session_id = str(uuid.uuid4())
+                # 4. 强制刷新，此时 sessions 列表会重新获取，被删的 session 自然消失
+                st.rerun()
+        
         if not sessions:
             st.caption("No history yet. Start a new chat!")
         else:
@@ -303,6 +347,71 @@ def show_chat_interface():
                     st.code(f"Hash: {log.get('event_hash', 'N/A')[:12]}...", language="text")
 
     # Main Chat Area
+                
+                # 使用容器布局，左侧按钮，右侧菜单
+                with st.container():
+                    c1, c2 = st.columns([0.85, 0.15], gap="small")
+                    with c1:
+                        # 3. 根据状态渲染不同样式的按钮
+                        if st.button(
+                            f"{display_label}", 
+                            key=f"btn_{sid}", 
+                            use_container_width=True,
+                            # 如果是当前对话，使用 primary (彩色/加粗)，否则使用 secondary (灰色)
+                            type="primary" if is_active else "secondary",
+                            # help=f"Full ID: {sid}"
+                        ):
+                            # 只有点击非当前 session 时才需要赋值并刷新
+                            if not is_active:
+                                st.session_state.current_session_id = sid
+                                st.rerun()
+                    with c2:
+                        # 三个小点的 Popover 菜单
+                        with st.popover("⋮"):
+                            # 重命名选项
+                            if st.button("Rename", key=f"rename_{sid}"):
+                                st.session_state[f"edit_{sid}"] = True
+                                st.rerun() # 触发重命名后立即刷新以显示输入框
+                            
+                            # 删除选项
+                            if st.button("Delete", key=f"del_{sid}"):        
+                                confirm_delete_dialog(sid) # 显示确认对话框
+                        
+                
+                # 编辑区域：只有当点击 Rename 时才会显示
+                if st.session_state.get(f"edit_{sid}"):
+                    new_title = st.text_input("Edit title:", value=display_label, key=f"in_{sid}")
+                    col_save, col_cancel = st.columns(2)
+                    with col_save:
+                        if st.button("Save", key=f"save_{sid}"):
+                            chat_dao.update_session_title(sid, new_title)
+                            st.session_state[f"edit_{sid}"] = False
+                            st.rerun()
+                    with col_cancel:
+                        if st.button("Cancel", key=f"cancel_{sid}"):
+                            st.session_state[f"edit_{sid}"] = False
+                            st.rerun()   
+        st.markdown("---")
+        st.subheader("Audit Control")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("DB Status", "Connected" if engine.db_conn else "Offline")
+        with col2:
+            st.metric("Security", "DFP Active")
+
+        st.subheader("🔗 HashChain Tracker")
+        logs = get_recent_audit_steps()
+        if not logs:
+            st.info("Awaiting command...")
+        else:
+            for log in reversed(logs):
+                event = log.get("type", "unknown")
+                icon = "🔍" if "check" in event else "📝"
+                if event == "final_output": icon = "✅"
+                with st.expander(f"{icon} {event.upper()}"):
+                    st.caption(f"Time: {log.get('ts', 'N/A')}")
+                    st.code(f"Hash: {log.get('event_hash', 'N/A')[:12]}...", language="text")                                    
+                
     # --- 主聊天区 ---
     st.title("SentinelFlow Financial RAG")
     
