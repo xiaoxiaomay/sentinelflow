@@ -1,0 +1,462 @@
+embedding:
+  model_name: "sentence-transformers/all-MiniLM-L6-v2"
+  chunk_size: 800     # for langchain_text_splitters
+  chunk_overlap: 100  # for langchain_text_splitters
+  separators: [
+                    "\n\n",              # 1. 双换行（段落）
+                    "\n",                # 2. 单换行（行）
+                    "。 ",               # 3. 中文句号 + 空格（规整的中英混排）
+                    "。",                # 4. 中文句号
+                    ". ",                # 5. 英文句号 + 空格（核心：保护数字小数点）
+                    "！", "!",           # 6. 感叹号（中英）
+                    "？", "?",           # 7. 问号（中英）
+                    "；", "; ",          # 8. 分号（中英，金融文档常用）
+                    " ",                # 9.  空格（单词边界）
+                    ""                  # 10. 字符级（保底方案）
+                ]
+
+openai_model: "gpt-4o-mini"
+
+# -------------------------
+# Gate 0 Decode: Encoding detection pre-processor
+# -------------------------
+gate_0_decode:
+  enabled: true
+  base64_min_length: 20
+  require_printable_ratio: 0.60
+  log_decoded_payloads: true
+
+db:
+  host: "18.220.95.90"
+  name: "sentinel_db"
+  user: "postgres"
+  password: "root"
+  port : 5432
+
+paths:
+  secret_index: "data/index/secrets_v2.faiss"
+  secret_meta:  "data/index/secrets_v2_meta.pkl"
+  docs_dir : "datasource/docs" # internal documents
+
+rag:
+  top_k: 5
+  candidate_k: 50
+  max_context_chars_per_doc: 1200
+  fallback_threshold: 0.40       # if max retrieval score < this, use general knowledge
+
+audit:
+  out_dir: "data/audit"
+  file_name: "audit_log.jsonl"
+
+# -------------------------
+# Gate 0: intent rules
+# -------------------------
+policy:
+  block_message: "[BLOCKED] Unsafe intent detected by SentinelFlow."
+  intent_rules:
+    # Prompt injection / role override
+    - id: INJ_01
+      name: prompt_injection_override
+      severity: high
+      action: block
+      patterns:
+        - "ignore\\s+all\\s+previous\\s+instructions"
+        - "disregard\\s+the\\s+system"
+        - "developer\\s+mode"
+        - "jailbreak"
+        - "do\\s+anything\\s+now"
+        - "you\\s+are\\s+now\\s+a\\s+system\\s+admin"
+        - "override\\s+the\\s+rules"
+
+    # System prompt / hidden instructions / policies
+    - id: SYS_01
+      name: system_prompt_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "reveal\\s+your\\s+system\\s+prompt"
+        - "reveal\\s+the\\s+system\\s+prompt"
+        - "print\\s+the\\s+system\\s+prompt"
+        - "hidden\\s+instructions"
+        - "internal\\s+policy"
+        - "policy\\s+rules"
+
+    # Audit log / internal files exfil
+    - id: AUD_01
+      name: audit_log_exfiltration
+      severity: high
+      action: block
+      patterns:
+        - "print\\s+the\\s+full\\s+audit\\s+log"
+        - "audit\\s+log\\s+file"
+        - "dump\\s+the\\s+audit"
+        - "show\\s+me\\s+the\\s+audit\\s+log"
+        - "contents\\s+of\\s+audit"
+
+    # "Internal only" / restricted sources
+    - id: INT_01
+      name: internal_only_request
+      severity: high
+      action: block
+      patterns:
+        - "^internal\\s+only"
+        - "restricted\\s+data\\s+sources"
+        - "restricted\\s+dataset"
+        - "client\\s+sensitive"
+        # proprietary + plural-safe nouns
+        - "proprietary\\s+(strateg(y|ies)|alpha|signals?|rules?|formulas?|models?|algorithms?)"
+        # private synonym (Gap 2 fix)
+        - "private\\s+(strateg(y|ies)|alpha|signals?|rules?|formulas?|models?|parameters?|thresholds?)"
+        # non-public synonym (Gap 2 fix)
+        - "non[- ]public\\s+(strateg(y|ies)|algorithms?|execution|data|rules?|models?|parameters?)"
+        # confidential + expanded alternation (Gap 1+3 fix: plurals + hedging/portfolio/execution/limit)
+        - "confidential\\s+(strateg(y|ies)|data|rules?|parameters?|thresholds?|signals?|alpha|models?|information|hedg(e|ing)|portfolio|execution|algorithms?|formulas?|positions?|limits?)"
+        - "\\bsecrets?\\s+(index|ids?|data|strategy|rule|parameter|list)"
+        - "^secret:"
+        # internal + sensitive combos (Gap 7 fix: remove ^ anchor dependency)
+        - "\\binternal\\s+trading\\s+rules?"
+        - "\\binternal\\s+risk\\s+(management\\s+)?rules?"
+        - "\\binternal\\s+(strateg(y|ies)|positions?\\s+limits?|thresholds?|models?)"
+
+    # Hypothetical / academic framing that targets secrets (Phase 12 fix)
+    # These flag for strict threshold rather than hard-block
+    - id: HYP_01
+      name: hypothetical_academic_framing
+      severity: medium
+      action: flag
+      patterns:
+        - "hypothetically.*?(threshold|parameter|rule|strategy|formula|ratio|allocation)"
+        - "in\\s+a.*?(case\\s+study|research|paper|thesis|example).*?(strategy|parameter|rule|threshold|formula|protocol)"
+        - "assume.*?(firm|fund|desk|system)\\s+(uses?|using|with|has)"
+        - "fictional.*?(trader|desk|fund|scenario).*?(uses?|using|with)"
+        - "for\\s+(my|a)\\s+(graduate|research|academic|university).*?(thesis|paper|project|study)"
+        - "imagine\\s+you\\s+are\\s+a\\s+(senior|lead|chief)"
+        - "pretend\\s+this\\s+is\\s+a\\s+(compliance|security|regulatory)"
+        - "in\\s+a\\s+(training|hypothetical|fictional)\\s+scenario"
+        - "off\\s+the\\s+record"
+        - "between\\s+you\\s+and\\s+me"
+        - "speaking\\s+generally.*?(system|fund|firm|desk)"
+        - "parallel\\s+universe"
+        - "thought\\s+experiment"
+
+    # Embeddings / vectors / secret index data exfil
+    - id: EXF_01
+      name: data_exfiltration_request
+      severity: high
+      action: block
+      patterns:
+        - "tell\\s+me\\s+the\\s+secret"
+        - "confidential\\s+strategy"
+        - "internal\\s+alpha\\s+rules?"
+        - "rsi\\s*<\\s*25\\s+strategy\\s+logic"
+        - "exact\\s+buy\\s*-?signal\\s+rule"
+        - "entry\\s+conditions\\s+for\\s+the\\s+rsi"
+        - "internal\\s+threshold"
+        - "list\\s+any\\s+secret\\s+ids"
+        - "return\\s+the\\s+embedding\\s+vectors"
+        - "secret\\s+index"
+        - "provide\\s+the\\s+restricted\\s+dataset\\s+names"
+        # alpha extraction patterns (Gap 4/8 fix)
+        - "alpha\\s+(generation|rules?|formulas?)"
+
+  # -------------------------
+  # Gate 0b: hard-block class (generic exfiltration)
+  # Minimal, rule-based "classifier":
+  # block if (exfil_verb AND sensitive_object) OR direct_pattern hit
+  # -------------------------
+  hard_block:
+    enabled: true
+    action: block
+    severity: high
+    name: hard_block_exfiltration_class
+
+    # If any of these regex patterns match, block immediately
+    direct_patterns:
+      - "system\\s*prompt"
+      - "hidden\\s+instructions"
+      - "internal\\s+policy"
+      - "audit\\s*log"
+      - "secret\\s+index"
+      - "embedding\\s+vectors?"
+      - "api\\s*key|openai\\s*key"
+      - "passwords?|credentials?"
+      - "private\\s+keys?"
+
+    # exfiltration verbs (substring match, case-insensitive)
+    exfil_verbs:
+      - "reveal"
+      - "show"
+      - "print"
+      - "dump"
+      - "export"
+      - "leak"
+      - "exfiltrate"
+      - "return"
+      - "give me"
+      - "provide"
+      - "output"
+      - "display"
+      - "list"
+
+    # sensitive objects (substring match, case-insensitive)
+    sensitive_objects:
+      - "system prompt"
+      - "hidden instruction"
+      - "audit log"
+      - "audit"
+      - "secret"
+      - "secret index"
+      - "secrets.faiss"
+      - "finder_meta.pkl"
+      - "secrets_meta.pkl"
+      - "embedding"
+      - "api key"
+      - "openai key"
+      - "password"
+      - "credential"
+      - "private key"
+      # Financial domain sensitive objects (Gap 4 fix)
+      - "alpha rule"
+      - "alpha formula"
+      - "trading strategy"
+      - "trading strategies"
+      - "risk model"
+      - "position limit"
+      - "execution algorithm"
+      - "proprietary"
+
+
+
+
+# -------------------------
+# Gate 1: embedding precheck (secret similarity)
+# -------------------------
+query_precheck:
+  enabled: true
+  threshold: 0.75
+  sensitive_threshold: 0.50
+  strict_threshold: 0.45          # used when Gate 0a flags hypothetical/academic framing (HYP_01)
+  top_k_secrets: 3
+  block_message: "[BLOCKED] This query is too similar to internal confidential topics."
+  intent_amplifiers:
+    - "parameters"
+    - "thresholds"
+    - "rules"
+    - "exact"
+    - "specific"
+    - "conditions"
+    - "entry conditions"
+    - "exit conditions"
+    - "criteria"
+    - "logic"
+    - "formula"
+    - "signal"
+    - "trigger"
+    # Expanded amplifiers (Gap 6 fix)
+    - "strategies"
+    - "strategy"
+    - "hedging"
+    - "hedge"
+    - "limits"
+    - "position limits"
+    - "algorithm"
+    - "execution"
+    - "alpha"
+    - "internal rules"
+    - "trading rules"
+    - "position cap"
+    - "position caps"
+    - "constraint"
+    - "constraints"
+    # Phase 12 expanded amplifiers (bypass analysis)
+    - "routing"
+    - "dark pool"
+    - "dark pools"
+    - "drawdown"
+    - "circuit breaker"
+    - "fee structure"
+    - "management fee"
+    - "performance fee"
+    - "allocation"
+    - "percentages"
+    - "percentage"
+    - "ratio"
+    - "ratios"
+    - "rebalance"
+    - "rebalancing"
+    - "scoring"
+    - "model features"
+    - "feature importance"
+    - "stress test"
+    - "leverage"
+    - "vix"
+    - "market impact"
+    - "impact model"
+    - "sentiment"
+    - "sector cap"
+    - "single-name cap"
+    - "volatility target"
+    - "hypothetical"
+    - "hypothetically"
+    - "assume"
+    - "fictional"
+    - "case study"
+    - "research paper"
+    - "graduate thesis"
+
+# -------------------------
+# Grounding check
+# -------------------------
+grounding:
+  enabled: true
+  threshold: 0.55
+  action: "redact"
+  max_doc_chars: 1500
+  block_on_ungrounded: false
+  ungrounded_block_ratio: 0.50
+
+# -------------------------
+# Postcheck: leakage scan
+# -------------------------
+leakage:
+  hard_threshold: 0.70
+  soft_threshold: 0.60
+  cascade_k: 2
+  action: "redact"
+  top_k_secrets: 1
+
+# -------------------------
+# Digital Fingerprinting (DFP)
+# -------------------------
+dfp:
+  enabled: false                    # default off for backward compatibility
+  weights:
+    entropy: 0.35
+    cooccurrence: 0.65
+  entropy_baselines:                # computed by calibrate_dfp.py
+    char_entropy_mean: 4.2
+    char_entropy_std: 0.5
+    word_entropy_mean: 8.5
+    word_entropy_std: 1.0
+    numeric_density_mean: 0.03
+    numeric_density_std: 0.02
+    param_specificity_mean: 0.15
+    param_specificity_std: 0.08
+  cooccurrence:
+    threshold_operator_weight: 0.25
+    conjunction_weight: 0.20
+    actionable_verb_weight: 0.25
+    time_window_weight: 0.15
+    position_sizing_weight: 0.15
+    density_threshold: 0.65
+  cluster:
+    strategy_centroid_path: "data/index/dfp_strategy_centroid.pkl"
+    normal_centroid_path: "data/index/dfp_normal_centroid.pkl"
+    distance_threshold: 2.5          # Mahalanobis distance
+  dfp_boost: 0.08
+  composite_threshold: 0.70
+  financial_allowlist:
+    - "RSI"
+    - "MACD"
+    - "EBITDA"
+    - "P/E"
+    - "EPS"
+    - "Sharpe"
+    - "VWAP"
+    - "TWAP"
+    - "SMA"
+    - "EMA"
+    - "ATR"
+    - "ADV"
+    - "NAV"
+    - "AUM"
+    - "VaR"
+    - "VIX"
+    - "ROIC"
+    - "FCF"
+    - "ROE"
+    - "ROA"
+    - "ETF"
+    - "ADR"
+    - "IPO"
+    - "WACC"
+    - "CAPM"
+    - "OBV"
+    - "Bollinger"
+    - "Fibonacci"
+    - "Stochastic"
+
+# -------------------------
+# Llama Guard / PromptGuard
+# -------------------------
+guard:
+  enabled: false                    # start disabled, enable when ready
+  backend: "promptguard"            # "promptguard" | "llamaguard3" | "api"
+  model_path: "meta-llama/Prompt-Guard-86M"
+  timeout_s: 2.0
+  fail_mode: "closed"              # "closed" = block on timeout, "open" = allow
+  categories:
+    - "S1"
+    - "S2"
+    - "S5"
+    - "S8"
+    - "S13"
+
+# -------------------------
+# Prompt Distribution Monitoring (C4)
+# -------------------------
+prompt_monitoring:
+  enabled: false
+  centroid_path: "data/index/normal_centroid.pkl"
+  sigma_threshold: 2.0
+  threshold_tightening:
+    hard_delta: 0.05
+    soft_delta: 0.05
+
+# -------------------------
+# Benchmarking
+# -------------------------
+benchmark:
+  datasets:
+    jailbreakbench:
+      source: "JailbreakBench/JBB-Behaviors"
+      local_cache: "data/benchmark/jailbreakbench.jsonl"
+    advbench:
+      source: "data/raw/harmful_behaviors.csv"
+      local_cache: "data/benchmark/advbench_prompts.jsonl"
+    salesforce_prompt_leakage:
+      source: "salesforce/prompt-leakage"
+      subset: "finance"
+      local_cache: "data/benchmark/salesforce_leakage.jsonl"
+    financial_phrasebank:
+      source: "data/raw/FinancialPhraseBank-v1.0/Sentences_AllAgree.txt"
+      local_cache: "data/benchmark/financial_phrasebank.jsonl"
+      sample_size: 200
+      seed: 42
+    custom_exfil:
+      source: "data/benchmark/custom_strategy_exfil.jsonl"
+  garak:
+    probes:
+      - "promptinject"
+      - "leakreplay"
+      - "latentinjection"
+      - "dan"
+      - "encoding"
+    target: "http://localhost:8000/v1/chat/completions"
+  reports_dir: "reports"
+  timeout_per_query_s: 60
+
+# -------------------------
+# configuration for scraper
+# -------------------------
+scraper:
+  # item_limit: 10         # 抓取达到数目后 关闭爬虫蜘蛛 (这个是scrapy的全局设置，会形成抓取的马太效应，暂时不用)
+  item_per_source : 15     # 每个源各抓10个
+  concurrent_requests: 3   # 并发数量
+
+# -------------------------
+# chunk configuration for docs ingestion
+# -------------------------
+ingestion:
+  chunk_size : 500          # The approximate number of characters in each chunk
+  chunk_overlap : 50        # The overlap between blocks prevents semantic breaks
