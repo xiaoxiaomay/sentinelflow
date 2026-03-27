@@ -113,14 +113,22 @@ def evaluate_query(
     if g0_res["blocked"]:
         return {"blocked": True, "blocked_by": "gate_0"}
 
-    # Gate 1 (embedding)
+    # Gate 1 (embedding) — tri-level threshold (ported from run_rag_with_audit.py)
     query_vec = embed_model.encode([query], normalize_embeddings=True).astype("float32")
     base_thr = float(pre_cfg.get("threshold", 0.75))
-    sens_thr = float(pre_cfg.get("sensitive_threshold", 0.50))
+    sens_thr = float(pre_cfg.get("sensitive_threshold", base_thr))
+    strict_thr = float(pre_cfg.get("strict_threshold", sens_thr - 0.05))
     amplifiers = pre_cfg.get("intent_amplifiers", [])
     q_lower = query.lower()
     has_intent = any(amp.lower() in q_lower for amp in amplifiers)
-    effective_threshold = sens_thr if has_intent else base_thr
+    flagged_strict = g0_res.get("flagged_for_strict", False)
+
+    if flagged_strict:
+        effective_threshold = strict_thr
+    elif has_intent:
+        effective_threshold = sens_thr
+    else:
+        effective_threshold = base_thr
 
     g1_res = embedding_secret_precheck(
         embed_model, query, sec_index, sec_meta,

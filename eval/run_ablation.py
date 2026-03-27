@@ -111,6 +111,7 @@ def run_single_query(
     leak_cfg = cfg.get("leakage", {})
 
     # --- Gate 0a: regex intent ---
+    g0a_res = {"blocked": False, "flagged_for_strict": False, "matched": []}
     if config["gate_0a"]:
         intent_rules = policy_cfg.get("intent_rules", [])
         g0a_res = intent_precheck(query, intent_rules)
@@ -133,12 +134,21 @@ def run_single_query(
         if config.get("single_tau") is not None:
             effective_threshold = config["single_tau"]
         else:
+            # Tri-level threshold (ported from run_rag_with_audit.py)
             base_thr = float(pre_cfg.get("threshold", 0.75))
-            sens_thr = float(pre_cfg.get("sensitive_threshold", 0.50))
+            sens_thr = float(pre_cfg.get("sensitive_threshold", base_thr))
+            strict_thr = float(pre_cfg.get("strict_threshold", sens_thr - 0.05))
             amplifiers = pre_cfg.get("intent_amplifiers", [])
             q_lower = query.lower()
             has_intent = any(amp.lower() in q_lower for amp in amplifiers)
-            effective_threshold = sens_thr if has_intent else base_thr
+            flagged_strict = g0a_res.get("flagged_for_strict", False)
+
+            if flagged_strict:
+                effective_threshold = strict_thr
+            elif has_intent:
+                effective_threshold = sens_thr
+            else:
+                effective_threshold = base_thr
 
         g1_res = embedding_secret_precheck(
             embed_model, query, sec_index, sec_meta,

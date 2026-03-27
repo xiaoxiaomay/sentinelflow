@@ -26,8 +26,8 @@ SentinelFlow prevents confidential financial strategy leakage from LLM-powered r
 | Metric | Value |
 |--------|-------|
 | **True end-to-end ASR (full pipeline with LLM)** | **2.58%** (7/271) |
-| Pre-gate block rate | 49.1% (133/271 blocked before LLM) |
-| False Positive Rate (100 benign queries) | 2.00% |
+| Pre-gate block rate | 46.1% (125/271 blocked before LLM) |
+| False Positive Rate (100 benign queries) | 3.00% |
 | McNemar's test (B0 vs B2) | p < 0.001 (significant) |
 | End-to-end gate latency (P50) | 28.75 ms |
 | Medical domain TPR (config-only adaptation) | 85.00% |
@@ -36,7 +36,7 @@ SentinelFlow prevents confidential financial strategy leakage from LLM-powered r
 
 > **Note:** "Pre-gate block rate" measures prompts blocked by regex/embedding gates. "True ASR" measures actual secret leakage through the full pipeline (pre-gates + LLM + leakage scan). Most bypass cases produce no leakage because the LLM does not have access to proprietary secrets.
 
-Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector. See [Evaluation Results](#evaluation-results) and [RESULTS_SUMMARY.md](RESULTS_SUMMARY.md) for full breakdown.
+Knowledge base: 18,516 document chunks (SEC 10-K filings + real-time financial news), stored in PostgreSQL with pgvector. See [Evaluation Results](#evaluation-results) for full breakdown.
 
 ---
 
@@ -54,7 +54,7 @@ User Query
 │  └─ Decodes obfuscated payloads → passes to Gate 0a         │
 │                                                             │
 │  Gate 0a: Regex Intent Precheck        (~0.1ms)             │
-│  ├─ 5 rule categories (INJ/SYS/AUD/INT/EXF)                 │
+│  ├─ 6 rule categories (INJ/SYS/AUD/INT/EXF + HYP_01 flag)  │
 │  └─ Blocks prompt injection, sys-prompt exfiltration        │
 │                                                             │
 │  Gate 0b: Verb×Object Classifier       (~0.5ms)             │
@@ -63,7 +63,7 @@ User Query
 │                                                             │
 │  Gate 1: Embedding Dual-Threshold      (~15ms)              │
 │  ├─ SBERT all-MiniLM-L6-v2 (384-dim)                        │
-│  ├─ 28 intent amplifier keywords                            │
+│  ├─ 62 intent amplifier keywords (28 base + 34 expanded)    │
 │  ├─ HYP_01: hypothetical/academic framing → τ=0.45          │
 │  └─ τ_generic=0.75 | τ_extraction=0.50 (dual threshold)    │
 └─────────────────────────────────────────────────────────────┘
@@ -92,7 +92,7 @@ User Query
     ▼
 Final Output  ──────────────────────────────────────────────────►  SHA-256 Dual Hash Chain Audit Log
                                                                    (global chain + per-session chain)
-                                                                   12 event types · JSONL append-only
+                                                                   14 event types · JSONL append-only
 ```
 
 ---
@@ -103,9 +103,9 @@ Final Output  ──────────────────────
 |----|-------------|-----------|
 | C1 | Multi-Gate Inline Security Pipeline | Sequential gates; any pre-gate block short-circuits pipeline |
 | C2 | Sentence-Level Semantic Leakage Firewall | Three-tier hard/soft/cascade thresholds; salami attack defense |
-| C3 | L0–L3 Financial Knowledge Sensitivity Spectrum | 60 secret entries · 271 adversarial prompts · 13 attack categories (70 original + 201 paraphrases × 7 evasion techniques) |
-| C4 | Prompt Distribution Monitoring | Embedding centroid z-score; dynamically tightens leakage thresholds (implemented, not enabled in evaluated config) |
-| C5 | Tamper-Evident SHA-256 Dual Hash Chain | Global + per-session chains; 12 event types; verification tooling |
+| C3 | L0–L3 Financial Knowledge Sensitivity Spectrum | 90 secret entries (v2, 6 alpha domains) · 271 adversarial prompts · 13 attack categories (70 original + 201 paraphrases × 7 evasion techniques) |
+| C4 | Prompt Distribution Monitoring | Embedding centroid z-score; dynamically tightens leakage thresholds; cumulative with session-level salami detector |
+| C5 | Tamper-Evident SHA-256 Dual Hash Chain | Global + per-session chains; 14 event types; verification tooling |
 | C6 | Reproducible Adversarial Evaluation Methodology | Bypass root-cause analysis; ablation across 7 configs; 5-run statistical eval (McNemar p<0.001); per-gate latency benchmark |
 | C7 | Cross-Domain Generalization | Medical domain pilot: 85% TPR, 0% FPR — config-only adaptation, zero code changes |
 
@@ -143,20 +143,26 @@ sentinelflow/
 │   ├── archive/                  # Archived/superseded utility scripts
 │   └── ...                       # Additional utility scripts
 │
+├── gates/
+│   ├── gate_0_decode.py          # Gate 0 Decode: encoding normalizer (Base64/ROT13/Hex/URL/Unicode)
+│   ├── gate_0c_intent.py         # Gate 0c: zero-shot ML intent classifier (optional, disabled by default)
+│   └── __init__.py
+│
 ├── datasource/
-│   ├── docs_unified_ingestor.py  # Document ingestion pipeline
+│   ├── knowledge_base.py         # Document knowledge base manager
+│   ├── local_scan_docs_ingestor.py # Local document ingestion
 │   ├── sentinelflow_crawler/     # Python-based web scraper (Yahoo Finance, CNBC)
-│   └── scrapy.cfg
+│   └── models/                   # SQLAlchemy ORM models
 │
 ├── web_chat_app.py               # Streamlit web chat interface (live demo)
-├── app.py                        # Application entry point
+├── app.py                        # Streamlit forensic dashboard
 ├── streamlit_app.py              # Streamlit app wrapper
-├── build.py                      # Build/setup utilities
-├── run_docs_ingestor.py          # Document ingestion runner
+├── build.py                      # Build indexes and calibrate DFP
+├── run_local_scan_docs_ingestor.py # Local document ingestion runner
 ├── run_spider.py                 # Web scraper runner
 │
 ├── data/
-│   ├── secrets/                  # 60 L2/L3 confidential strategy entries
+│   ├── secrets/                  # 90 L1/L2/L3 confidential strategy entries (v2, 6 alpha domains)
 │   │   ├── secrets.jsonl
 │   │   └── secrets_full.jsonl
 │   ├── eval/
@@ -185,7 +191,7 @@ sentinelflow/
 ├── reports/                      # Evaluation results and reports
 ├── tests/                        # Unit tests
 │
-├── config.yaml                   # All security thresholds and rules (config-only hardening)
+├── config.yaml / config_v2.yaml  # All security thresholds and rules (config-only hardening)
 ├── requirements.txt
 ├── .env                          # API keys and DB credentials (NOT committed)
 └── README.md
@@ -195,20 +201,24 @@ sentinelflow/
 
 ## Audit Event Types
 
-Every query generates a structured audit trail. A complete (allowed) session produces **9 events**; a blocked query produces only **3 events** (LLM never called).
+Every query generates a structured audit trail. A complete (allowed) session produces up to **11 events**; a blocked query produces only **3 events** (LLM never called).
 
 | Event Type | Description | Blocked Sessions |
 |-----------|-------------|-----------------|
 | `runtime_info` | System version, model info | ✓ |
+| `encoding_detected` | Gate 0 Decode result (if encoding found) | ✓ (conditional) |
 | `intent_precheck` | Gate 0a + 0b result | ✓ |
 | `query_precheck` | Gate 1 embedding score + threshold used | ✓ (if passes Gate 0) |
+| `session_salami_check` | Session-level salami detection result | — |
 | `retrieve` | Retrieved document chunks from pgvector | — |
-| `retrieval_quality` | Grounding quality pre-check | — |
+| `retrieval_quality` | Retrieval quality assessment + fallback decision | — |
 | `prompt_built` | Final prompt construction | — |
 | `llm_response` | Raw LLM output | — |
 | `grounding_check` | Per-sentence grounding scores | — |
+| `prompt_monitoring` | C4 behavioral anomaly detection (if enabled) | — |
 | `leakage_scan` | Per-sentence FAISS scores + tier decisions | — |
 | `final_output` | Delivered response (with any [REDACTED]) | ✓ |
+| `runtime_error` | Error details (if pipeline fails) | ✓ |
 
 Each event stores `event_hash` (SHA-256 of this event) and `prev_hash` (hash of previous event). Any post-hoc modification breaks the chain — detectable via `verify_audit.py`.
 
@@ -221,9 +231,8 @@ Each event stores `event_hash` (SHA-256 of this event) and `prev_hash` (hash of 
 | Public corpus (FinDER) | 13,867 chunks | SEC 10-K filings (MSFT, AAPL, ADBE, ...) |
 | Financial news | 4,649 chunks | Yahoo Finance / CNBC (scraped) |
 | **Total public** | **18,516 chunks** | PostgreSQL + pgvector (HNSW index, AWS) |
-| Confidential secrets | 60 entries (30×L2 + 30×L3) | Synthetic hand-authored |
-| Hard-negatives | 20 entries (L0+L1) | Synthetic |
-| **Secret index** | **80 entries** | Local FAISS (CPU, security-isolated) |
+| Confidential secrets (v2) | 90 entries (30×L1 + 30×L2 + 30×L3, 6 alpha domains) | Synthetic institutional-grade |
+| **Secret index** | **90 entries** | Local FAISS (CPU, security-isolated) |
 
 ---
 
@@ -255,30 +264,17 @@ Each event stores `event_hash` (SHA-256 of this event) and `prev_hash` (hash of 
 
 Per-category B2 ASR: direct\_extraction 0%, indirect\_extraction 0%, prompt\_injection 0%, social\_engineering 0%, salami\_attack 0%, encoding\_extraction 0%, paraphrase\_extraction 0%, adversarial\_exfil 0%, indirect\_injection 0%, hard\_block 0%.
 
-### External Attack Evaluation (24 prompts: garak x14 + HarmBench x10)
+### Large-Scale External Framework Evaluation (1,079 prompts)
 
-| Metric | Result |
-|--------|--------|
-| Total external attacks | 24 |
-| Blocked | 17 (70.83%) |
-| Bypassed (pre-LLM gates) | 7 (29.17%) |
-| Normal queries FPR | **0.00%** (0/219) |
+| Evaluation Set | Prompts | Gate Block Rate | True Leaked | True ASR |
+|---------------|---------|-----------------|-------------|----------|
+| Hand-crafted (thesis, 70) | 70 | — | 0 | 0.00% |
+| Expanded (paraphrases, 271) | 271 | 46.1% | 7 | 2.58% |
+| garak framework | 779 | 2.3% | 0 | 0.00% |
+| HarmBench financial | 300 | 45.0% | 8 | 2.67% |
+| **Framework total** | **1,079** | **14.2%** | **8** | **0.74%** |
 
-Bypass breakdown by category:
-
-| Category | Total | Blocked | Bypassed |
-|----------|-------|---------|----------|
-| garak\_dan\_financial | 4 | 3 | 1 |
-| garak\_divergence\_financial | 3 | 2 | 1 |
-| garak\_encoding\_financial | 3 | 0 | 3 |
-| harmbench\_exfiltration\_financial | 5 | 3 | 2 |
-| garak\_apikey\_financial | 2 | 2 | 0 |
-| garak\_latentinjection\_financial | 2 | 2 | 0 |
-| harmbench\_copyright\_financial | 1 | 1 | 0 |
-| harmbench\_escalation\_financial | 1 | 1 | 0 |
-| harmbench\_social\_engineering\_financial | 3 | 3 | 0 |
-
-> **Note:** The 7 bypasses passed pre-LLM gates but did **not** cause actual secret leakage — the LLM's own refusal + post-LLM leakage scan provided defense-in-depth. ASR (actual secret exposure) remains **0%**.
+> **Note:** garak probes (general-purpose LLM attacks) achieve only 2.3% gate block because they do not target financial domain secrets. HarmBench financial behaviors achieve 45.0% block, comparable to the expanded corpus. Across all 1,079 prompts, only 8 produced responses with cosine similarity ≥ 0.60 to a secret — a **true ASR of 0.74%**.
 
 ### News-Anchored Attack Test (10 normal + 10 attack)
 
@@ -386,7 +382,7 @@ gates:
     threshold: 0.75              # No amplifier detected
     sensitive_threshold: 0.50    # Amplifier keyword detected
     amplifier_keywords: [parameters, thresholds, exact, entry conditions,
-                         alpha, proprietary formula, ...]  # 28 keywords
+                         alpha, proprietary formula, ...]  # 62 keywords
 
 rag:
   fallback_threshold: 0.40        # RAG fallback similarity threshold
@@ -396,12 +392,26 @@ leakage:
   soft_threshold: 0.60           # Accumulate
   cascade_k: 2                   # Consecutive soft hits → redact all
 
-prompt_monitoring:               # C4 — implemented, not enabled in eval config
+prompt_monitoring:               # C4 — behavioral anomaly detection
   enabled: false
   sigma_threshold: 2.0
   threshold_tightening:
     hard_delta: 0.05
     soft_delta: 0.05
+
+gate_0c:                        # Zero-shot ML intent classifier (optional)
+  enabled: false
+  block_threshold: 0.75
+  tighten_threshold: 0.50
+  tighten_delta: 0.10
+
+salami_detection:               # Session-level multi-turn extraction detector
+  enabled: true
+  window_size: 10
+  per_query_threshold: 0.55
+  session_alert_threshold: 0.55
+  min_targeting_queries: 3
+  gate1_tightening_delta: 0.05
 ```
 
 > **Config-only hardening**: All 7 security gaps identified in boundary testing were resolved by editing `config.yaml` alone — zero Python code changes, zero regressions.
@@ -410,8 +420,8 @@ prompt_monitoring:               # C4 — implemented, not enabled in eval confi
 
 ## Codebase Scale
 
-- **70+ Python files**
-- **~14,000 lines of code**
+- **90+ Python files** (including eval scripts and archived utilities)
+- **~16,000 lines of code**
 - **~500 lines of YAML configuration**
 
 ---
@@ -506,27 +516,27 @@ python -m pytest tests/test_encoding_gate.py -v
 ### New Files (Journal Upgrade)
 
 ```
-UPGRADE_PLAN.md                          # Upgrade analysis and plan
-RESULTS_SUMMARY.md                       # Comprehensive results with true ASR vs bypass rate
 data/attack_prompts_expanded.jsonl       # 271 adversarial prompts (expanded from 70)
 data/attack_prompts_extended.jsonl       # 30 cross-category attack prompts
 data/medical/                            # Medical domain pilot data
 gates/gate_0_decode.py                   # Encoding detection gate (Base64/ROT13/Hex/URL/Unicode)
+gates/gate_0c_intent.py                  # Zero-shot ML intent classifier (optional)
+scripts/salami_detector.py               # Session-level salami attack detector
+scripts/embedding_benchmark.py           # Embedding model comparison benchmark
 eval/run_ablation.py                     # Ablation study (7 configurations)
 eval/run_statistical_eval.py             # Multi-run statistical evaluation
 eval/run_latency_benchmark.py            # Publication-quality latency benchmark
 eval/run_medical_eval.py                 # Cross-domain generalization evaluation
 eval/run_full_pipeline_eval.py           # Full pipeline eval with LLM (true ASR measurement)
-eval/analyze_bypass_cases.py             # Bypass root cause analysis (Phase 11)
+eval/run_external_framework_eval.py      # garak + HarmBench large-scale evaluation
+eval/analyze_bypass_cases.py             # Bypass root cause analysis
 eval/generate_latex_tables.py            # LaTeX table generator for paper
-eval/ablation_table.py                   # Ablation-specific LaTeX table
 eval/results/                            # All evaluation result JSONs
 eval/latex_tables/                       # LaTeX table snippets for paper
-eval/figures/latency_plot.pdf            # Latency visualization
 config_medical.yaml                      # Medical domain configuration
 Dockerfile                               # Docker containerization
 docker-compose.yml                       # Docker Compose orchestration
 reproduce_paper_results.sh               # One-command reproduction script
-sentinelflow_journal_v2.tex              # IEEE 2-column journal format (latest)
+sentinelflow_journal_v9.tex              # IEEE 2-column journal format (latest)
 tests/test_encoding_gate.py              # Encoding gate unit tests
 ```
