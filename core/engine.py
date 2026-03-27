@@ -50,6 +50,21 @@ class SentinelEngine:
         audit_path.parent.mkdir(parents=True, exist_ok=True)
         self.writer = HashChainWriter(str(audit_path))
 
+        # 6. 初始化 Salami Session Tracker (if enabled)
+        self.salami_tracker = None
+        salami_cfg = self.cfg.get("salami_detection", {}) or {}
+        if salami_cfg.get("enabled", False):
+            from scripts.salami_detector import SalamiSessionTracker
+            self.salami_tracker = SalamiSessionTracker(
+                window_size=int(salami_cfg.get("window_size", 10)),
+                per_query_threshold=float(salami_cfg.get("per_query_threshold", 0.55)),
+                session_alert_threshold=float(salami_cfg.get("session_alert_threshold", 0.55)),
+                min_targeting_queries=int(salami_cfg.get("min_targeting_queries", 3)),
+                gate1_tightening_delta=float(salami_cfg.get("gate1_tightening_delta", 0.05)),
+            )
+        # Track per-session salami tightening deltas
+        self._session_salami_delta: Dict[str, float] = {}
+
     def _db_retrieve(self, query_vec: np.ndarray, top_k: int = 5) -> List[Dict]:
         """从 PostgreSQL 执行向量检索，并返回标准化的文档格式"""
         if self.db_conn is None:
@@ -119,16 +134,59 @@ class SentinelEngine:
                 "session_id": session_id
             }
 
+        # --- GATE 0c: Zero-shot ML Intent Classifier (optional) ---
+        gate0c_delta = 0.0
+        gate0c_cfg = self.cfg.get("gate_0c", {}) or {}
+        if gate0c_cfg.get("enabled", False):
+            from gates.gate_0c_intent import gate_0c_classify
+            gate0c_res = gate_0c_classify(
+                query,
+                block_threshold=float(gate0c_cfg.get("block_threshold", 0.75)),
+                tighten_threshold=float(gate0c_cfg.get("tighten_threshold", 0.50)),
+                tighten_delta=float(gate0c_cfg.get("tighten_delta", 0.10)),
+            )
+            self.writer.append("gate_0c", {
+                "session_id": session_id,
+                "query": query,
+                **gate0c_res,
+            })
+            if gate0c_res["blocked"]:
+                return {
+                    "answer": self.cfg["policy"].get("block_message", "[BLOCKED] Unsafe intent detected."),
+                    "status": "blocked_gate0c",
+                    "session_id": session_id,
+                }
+            gate0c_delta = gate0c_res.get("gate1_tighten_delta", 0.0)
+
         # --- 生成向量 ---
         query_vec = self.embed_model.encode(query, normalize_embeddings=True).astype("float32")
 
         # --- GATE 1: 私密泄露预检 (对比 Secret FAISS) ---
+        # Dual-threshold logic ported from run_rag_with_audit.py
         pre_cfg = self.cfg.get("query_precheck", {})
         if pre_cfg.get("enabled", True):
-            # 注意：此处 query_vec 需要 reshape 以匹配 FAISS 期望的输入
+            base_thr = float(pre_cfg.get("threshold", 0.75))
+            sens_thr = float(pre_cfg.get("sensitive_threshold", base_thr))
+            strict_thr = float(pre_cfg.get("strict_threshold", sens_thr - 0.05))
+            amplifiers = pre_cfg.get("intent_amplifiers", [])
+            q_lower = query.lower()
+            has_intent = any(amp.lower() in q_lower for amp in amplifiers)
+            flagged_strict = gate0_res.get("flagged_for_strict", False)
+
+            if flagged_strict:
+                effective_threshold = strict_thr
+            elif has_intent:
+                effective_threshold = sens_thr
+            else:
+                effective_threshold = base_thr
+            # Apply Gate 0c tightening (stacks with dual-threshold selection)
+            if gate0c_delta > 0:
+                effective_threshold = max(0.40, effective_threshold - gate0c_delta)
+
             emb_pre = embedding_secret_precheck(
                 self.embed_model, query, self.sec_index, self.sec_meta,
-                threshold=float(pre_cfg.get("threshold", 0.60)),
+                threshold=effective_threshold,
+                top_k=int(pre_cfg.get("top_k_secrets", 3)),
                 query_vec=query_vec.reshape(1, -1)
             )
             self.writer.append("query_precheck", {"session_id": session_id, "query": query, **emb_pre})
@@ -138,6 +196,24 @@ class SentinelEngine:
                     "status": "blocked_gate1",
                     "session_id": session_id
                 }
+
+        # --- Salami Session Tracker: detect multi-turn extraction ---
+        if self.salami_tracker is not None:
+            salami_res = self.salami_tracker.track_query(
+                session_id=session_id,
+                query_vec=query_vec.reshape(1, -1),
+                secret_index=self.sec_index,
+                secret_meta=self.sec_meta,
+                top_k=int(pre_cfg.get("top_k_secrets", 3)) if pre_cfg else 3,
+            )
+            self.writer.append("session_salami_check", {
+                "session_id": session_id,
+                "query": query,
+                "session_risk_flag": salami_res["session_risk_flag"],
+                "targeted_secrets": salami_res["targeted_secrets"],
+            })
+            if salami_res["session_risk_flag"]:
+                self._session_salami_delta[session_id] = salami_res["recommended_gate1_delta"]
 
         # --- 核心检索: 从 PostgreSQL 检索公开语料 ---
         rag_cfg = self.cfg.get("rag", {})
@@ -206,12 +282,62 @@ class SentinelEngine:
                 "llm_called": True,
             })
 
-            # Leakage scan still runs
-            leak_cfg = self.cfg.get("leakage", {})
-            dfp_cfg = self.cfg.get("dfp", {})
+            # C4: Prompt distribution monitoring (anomaly detection)
+            pm_cfg = self.cfg.get("prompt_monitoring", {}) or {}
+            pm_enabled = bool(pm_cfg.get("enabled", False))
+            leak_hard_override = None
+            leak_soft_override = None
+
+            if pm_enabled:
+                from scripts.prompt_monitor import check_anomaly, load_centroid
+                try:
+                    centroid_data = load_centroid(pm_cfg["centroid_path"])
+                    anomaly_result = check_anomaly(
+                        query_vec=query_vec.reshape(1, -1),
+                        centroid=centroid_data["centroid"],
+                        mean_dist=centroid_data["mean_dist"],
+                        std_dist=centroid_data["std_dist"],
+                        sigma=float(pm_cfg.get("sigma_threshold", 2.0)),
+                    )
+                    self.writer.append("prompt_monitoring", {
+                        "session_id": session_id,
+                        "query": query,
+                        "anomalous": anomaly_result["anomalous"],
+                        "z_score": round(anomaly_result["z_score"], 4),
+                        "distance": round(anomaly_result["distance"], 6),
+                    })
+                    if anomaly_result["anomalous"]:
+                        tighten = pm_cfg.get("threshold_tightening", {}) or {}
+                        delta_h = float(tighten.get("hard_delta", 0.05))
+                        delta_s = float(tighten.get("soft_delta", 0.05))
+                        leak_hard_override = max(0.50, float(self.cfg.get("leakage", {}).get("hard_threshold", 0.70)) - delta_h)
+                        leak_soft_override = max(0.45, float(self.cfg.get("leakage", {}).get("soft_threshold", 0.60)) - delta_s)
+                except Exception as e:
+                    self.writer.append("prompt_monitoring", {
+                        "session_id": session_id,
+                        "query": query,
+                        "error": repr(e),
+                    })
+
+            # Leakage scan with explicit thresholds (C4 + salami tightening applied)
+            leak_cfg = self.cfg.get("leakage", {}) or {}
+            dfp_cfg = self.cfg.get("dfp", {}) or {}
+            effective_hard = leak_hard_override if leak_hard_override is not None else float(leak_cfg.get("hard_threshold", 0.70))
+            effective_soft = leak_soft_override if leak_soft_override is not None else float(leak_cfg.get("soft_threshold", 0.60))
+            # Apply salami session tightening (additive with C4)
+            salami_delta = self._session_salami_delta.get(session_id, 0.0)
+            if salami_delta > 0:
+                effective_hard = max(0.50, effective_hard - salami_delta)
+                effective_soft = max(0.45, effective_soft - salami_delta)
+
             leak_res = scan_text(
                 text=raw_answer, model=self.embed_model,
                 secret_index=self.sec_index, secret_meta=self.sec_meta,
+                hard_threshold=effective_hard,
+                soft_threshold=effective_soft,
+                cascade_k=int(leak_cfg.get("cascade_k", 2)),
+                action=str(leak_cfg.get("action", "redact")),
+                top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),
                 dfp_enabled=dfp_cfg.get("enabled", False), dfp_config=dfp_cfg,
                 grounding_enabled=False,
                 grounding_scores=None, grounding_top_docs=None,
@@ -276,12 +402,62 @@ class SentinelEngine:
                 "llm_called": True,
             })
 
-            # --- Leakage Scan ---
-            leak_cfg = self.cfg.get("leakage", {})
-            dfp_cfg = self.cfg.get("dfp", {})
+            # --- C4: Prompt distribution monitoring (anomaly detection) ---
+            pm_cfg = self.cfg.get("prompt_monitoring", {}) or {}
+            pm_enabled = bool(pm_cfg.get("enabled", False))
+            leak_hard_override = None
+            leak_soft_override = None
+
+            if pm_enabled:
+                from scripts.prompt_monitor import check_anomaly, load_centroid
+                try:
+                    centroid_data = load_centroid(pm_cfg["centroid_path"])
+                    anomaly_result = check_anomaly(
+                        query_vec=query_vec.reshape(1, -1),
+                        centroid=centroid_data["centroid"],
+                        mean_dist=centroid_data["mean_dist"],
+                        std_dist=centroid_data["std_dist"],
+                        sigma=float(pm_cfg.get("sigma_threshold", 2.0)),
+                    )
+                    self.writer.append("prompt_monitoring", {
+                        "session_id": session_id,
+                        "query": query,
+                        "anomalous": anomaly_result["anomalous"],
+                        "z_score": round(anomaly_result["z_score"], 4),
+                        "distance": round(anomaly_result["distance"], 6),
+                    })
+                    if anomaly_result["anomalous"]:
+                        tighten = pm_cfg.get("threshold_tightening", {}) or {}
+                        delta_h = float(tighten.get("hard_delta", 0.05))
+                        delta_s = float(tighten.get("soft_delta", 0.05))
+                        leak_hard_override = max(0.50, float(self.cfg.get("leakage", {}).get("hard_threshold", 0.70)) - delta_h)
+                        leak_soft_override = max(0.45, float(self.cfg.get("leakage", {}).get("soft_threshold", 0.60)) - delta_s)
+                except Exception as e:
+                    self.writer.append("prompt_monitoring", {
+                        "session_id": session_id,
+                        "query": query,
+                        "error": repr(e),
+                    })
+
+            # --- Leakage Scan with explicit thresholds (C4 + salami tightening applied) ---
+            leak_cfg = self.cfg.get("leakage", {}) or {}
+            dfp_cfg = self.cfg.get("dfp", {}) or {}
+            effective_hard = leak_hard_override if leak_hard_override is not None else float(leak_cfg.get("hard_threshold", 0.70))
+            effective_soft = leak_soft_override if leak_soft_override is not None else float(leak_cfg.get("soft_threshold", 0.60))
+            # Apply salami session tightening (additive with C4)
+            salami_delta = self._session_salami_delta.get(session_id, 0.0)
+            if salami_delta > 0:
+                effective_hard = max(0.50, effective_hard - salami_delta)
+                effective_soft = max(0.45, effective_soft - salami_delta)
+
             leak_res = scan_text(
                 text=raw_answer, model=self.embed_model,
                 secret_index=self.sec_index, secret_meta=self.sec_meta,
+                hard_threshold=effective_hard,
+                soft_threshold=effective_soft,
+                cascade_k=int(leak_cfg.get("cascade_k", 2)),
+                action=str(leak_cfg.get("action", "redact")),
+                top_k_secrets=int(leak_cfg.get("top_k_secrets", 1)),
                 dfp_enabled=dfp_cfg.get("enabled", False), dfp_config=dfp_cfg,
                 grounding_scores=g_scores, grounding_top_docs=g_top_docs,
             )

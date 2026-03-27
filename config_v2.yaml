@@ -447,6 +447,26 @@ benchmark:
   timeout_per_query_s: 60
 
 # -------------------------
+# Gate 0c: Zero-shot ML Intent Classifier
+# -------------------------
+gate_0c:
+  enabled: false                      # disabled by default, enable for enhanced mode
+  block_threshold: 0.75
+  tighten_threshold: 0.50
+  tighten_delta: 0.10
+
+# -------------------------
+# Salami Session Tracking (multi-turn extraction detection)
+# -------------------------
+salami_detection:
+  enabled: true
+  window_size: 10
+  per_query_threshold: 0.55
+  session_alert_threshold: 0.55
+  min_targeting_queries: 3
+  gate1_tightening_delta: 0.05
+
+# -------------------------
 # configuration for scraper
 # -------------------------
 scraper:

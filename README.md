@@ -135,11 +135,12 @@ sentinelflow/
 │   ├── eval_real_world.py        # Real-world query evaluation
 │   ├── b0_spectrum_test.py       # B0 baseline spectrum test
 │   ├── boundary_test.py          # 15-case iterative hardening evaluation
-│   ├── build_external_attacks.py # External attack vector builder
-│   ├── benchmark.py              # Performance benchmarking
+│   ├── salami_detector.py        # Session-level salami attack detection
+│   ├── embedding_benchmark.py    # Embedding model comparison benchmark
 │   ├── latency_benchmark.py      # Latency benchmarking
 │   ├── verify_audit.py           # Audit chain integrity verification
-│   ├── dashboard.py              # Streamlit forensic dashboard (C5)
+│   ├── run_demo.py               # Demo cases for SentinelFlow
+│   ├── archive/                  # Archived/superseded utility scripts
 │   └── ...                       # Additional utility scripts
 │
 ├── datasource/
@@ -349,7 +350,7 @@ python scripts/build_faiss_index.py       # Secret corpus → FAISS
 streamlit run web_chat_app.py --server.port 8501
 
 # 6. Run forensic dashboard (separate terminal)
-streamlit run scripts/dashboard.py --server.port 8502
+streamlit run app.py --server.port 8502
 
 # 7. Run evaluation
 python scripts/b0_spectrum_test.py       # Unprotected baseline

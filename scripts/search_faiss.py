@@ -1,3 +1,4 @@
+"""Debug utility for FAISS index inspection — search secrets and public corpus indexes interactively."""
 import os, pickle, sys
 import numpy as np
 import faiss

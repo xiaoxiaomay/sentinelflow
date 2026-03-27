@@ -1,0 +1,38 @@
+[
+  {
+    "model": "all-MiniLM-L6-v2",
+    "dim": 384,
+    "l3_intra_sim": 0.3645,
+    "l1_to_l3_max_mean": 0.5595,
+    "l1_to_l3_max_max": 0.7455,
+    "l2_to_l3_max_mean": 0.6589,
+    "same_domain_l3_l1_sim": 0.5572,
+    "gap_l3_intra_vs_l1": -0.195,
+    "gap_l2_vs_l1": 0.0994,
+    "encode_latency_ms": 869.8
+  },
+  {
+    "model": "bge-small-en-v1.5",
+    "dim": 384,
+    "l3_intra_sim": 0.7275,
+    "l1_to_l3_max_mean": 0.7693,
+    "l1_to_l3_max_max": 0.8192,
+    "l2_to_l3_max_mean": 0.8149,
+    "same_domain_l3_l1_sim": 0.7691,
+    "gap_l3_intra_vs_l1": -0.0418,
+    "gap_l2_vs_l1": 0.0456,
+    "encode_latency_ms": 501.7
+  },
+  {
+    "model": "all-mpnet-base-v2",
+    "dim": 768,
+    "l3_intra_sim": 0.4307,
+    "l1_to_l3_max_mean": 0.6076,
+    "l1_to_l3_max_max": 0.8117,
+    "l2_to_l3_max_mean": 0.7305,
+    "same_domain_l3_l1_sim": 0.6033,
+    "gap_l3_intra_vs_l1": -0.1769,
+    "gap_l2_vs_l1": 0.1228,
+    "encode_latency_ms": 1770.4
+  }
+]

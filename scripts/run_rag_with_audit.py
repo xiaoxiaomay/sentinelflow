@@ -679,6 +679,41 @@ def main():
             return
 
         # =========================================================
+        # Gate 0c: Zero-shot ML Intent Classifier (optional)
+        # =========================================================
+        gate0c_delta = 0.0
+        gate0c_cfg = cfg.get("gate_0c", {}) or {}
+        if gate0c_cfg.get("enabled", False):
+            from gates.gate_0c_intent import gate_0c_classify
+            gate0c_res = gate_0c_classify(
+                query,
+                block_threshold=float(gate0c_cfg.get("block_threshold", 0.75)),
+                tighten_threshold=float(gate0c_cfg.get("tighten_threshold", 0.50)),
+                tighten_delta=float(gate0c_cfg.get("tighten_delta", 0.10)),
+            )
+            writer.append("gate_0c", {
+                "session_id": session_id,
+                "query": query,
+                **gate0c_res,
+            })
+            if gate0c_res["blocked"]:
+                final_answer = policy_cfg.get("block_message", "[BLOCKED] Unsafe intent detected.")
+                writer.append("final_output", {
+                    "session_id": session_id,
+                    "query": query,
+                    "final_answer": final_answer,
+                    "final_answer_chars": len(final_answer),
+                    "llm_called": False,
+                    "blocked_by": "gate_0c",
+                })
+                print("\n=== FINAL ANSWER (post-firewall) ===\n")
+                print(final_answer)
+                print("\n=== AUDIT LOG ===")
+                print(audit_path)
+                return
+            gate0c_delta = gate0c_res.get("gate1_tighten_delta", 0.0)
+
+        # =========================================================
         # v2.0: Shared query encoding (encode once, reuse for Gate1 + Retrieve)
         # =========================================================
         t_enc = time.time()
@@ -721,6 +756,9 @@ def main():
                 effective_threshold = sens_thr
             else:
                 effective_threshold = base_thr
+            # Apply Gate 0c tightening (stacks with dual-threshold selection)
+            if gate0c_delta > 0:
+                effective_threshold = max(0.40, effective_threshold - gate0c_delta)
 
             t1 = time.time()
             emb_pre = embedding_secret_precheck(
